@@ -62,9 +62,9 @@ Parameters:
 - phone: User's phone number
 - email: User's email
 
-Return:
+Response Body:
 
-- Returns a object that has user details
+- Response Bodys a object that has user details
 
 ---
 
@@ -77,7 +77,7 @@ Path Parameters:
 
 - id : Username
 
-Return:
+Response Body:
 
 - An Object that contains the user details like name,phone,email in key value pair
 
@@ -100,9 +100,9 @@ Parameters:
 - phone: User's phone number
 - email: User's email
 
-Return:
+Response Body:
 
-- returns a object that would contain the updated result
+- Response Bodys a object that would contain the updated result
 
 ---
 
@@ -114,7 +114,7 @@ Path Parameters:
 
 - id :User name
 
-Return:
+Response Body:
 
 - a boolean true if deleted successfully
 
@@ -131,7 +131,7 @@ Parameters:
 - resaurantID: Restaurant ID
 - cusines: JSON Object with all the cusines and quantity
 
-Return:
+Response Body:
 
 - All the details of that order with total amt and orderID
 
@@ -148,13 +148,13 @@ Query Parameters:
 - restaurant-id:to get the current orders of restaurant-id filter
 - driver-id:to get current order of driver-id filter
 
-Return:
+Response Body:
 
-- returns a list of orders and details as a object based on filters
+- Response Bodys a list of orders and details as a object based on filters
 
 ---
 
-`getOrders:`\
+`getOrders:`
 GET /orders
 
 Read all orders
@@ -167,9 +167,9 @@ Query Parameters:
 
 Optional Path Param:
 
-Return:
+Response Body:
 
-- returns a object with the details of all the previous orders of the user
+- Response Bodys a object with the details of all the previous orders of the user
 
 `getOrder:`
 GET /orders/:id
@@ -180,7 +180,7 @@ path Parameters:
 
 - id:Order Id
 
-Return:
+Response Body:
 
 - All the details of that order with total amt and orderID
 
@@ -199,7 +199,7 @@ Parameter:
 
 - status:order status
 
-Return:
+Response Body:
 
 - boolean true to confirm
 
@@ -209,7 +209,7 @@ Return:
 
 ### Driver Executive
 
-`createDeliveryExecutive:`\
+`createDeliveryExecutive:`
 POST /driver
 Creates a delivery executive with a given existing username
 
@@ -217,13 +217,13 @@ Parameters:
 
 - id:User Name that wants to be the driver
 
-Return:
+Response Body:
 
-- return true if sucessfully created a delivery partner with that specified username
+- Response Body true if sucessfully created a delivery partner with that specified username
 
 ---
 
-`getDeliveryExecutive:`\
+`getDeliveryExecutive:`
 GET /driver/:id
 get delivery executive details
 
@@ -235,13 +235,13 @@ Path Parameters:
 
 - id:Driver ID
 
-Return:
+Response Body:
 
 - An Object with all the details of delivery executitive including user details
 
 ---
 
-`updateDriverLocation:`\
+`updateDriverLocation:`
 PATCH /driver/:id/
 Updates the driver's current location
 
@@ -254,15 +254,15 @@ Parameters:
 - Latitude:Latitude of the driver
 - Logitude:Logitude of the driver
 
-Return:
+Response Body:
 
-- Returns an object with latitude and logitude of the location of the driver
-
----
+- Response Bodys an object with latitude and logitude of the location of the driver
 
 ---
 
-`updateDriverStatus:`\
+---
+
+`updateDriverStatus:`
 PATCH /driver/:id/
 
 Updates the driver status like is he/she is available to take orders
@@ -275,13 +275,13 @@ Parameters:
 
 - status: The current status of the driver like are they available,unavailable,busy
 
-Return:
+Response Body:
 
-- Returns boolean true as a confirmation
+- Response Bodys boolean true as a confirmation
 
 ---
 
-`deleteDelivery:`\
+`deleteDelivery:`
 DELETE /driver/:id
 Deletes the specified user as a delivery execitive
 
@@ -289,15 +289,15 @@ Path Parameters:
 
 - id:Driver ID
 
-Return:
+Response Body:
 
-- Returns a confirmation boolean true if deleted successfully
+- Response Bodys a confirmation boolean true if deleted successfully
 
 ---
 
 ### Restaurant
 
-`createRestaurant:`\
+`createRestaurant:`
 POST /restaurant
 
 Creates a new Restaurant associated with the specified username
@@ -311,13 +311,13 @@ Parameters:
 - description: The description of that resaurant
 - pictures: The pictures uploaded by the owener
 
-Return:
+Response Body:
 
 - Restaurant Details as object with restaurantID
 
 ---
 
-`getRestaurant:`\
+`getRestaurant:`
 GET /restaurant/:id
 Gets the resaurant Details
 
@@ -325,13 +325,13 @@ Path Parameters:
 
 - id: Restaurant ID
 
-Return:
+Response Body:
 
 - Restaurant Details as object
 
 ---
 
-`getAllRestaurants:`\
+`getAllRestaurants:`
 GET /restaurant
 Gets all the restaurants owened
 
@@ -339,13 +339,13 @@ Query Parameters:
 
 - user-id: restaurants based on the user id
 
-Return:
+Response Body:
 
 - Details of all the restaurants owened
 
 ---
 
-`updateRestaurant:`\
+`updateRestaurant:`
 PUT /restaurant/:id
 Update the resaurant Details
 
@@ -362,7 +362,7 @@ Parameters:
 - description: The description of that resaurant
 - pictures: The pictures uploaded by the owener
 
-Return:
+Response Body:
 
 - The updated Restaurant Details
 
@@ -376,11 +376,11 @@ Parameters:
 
 - isOpen: Boolean
 
-Return
+Response Body
 
 - True to confirm
 
-`deleteRestaurant:`\
+`deleteRestaurant:`
 DELETE /restaurant/:id
 Delete the resaurant
 
@@ -388,13 +388,13 @@ Path Parameters:
 
 - id: Restaurant ID
 
-Return:
+Response Body:
 
-- A boolean that returns true as a delete confirmation
+- A boolean that Response Bodys true as a delete confirmation
 
 ---
 
-`createCusine:`\
+`createCusine:`
 POST /restaurant/:restaurantID/cusine/
 Create a cusine for a specific Restaurant
 
@@ -409,13 +409,13 @@ Parameters:
 - Vegitarian: boolean to specify the type of the dish
 - Price: Price of the cusine
 
-Return:
+Response Body:
 
 - Details of that cusine in a object with cusineID
 
 ---
 
-`getCusine:`\
+`getCusine:`
 GET /cusine/:cusineID
 Read a perticualar cusine in a object with cusineID and restaurant id
 
@@ -423,13 +423,13 @@ Path Parameters:
 
 - cusineID:CusineID of the cusine
 
-Return:
+Response Body:
 
-- Returns a details of that cusine in Object
+- Response Bodys a details of that cusine in Object
 
 ---
 
-`getCusinesList:`\
+`getCusinesList:`
 GET /restaurant/:restauantID/cusine
 Read a list of cusine that exists in the cusine list
 
@@ -437,13 +437,13 @@ Path Parameters:
 
 - restaurantID:ID of that restaurant
 
-Return:
+Response Body:
 
 - Details of all the cusines that the restaurant has
 
 ---
 
-`updateCusine:`\
+`updateCusine:`
 PUT /restaurant/:restauantID/cusine/:cusineID
 
 Update a perticular cusine
@@ -460,13 +460,13 @@ Parameters:
 - Vegitarian: boolean to specify the type of the dish
 - Price: Price of the cusine
 
-Return:
+Response Body:
 
-- Return a object with updated cusine details
+- Response Body a object with updated cusine details
 
 ---
 
-`deleteCusine:`\
+`deleteCusine:`
 DELETE /restaurant/:restauantID/cusine/:cusineID
 
 Delete a cusine
@@ -476,9 +476,9 @@ Path Parameters:
 - restaurantID:ID of that restaurant
 - cusineID:id of that cusine
 
-Return:
+Response Body:
 
-- A boolean that returns true as a delete confirmation
+- A boolean that Response Bodys true as a delete confirmation
 
 ---
 
@@ -494,7 +494,7 @@ Parameters:
 - username:User Name
 - password:Password
 
-Return:
+Response Body:
 
 - Session Cookie with sessionID and username
 
@@ -503,7 +503,7 @@ GET /session
 
 Parameters:(Session Cookie)
 
-Return:
+Response Body:
 
 - Validate Session
 
@@ -512,7 +512,7 @@ DELETE /session
 
 Parameters:(Session Cookie)
 
-Return:
+Response Body:
 
 - Delete cooike in the frontend and Database'
 
