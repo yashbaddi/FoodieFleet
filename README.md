@@ -636,15 +636,17 @@ Response Status:
 
 - [ ] Create Login Page.
 - [ ] Create a SignUp Page.
-- [ ] Restaurants CRUD incl. Frontend
+- [ ] Restaurants CRUD
+- [ ] Restaurant Frontend
 - [ ] Adding Dummy cusines
 - [ ] Adding a basic map
 
 #### Second Week:
 
-- [ ] Delivery Executive CRUD incl. Frontend
+- [ ] Delivery Executive CRUD
 - [ ] Understanding and modifying the Map based on Needs
 - [ ] Tracking Delivery Executive
+- [ ] Delivery Executive Frontend
 
 #### Third Week:
 
@@ -652,10 +654,10 @@ Response Status:
 - [ ] Calculating Delivery time and route
 - [ ] Calculating Total time
 - [ ] Adding Support for Images
-- [ ] Adding Reviews and Ratings
 
 #### Fourth Week:
 
 - [ ] Add Notification Service
+- [ ] Adding Reviews and Ratings
 - [ ] Refining The App.
 - [ ] Exprimenting and adding different features
