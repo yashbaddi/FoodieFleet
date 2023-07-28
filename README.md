@@ -60,6 +60,8 @@ Return:
 
 - Returns a boolean true if it exists false if it doesn't
 
+---
+
 `createUser(username,password,name,phone,email):`\
 Creates a user with the following params
 
@@ -75,6 +77,8 @@ Return:
 
 - Returns a boolean true if the user is generated
 
+---
+
 `getUser(username):`\
 gets a username details
 
@@ -85,6 +89,8 @@ Parameters:
 Return:
 
 - An Object that contains the user details like name,phone,email in key value pair
+
+---
 
 `updateUser(username,updateData):`\
 update a user
@@ -98,6 +104,8 @@ Return:
 
 - returns a object that would contain the updated result
 
+---
+
 `deleteUser(username):`\
 delete a user
 
@@ -108,6 +116,8 @@ Parameters:
 Return:
 
 - a boolean true if deleted successfully
+
+---
 
 `getOrderDetails(username):`\
 get the current order details of the user
@@ -120,6 +130,8 @@ Return:
 
 - returns a list of cusines with other order details as a object
 
+---
+
 `getPreviousOrders(username):`\
 Read all the previous orders of that user
 
@@ -130,6 +142,10 @@ Parameters:
 Return:
 
 - returns a object with the details of all the previous orders of the user
+
+---
+
+---
 
 #### Driver Executive
 
@@ -144,6 +160,8 @@ Return:
 
 - return true if sucessfully created a delivery partner with that specified username
 
+---
+
 `getDeliveryExecutive(username):`\
 get delivery executive details
 
@@ -154,6 +172,8 @@ Parameters:
 Return:
 
 - An Object with all the details of delivery executitive including user details
+
+---
 
 `updateDriverLocation(username,latitude,logitude):`\
 Updates the driver's current location
@@ -168,6 +188,8 @@ Return:
 
 - Returns an object with latitude and logitude of the location of the driver
 
+---
+
 `getDriverCurrentLocation(username):`\
 gets the drivers current location
 
@@ -178,6 +200,8 @@ Parameters:
 Return:
 
 - Returns an object with latitude and logitude of the location of the driver
+
+---
 
 `updateDriverStatus(username,status):`\
 Updates the driver status like is he/she is available to take orders
@@ -191,6 +215,8 @@ Return:
 
 - Returns boolean true as a confirmation
 
+---
+
 `getDriverStatus(username):`\
 gets the current status of the driver
 
@@ -201,6 +227,8 @@ Parameters:
 Return:
 
 - Returns the current status of the driver like available,unavailable,busy
+
+---
 
 `getCurrentOrder(username):`\
 Get the current order details that the driver is delivering
@@ -213,6 +241,8 @@ Return:
 
 - the object tha contains the current order detatils
 
+---
+
 `deleteDeliveryExecutive(username):`\
 Deletes the specified user as a delivery execitive
 
@@ -223,6 +253,10 @@ Parameters:
 Return:
 
 - Returns a confirmation boolean true if deleted successfully
+
+---
+
+---
 
 #### Restaurant
 
@@ -240,6 +274,8 @@ Return:
 
 - Restaurant Details as object with restaurantID
 
+---
+
 `getRestaurant(restaurantID):`\
 Gets the resaurant Details
 
@@ -250,6 +286,8 @@ Parameters:
 Return:
 
 - Restaurant Details as object
+
+---
 
 `getAllRestaurants(username):`\
 Gets all the restaurants owened by the user
@@ -262,6 +300,8 @@ Return:
 
 - Details all the restaurants owened by the user in an object
 
+---
+
 `updateRestaurant(restaurantID,updateData):`\
 Update the resaurant Details
 
@@ -272,6 +312,8 @@ Parameters:
 Return:
 
 - The updated Restaurant Details
+
+---
 
 `deleteRestaurant(resaurantID):`\
 Delete the resaurant
@@ -284,6 +326,8 @@ Return:
 
 - A boolean that returns true as a delete confirmation
 
+---
+
 `getAllOrdersRestaurant(restaurantID):`\
 Get all the orders in the restaurant
 
@@ -294,6 +338,8 @@ Parameters:
 Return:
 
 - A object that returns a all the orders in the restaurant
+
+---
 
 `createCusine(resaurantID,cusineObject):`\
 Create a cusine for a specific Restaurant
@@ -306,6 +352,8 @@ Return:
 
 - Details of that cusine in a object with cusineID
 
+---
+
 `getCusine(cusineID):`\
 Read a perticualar cusine in a object with cusineID
 
@@ -317,6 +365,8 @@ Return:
 
 - Returns a details of that cusine in Object
 
+---
+
 `getCusinesList(resaurantID):`\
 Read a list of cusine that exists in the cusine list
 
@@ -327,6 +377,8 @@ Parameters:
 Return:
 
 - Details of all the cusines that the restaurant has
+
+---
 
 `updateCusine(cusineID,updateData):`\
 Update a perticular cusine
@@ -340,6 +392,8 @@ Return:
 
 - Return a object with updated cusine details
 
+---
+
 `deleteCusine(cusineID):`\
 Delete a cusine
 
@@ -350,6 +404,8 @@ Parameters:
 Return:
 
 - A boolean that returns true as a delete confirmation
+
+---
 
 ---
 
