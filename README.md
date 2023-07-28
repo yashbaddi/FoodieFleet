@@ -15,13 +15,13 @@ Our website will be the primary touchpoint for customers, restaurant partners, a
 To Meet These Objectives we have following criteria
 
 - Proper and intuitive UI for the users
-- Three different Frontend Application
+- Frontend Application with 3 diffrent interfaces
 
-  1. Customer Application
-  2. Restaurant Application
-  3. Delivery Driver Application
+  1. Customer Interface
+  2. Restaurant Interface
+  3. Delivery Driver Interface
 
-1. _Customer Application_ Should have the following functionalities
+1. _Customer Interface_ Should have the following functionalities
 
 - List of Restaurants
 - Seperate Page for each restaurant
@@ -31,12 +31,12 @@ To Meet These Objectives we have following criteria
 - Placing the order
 - Tracking the delivery driver on map
 
-2. _Restaurant Application_ Should have the following Functionalities
+2. _Restaurant Interface_ Should have the following Functionalities
 
 - Page to confirm the orders with displaying the order details
 - option to notify if the order is done
 
-3. _Delivery Driver Application_ should have the following functionalities
+3. _Delivery Driver Interface_ should have the following functionalities
 
 - Page to get the display an order
 - Delivery Direction on Map
@@ -49,20 +49,9 @@ To Meet These Objectives we have following criteria
 
 ### Users
 
-`isUserNameExists(username):`\
-Checks weather the username already exists or not,mainly will be used during sign up
+`createUser:`\
+POST /users
 
-Parameters:
-
-- username:Enter the username
-
-Return:
-
-- Returns a boolean true if it exists false if it doesn't
-
----
-
-`createUser(username,password,name,phone,email):`\
 Creates a user with the following params
 
 Parameters:
@@ -75,16 +64,18 @@ Parameters:
 
 Return:
 
-- Returns a boolean true if the user is generated
+- Returns a object that has user details
 
 ---
 
-`getUser(username):`\
+`getUser:`\
+GET /users/:id'
+
 gets a username details
 
-Parameters:
+Path Parameters:
 
-- username: Username
+- id : Username
 
 Return:
 
@@ -92,12 +83,17 @@ Return:
 
 ---
 
-`updateUser(username,updateData):`\
+`updateUser:`\
+PUT /users/:id
+
 update a user
+
+Path Parameters:
+
+- id :Username
 
 Parameters:
 
-- username:Username
 - updateData:An Object that contains updated details of user like name,phone,email also password
 
 Return:
@@ -106,12 +102,13 @@ Return:
 
 ---
 
-`deleteUser(username):`\
+`deleteUser:`\
+DELETE /users/:id
 delete a user
 
-Parameters:
+Path Parameters:
 
-- username:Username
+- id :Username
 
 Return:
 
@@ -119,29 +116,67 @@ Return:
 
 ---
 
-`getOrderDetails(username):`\
-get the current order details of the user
+### Orders
+
+`createOrder`
+POST /orders
 
 Parameters:
 
-- username:Username
+- UserID: User ID
+- resaurantID: Restaurant ID
+- cusines: Object with all the cusines
 
 Return:
 
-- returns a list of cusines with other order details as a object
+- All the details of that order with total amt and orderID
+
+`getCurrentOrder:`
+GET /orders/current
+
+get the current order details
+
+Query Parameters:
+
+- user-id:to get current order of user id
+- restaurant-id:to get the current orders of restaurant-id filter
+- driver-id:to get current orders of driver-id filter
+
+Return:
+
+- returns a list of orders and details as a object based on filters
 
 ---
 
-`getPreviousOrders(username):`\
-Read all the previous orders of that user
+`getOrders:`\
+GET /orders
 
-Parameters:
+Read all orders
 
-- username:Username
+Query Parameters:
+
+- user-id:to get orders of user id
+- restaurant-id:to get the orders of restaurant-id filter
+- driver-id:to get orders of driver-id filter
+
+Optional Path Param:
 
 Return:
 
 - returns a object with the details of all the previous orders of the user
+
+`getOrder:`
+GET /orders/:id
+
+To get order based on id
+
+path Parameters:
+
+- id:Order Id
+
+Return:
+
+- All the details of that order with total amt and orderID
 
 ---
 
@@ -149,12 +184,13 @@ Return:
 
 ### Driver Executive
 
-`createDeliveryExecutive(username):`\
+`createDeliveryExecutive:`\
+POST /driver
 Creates a delivery executive with a given existing username
 
 Parameters:
 
-- username:Username
+- id:User Name
 
 Return:
 
@@ -162,12 +198,13 @@ Return:
 
 ---
 
-`getDeliveryExecutive(username):`\
+`getDeliveryExecutive:`\
+GET /driver/:id
 get delivery executive details
 
-Parameters:
+Path Parameters:
 
-- username:Username
+- id:Driver ID
 
 Return:
 
@@ -175,12 +212,16 @@ Return:
 
 ---
 
-`updateDriverLocation(username,latitude,logitude):`\
+`updateDriverLocation:`\
+PUT /driver/:id/location
 Updates the driver's current location
+
+Path Parameters:
+
+- id:Driver ID
 
 Parameters:
 
-- username:Username
 - Latitude:Latitude of the driver
 - Logitude:Logitude of the driver
 
@@ -190,12 +231,14 @@ Return:
 
 ---
 
-`getDriverCurrentLocation(username):`\
+`getDriverCurrentLocation:`\
+GET /driver/:id/location
+
 gets the drivers current location
 
-Parameters:
+Path Parameters:
 
-- username:Username
+- id:Driver ID
 
 Return:
 
@@ -203,12 +246,17 @@ Return:
 
 ---
 
-`updateDriverStatus(username,status):`\
+`updateDriverStatus:`\
+PUT /driver/:id/status
+
 Updates the driver status like is he/she is available to take orders
+
+Path Parameters:
+
+- id:Driver ID
 
 Parameters:
 
-- username:Username
 - status: The current status of the driver like are they available,unavailable,busy
 
 Return:
@@ -217,12 +265,14 @@ Return:
 
 ---
 
-`getDriverStatus(username):`\
+`getDriverStatus:`\
+PUT /driver/:id/status
+
 gets the current status of the driver
 
-Parameters:
+Path Parameters:
 
-- username:Username
+- id:Driver ID
 
 Return:
 
@@ -230,25 +280,13 @@ Return:
 
 ---
 
-`getCurrentOrder(username):`\
-Get the current order details that the driver is delivering
-
-Parameters:
-
-- username:Username
-
-Return:
-
-- the object tha contains the current order detatils
-
----
-
-`deleteDeliveryExecutive(username):`\
+`deleteDelivery:`\
+DELETE /driver/:id
 Deletes the specified user as a delivery execitive
 
-Parameters:
+Path Parameters:
 
-- username:Username
+- id:Driver ID
 
 Return:
 
@@ -260,7 +298,9 @@ Return:
 
 ### Restaurant
 
-`createRestaurant(username,restaurantName,address,description):`\
+`createRestaurant:`\
+POST /restaurant
+
 Creates a new Restaurant associated with the specified username
 
 Parameters:
@@ -276,12 +316,13 @@ Return:
 
 ---
 
-`getRestaurant(restaurantID):`\
+`getRestaurant:`\
+GET /restaurant/:id
 Gets the resaurant Details
 
-Parameters:
+Path Parameters:
 
-- restaurantID: RestaurantID of that restaurant
+- id: Restaurant ID
 
 Return:
 
@@ -289,12 +330,9 @@ Return:
 
 ---
 
-`getAllRestaurants(username):`\
+`getAllRestaurants:`\
+GET /restaurant
 Gets all the restaurants owened by the user
-
-Parameters:
-
-- username:username of the user
 
 Return:
 
@@ -302,12 +340,20 @@ Return:
 
 ---
 
-`updateRestaurant(restaurantID,updateData):`\
+`updateRestaurant:`\
+PUT /restaurant/:id
 Update the resaurant Details
+
+Path Parameters:
+
+- id: Restaurant ID
 
 Parameters:
 
-- restaurantID: RestaurantID of that restaurant
+- username: User ID of the user that wants to create a resaurant
+- restaurantName:The specified Restaurant name
+- Address: The Address of that Restaurant
+- description: The description of that resaurant
 
 Return:
 
@@ -315,12 +361,13 @@ Return:
 
 ---
 
-`deleteRestaurant(resaurantID):`\
+`deleteRestaurant:`\
+DELETE /restaurant/:id
 Delete the resaurant
 
-Parameters:
+Path Parameters:
 
-- restaurantID: RestaurantID of that restaurant
+- id: Restaurant ID
 
 Return:
 
@@ -328,25 +375,16 @@ Return:
 
 ---
 
-`getAllOrdersRestaurant(restaurantID):`\
-Get all the orders in the restaurant
-
-Parameters:
-
-- restaurantID: RestaurantID of that restaurant
-
-Return:
-
-- A object that returns a all the orders in the restaurant
-
----
-
-`createCusine(resaurantID,cusineObject):`\
+`createCusine:`\
+POST /restaurant/:restaurantID/cusine/
 Create a cusine for a specific Restaurant
 
+Path Parameters:
+
+- restaurantID: Restaurant id that wants to add the cusine
+
 Parameters:
-restaurantID:RestaurantID of a restaurant
-cusineObject:Details of that cusine in an object
+cusineObject:Details of that cusine in an object ///Need Edit
 
 Return:
 
@@ -354,10 +392,11 @@ Return:
 
 ---
 
-`getCusine(cusineID):`\
-Read a perticualar cusine in a object with cusineID
+`getCusine:`\
+GET /cusine/:cusineID
+Read a perticualar cusine in a object with cusineID and restaurant id
 
-Parameters:
+Path Parameters:
 
 - cusineID:CusineID of the cusine
 
@@ -367,10 +406,11 @@ Return:
 
 ---
 
-`getCusinesList(resaurantID):`\
+`getCusinesList:`\
+GET /restaurant/:restauantID/cusine
 Read a list of cusine that exists in the cusine list
 
-Parameters:
+Path Parameters:
 
 - restaurantID:ID of that restaurant
 
@@ -380,13 +420,19 @@ Return:
 
 ---
 
-`updateCusine(cusineID,updateData):`\
+`updateCusine:`\
+PUT /restaurant/:restauantID/cusine/:cusineID
+
 Update a perticular cusine
+
+Path Parameters:
+
+- restaurantID:ID of that restaurant
+- cusineID:id of that cusine
 
 Parameters:
 
-- cusineID:id of that cusine
-- updateData:updated data for that cusine
+- updateData:updated data for that cusine ///Need
 
 Return:
 
@@ -394,12 +440,15 @@ Return:
 
 ---
 
-`deleteCusine(cusineID):`\
+`deleteCusine:`\
+DELETE /restaurant/:restauantID/cusine/:cusineID
+
 Delete a cusine
 
-Parameters:
+Path Parameters:
 
-- cusineID: cusineID of that cusine
+- restaurantID:ID of that restaurant
+- cusineID:id of that cusine
 
 Return:
 
@@ -409,6 +458,38 @@ Return:
 
 ---
 
+### Session
+
+`createSession:`
+POST /session
+
+Parameters:
+
+- username:User Name
+- password:Password
+
+Return:
+
+- Session Cookie with sessionID and username
+
+`getSession:`
+GET /session
+
+Parameters:(Session Cookie)
+
+Return:
+
+- Validate Session
+
+`deleteSession:`
+DELETE /session
+
+Parameters:(Session Cookie)
+
+Return:
+
+- Delete cooike in the frontend and Database'
+
 ## 4. Project Plan:
 
 #### Zeroth Week:
@@ -416,24 +497,24 @@ Return:
 - [x] Create a Data Model based on Desc.
 - [x] Create api contracts for the same.
 - [x] Build a project Plan.
-- [ ] Create Login Page.
-- [ ] Create a SignUp Page.
 
 #### First Week:
 
+- [ ] Create Login Page.
+- [ ] Create a SignUp Page.
 - [ ] Restaurants CRUD incl. Frontend
 - [ ] Adding Dummy cusines
 - [ ] Adding a basic map
-- [ ] Delivery Executive CRUD incl. Frontend
 
 #### Second Week:
 
+- [ ] Delivery Executive CRUD incl. Frontend
 - [ ] Understanding and modifying the Map based on Needs
 - [ ] Tracking Delivery Executive
-- [ ] Cusines CRUD incl. Frontend
 
 #### Third Week:
 
+- [ ] Cusines CRUD incl. Frontend
 - [ ] Calculating Delivery time and route
 - [ ] Calculating Total time
 - [ ] Adding Support for Images
