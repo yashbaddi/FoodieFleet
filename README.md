@@ -147,7 +147,7 @@ Return:
 
 ---
 
-#### Driver Executive
+### Driver Executive
 
 `createDeliveryExecutive(username):`\
 Creates a delivery executive with a given existing username
@@ -258,7 +258,7 @@ Return:
 
 ---
 
-#### Restaurant
+### Restaurant
 
 `createRestaurant(username,restaurantName,address,description):`\
 Creates a new Restaurant associated with the specified username
