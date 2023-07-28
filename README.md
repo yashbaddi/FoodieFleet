@@ -49,7 +49,7 @@ To Meet These Objectives we have following criteria
 
 ### Users
 
-`createUser:`\
+`createUser:`
 POST /users
 
 Creates a user with the following params
@@ -68,7 +68,7 @@ Response Body:
 
 ---
 
-`getUser:`\
+`getUser:`
 GET /users/:id'
 
 gets a username details
@@ -83,7 +83,7 @@ Response Body:
 
 ---
 
-`updateUser:`\
+`updateUser:`
 PUT /users/:id
 
 update a user
@@ -106,7 +106,7 @@ Response Body:
 
 ---
 
-`deleteUser:`\
+`deleteUser:`
 DELETE /users/:id
 delete a user
 
