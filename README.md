@@ -94,7 +94,11 @@ Path Parameters:
 
 Parameters:
 
-- updateData:An Object that contains updated details of user like name,phone,email also password
+- username: Choosen username by the user
+- password: Choosen password by the user
+- name: User's name
+- phone: User's phone number
+- email: User's email
 
 Return:
 
@@ -108,7 +112,7 @@ delete a user
 
 Path Parameters:
 
-- id :Username
+- id :User name
 
 Return:
 
@@ -125,13 +129,15 @@ Parameters:
 
 - UserID: User ID
 - resaurantID: Restaurant ID
-- cusines: Object with all the cusines
+- cusines: JSON Object with all the cusines and quantity
 
 Return:
 
 - All the details of that order with total amt and orderID
 
-`getCurrentOrder:`
+---
+
+`getCurrentOrders:`
 GET /orders/current
 
 get the current order details
@@ -140,7 +146,7 @@ Query Parameters:
 
 - user-id:to get current order of user id
 - restaurant-id:to get the current orders of restaurant-id filter
-- driver-id:to get current orders of driver-id filter
+- driver-id:to get current order of driver-id filter
 
 Return:
 
@@ -180,6 +186,25 @@ Return:
 
 ---
 
+`updateOrderStatus:`
+PATCH /orders/:id
+
+Update order Status based on id
+
+path Parameters:
+
+- id:Order Id
+
+Parameter:
+
+- status:order status
+
+Return:
+
+- boolean true to confirm
+
+---
+
 ---
 
 ### Driver Executive
@@ -190,7 +215,7 @@ Creates a delivery executive with a given existing username
 
 Parameters:
 
-- id:User Name
+- id:User Name that wants to be the driver
 
 Return:
 
@@ -201,6 +226,10 @@ Return:
 `getDeliveryExecutive:`\
 GET /driver/:id
 get delivery executive details
+
+Query Parameters:
+
+- filter:location(get delivery location),status(get driver status)
 
 Path Parameters:
 
@@ -213,7 +242,7 @@ Return:
 ---
 
 `updateDriverLocation:`\
-PUT /driver/:id/location
+PATCH /driver/:id/
 Updates the driver's current location
 
 Path Parameters:
@@ -231,23 +260,10 @@ Return:
 
 ---
 
-`getDriverCurrentLocation:`\
-GET /driver/:id/location
-
-gets the drivers current location
-
-Path Parameters:
-
-- id:Driver ID
-
-Return:
-
-- Returns an object with latitude and logitude of the location of the driver
-
 ---
 
 `updateDriverStatus:`\
-PUT /driver/:id/status
+PATCH /driver/:id/
 
 Updates the driver status like is he/she is available to take orders
 
@@ -265,21 +281,6 @@ Return:
 
 ---
 
-`getDriverStatus:`\
-PUT /driver/:id/status
-
-gets the current status of the driver
-
-Path Parameters:
-
-- id:Driver ID
-
-Return:
-
-- Returns the current status of the driver like available,unavailable,busy
-
----
-
 `deleteDelivery:`\
 DELETE /driver/:id
 Deletes the specified user as a delivery execitive
@@ -294,8 +295,6 @@ Return:
 
 ---
 
----
-
 ### Restaurant
 
 `createRestaurant:`\
@@ -307,8 +306,10 @@ Parameters:
 
 - username: User ID of the user that wants to create a resaurant
 - restaurantName:The specified Restaurant name
-- Address: The Address of that Restaurant
+- latitude: The latitude of that Restaurant
+- longitude: The logitude of that Restaurant
 - description: The description of that resaurant
+- pictures: The pictures uploaded by the owener
 
 Return:
 
@@ -332,11 +333,15 @@ Return:
 
 `getAllRestaurants:`\
 GET /restaurant
-Gets all the restaurants owened by the user
+Gets all the restaurants owened
+
+Query Parameters:
+
+- user-id: restaurants based on the user id
 
 Return:
 
-- Details all the restaurants owened by the user in an object
+- Details of all the restaurants owened
 
 ---
 
@@ -352,14 +357,28 @@ Parameters:
 
 - username: User ID of the user that wants to create a resaurant
 - restaurantName:The specified Restaurant name
-- Address: The Address of that Restaurant
+- latitude: The latitude of that Restaurant
+- longitude: The logitude of that Restaurant
 - description: The description of that resaurant
+- pictures: The pictures uploaded by the owener
 
 Return:
 
 - The updated Restaurant Details
 
 ---
+
+`updateRestaurantStatus:`
+PATCH /restaurant/:id
+Update restaurant status
+
+Parameters:
+
+- isOpen: Boolean
+
+Return
+
+- True to confirm
 
 `deleteRestaurant:`\
 DELETE /restaurant/:id
@@ -384,7 +403,11 @@ Path Parameters:
 - restaurantID: Restaurant id that wants to add the cusine
 
 Parameters:
-cusineObject:Details of that cusine in an object ///Need Edit
+
+- Name: Name of the cusine
+- Description: Description of the cusine
+- Vegitarian: boolean to specify the type of the dish
+- Price: Price of the cusine
 
 Return:
 
@@ -432,7 +455,10 @@ Path Parameters:
 
 Parameters:
 
-- updateData:updated data for that cusine ///Need
+- Name: Name of the cusine
+- Description: Description of the cusine
+- Vegitarian: boolean to specify the type of the dish
+- Price: Price of the cusine
 
 Return:
 
@@ -492,7 +518,7 @@ Return:
 
 ## 4. Project Plan:
 
-#### Zeroth Week:
+#### Zero-th Week:
 
 - [x] Create a Data Model based on Desc.
 - [x] Create api contracts for the same.
@@ -522,5 +548,6 @@ Return:
 
 #### Fourth Week:
 
+- [ ] Add Notification Service
 - [ ] Refining The App.
 - [ ] Exprimenting and adding different features
