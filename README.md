@@ -66,6 +66,10 @@ Response Body:
 
 - Response Bodys a object that has user details
 
+Response Status:
+
+- 201:Created
+
 ---
 
 `getUser:`
@@ -80,6 +84,10 @@ Path Parameters:
 Response Body:
 
 - An Object that contains the user details like name,phone,email in key value pair
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -104,19 +112,24 @@ Response Body:
 
 - Response Bodys a object that would contain the updated result
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `deleteUser:`
 DELETE /users/:id
-delete a user
 \
+delete a user
+
 Path Parameters:
 
 - id :User name
 
-Response Body:
+Response Status:
 
-- a boolean true if deleted successfully
+- 204:No Content
 
 ---
 
@@ -135,6 +148,10 @@ Response Body:
 
 - All the details of that order with total amt and orderID
 
+Response Status:
+
+- 201:Created
+
 ---
 
 `getCurrentOrders:`
@@ -151,6 +168,10 @@ Query Parameters:
 Response Body:
 
 - Response Bodys a list of orders and details as a object based on filters
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -171,6 +192,10 @@ Response Body:
 
 - Response Bodys a object with the details of all the previous orders of the user
 
+Response Status:
+
+- 200:OK
+
 `getOrder:`
 GET /orders/:id
 \
@@ -183,6 +208,10 @@ path Parameters:
 Response Body:
 
 - All the details of that order with total amt and orderID
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -203,6 +232,10 @@ Response Body:
 
 - boolean true to confirm
 
+Response Status:
+
+- 200:OK
+
 ---
 
 ---
@@ -221,6 +254,10 @@ Parameters:
 Response Body:
 
 - Response Body true if sucessfully created a delivery partner with that specified username
+
+Response Status:
+
+- 201:Created
 
 ---
 
@@ -241,6 +278,10 @@ Response Body:
 
 - An Object with all the details of delivery executitive including user details
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `updateDriverLocation:`
@@ -260,6 +301,10 @@ Parameters:
 Response Body:
 
 - Response Bodys an object with latitude and logitude of the location of the driver
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -283,6 +328,10 @@ Response Body:
 
 - Response Bodys boolean true as a confirmation
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `deleteDelivery:`
@@ -294,9 +343,9 @@ Path Parameters:
 
 - id:Driver ID
 
-Response Body:
+Response Status:
 
-- Response Bodys a confirmation boolean true if deleted successfully
+- 204:No Content
 
 ---
 
@@ -321,6 +370,10 @@ Response Body:
 
 - Restaurant Details as object with restaurantID
 
+Response Status:
+
+- 201:Created
+
 ---
 
 `getRestaurant:`
@@ -336,6 +389,10 @@ Response Body:
 
 - Restaurant Details as object
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `getAllRestaurants:`
@@ -350,6 +407,10 @@ Query Parameters:
 Response Body:
 
 - Details of all the restaurants owened
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -375,6 +436,10 @@ Response Body:
 
 - The updated Restaurant Details
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `updateRestaurantStatus:`
@@ -390,6 +455,10 @@ Response Body
 
 - True to confirm
 
+Response Status:
+
+- 200:OK
+
 `deleteRestaurant:`
 DELETE /restaurant/:id
 \
@@ -399,9 +468,9 @@ Path Parameters:
 
 - id: Restaurant ID
 
-Response Body:
+Response Status:
 
-- A boolean that Response Bodys true as a delete confirmation
+- 204:No Content
 
 ---
 
@@ -425,6 +494,10 @@ Response Body:
 
 - Details of that cusine in a object with cusineID
 
+Response Status:
+
+- 201:Created
+
 ---
 
 `getCusine:`
@@ -440,6 +513,10 @@ Response Body:
 
 - Response Bodys a details of that cusine in Object
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `getCusinesList:`
@@ -454,6 +531,10 @@ Path Parameters:
 Response Body:
 
 - Details of all the cusines that the restaurant has
+
+Response Status:
+
+- 200:OK
 
 ---
 
@@ -478,6 +559,10 @@ Response Body:
 
 - Response Body a object with updated cusine details
 
+Response Status:
+
+- 200:OK
+
 ---
 
 `deleteCusine:`
@@ -490,9 +575,9 @@ Path Parameters:
 - restaurantID:ID of that restaurant
 - cusineID:id of that cusine
 
-Response Body:
+Response Status:
 
-- A boolean that Response Bodys true as a delete confirmation
+- 200:OK
 
 ---
 
@@ -512,6 +597,10 @@ Response Body:
 
 - Session Cookie with sessionID and username
 
+Response Status:
+
+- 201:Created
+
 `getSession:`
 GET /session
 \
@@ -521,14 +610,19 @@ Response Body:
 
 - Validate Session
 
+Response Status:
+
+- 200:OK
+- 401:Unauthorized
+
 `deleteSession:`
 DELETE /session
 \
 Parameters:(Session Cookie)
 
-Response Body:
+Response Status:
 
-- Delete cooike in the frontend and Database'
+- 204:No Content
 
 ## 4. Project Plan:
 
