@@ -51,7 +51,7 @@ To Meet These Objectives we have following criteria
 
 `createUser:`
 POST /users
-
+\
 Creates a user with the following params
 
 Parameters:
@@ -70,7 +70,7 @@ Response Body:
 
 `getUser:`
 GET /users/:id'
-
+\
 gets a username details
 
 Path Parameters:
@@ -85,7 +85,7 @@ Response Body:
 
 `updateUser:`
 PUT /users/:id
-
+\
 update a user
 
 Path Parameters:
@@ -109,7 +109,7 @@ Response Body:
 `deleteUser:`
 DELETE /users/:id
 delete a user
-
+\
 Path Parameters:
 
 - id :User name
@@ -124,7 +124,7 @@ Response Body:
 
 `createOrder`
 POST /orders
-
+\
 Parameters:
 
 - UserID: User ID
@@ -139,7 +139,7 @@ Response Body:
 
 `getCurrentOrders:`
 GET /orders/current
-
+\
 get the current order details
 
 Query Parameters:
@@ -156,7 +156,7 @@ Response Body:
 
 `getOrders:`
 GET /orders
-
+\
 Read all orders
 
 Query Parameters:
@@ -173,7 +173,7 @@ Response Body:
 
 `getOrder:`
 GET /orders/:id
-
+\
 To get order based on id
 
 path Parameters:
@@ -188,7 +188,7 @@ Response Body:
 
 `updateOrderStatus:`
 PATCH /orders/:id
-
+\
 Update order Status based on id
 
 path Parameters:
@@ -211,6 +211,7 @@ Response Body:
 
 `createDeliveryExecutive:`
 POST /driver
+\
 Creates a delivery executive with a given existing username
 
 Parameters:
@@ -225,6 +226,7 @@ Response Body:
 
 `getDeliveryExecutive:`
 GET /driver/:id
+\
 get delivery executive details
 
 Query Parameters:
@@ -243,6 +245,7 @@ Response Body:
 
 `updateDriverLocation:`
 PATCH /driver/:id/
+\
 Updates the driver's current location
 
 Path Parameters:
@@ -264,6 +267,7 @@ Response Body:
 
 `updateDriverStatus:`
 PATCH /driver/:id/
+\
 
 Updates the driver status like is he/she is available to take orders
 
@@ -283,6 +287,7 @@ Response Body:
 
 `deleteDelivery:`
 DELETE /driver/:id
+\
 Deletes the specified user as a delivery execitive
 
 Path Parameters:
@@ -299,6 +304,7 @@ Response Body:
 
 `createRestaurant:`
 POST /restaurant
+\
 
 Creates a new Restaurant associated with the specified username
 
@@ -319,6 +325,7 @@ Response Body:
 
 `getRestaurant:`
 GET /restaurant/:id
+\
 Gets the resaurant Details
 
 Path Parameters:
@@ -333,6 +340,7 @@ Response Body:
 
 `getAllRestaurants:`
 GET /restaurant
+\
 Gets all the restaurants owened
 
 Query Parameters:
@@ -347,6 +355,7 @@ Response Body:
 
 `updateRestaurant:`
 PUT /restaurant/:id
+\
 Update the resaurant Details
 
 Path Parameters:
@@ -370,6 +379,7 @@ Response Body:
 
 `updateRestaurantStatus:`
 PATCH /restaurant/:id
+\
 Update restaurant status
 
 Parameters:
@@ -382,6 +392,7 @@ Response Body
 
 `deleteRestaurant:`
 DELETE /restaurant/:id
+\
 Delete the resaurant
 
 Path Parameters:
@@ -396,6 +407,7 @@ Response Body:
 
 `createCusine:`
 POST /restaurant/:restaurantID/cusine/
+\
 Create a cusine for a specific Restaurant
 
 Path Parameters:
@@ -417,6 +429,7 @@ Response Body:
 
 `getCusine:`
 GET /cusine/:cusineID
+\
 Read a perticualar cusine in a object with cusineID and restaurant id
 
 Path Parameters:
@@ -431,6 +444,7 @@ Response Body:
 
 `getCusinesList:`
 GET /restaurant/:restauantID/cusine
+\
 Read a list of cusine that exists in the cusine list
 
 Path Parameters:
@@ -445,7 +459,7 @@ Response Body:
 
 `updateCusine:`
 PUT /restaurant/:restauantID/cusine/:cusineID
-
+\
 Update a perticular cusine
 
 Path Parameters:
@@ -468,7 +482,7 @@ Response Body:
 
 `deleteCusine:`
 DELETE /restaurant/:restauantID/cusine/:cusineID
-
+\
 Delete a cusine
 
 Path Parameters:
@@ -488,7 +502,7 @@ Response Body:
 
 `createSession:`
 POST /session
-
+\
 Parameters:
 
 - username:User Name
@@ -500,7 +514,7 @@ Response Body:
 
 `getSession:`
 GET /session
-
+\
 Parameters:(Session Cookie)
 
 Response Body:
@@ -509,7 +523,7 @@ Response Body:
 
 `deleteSession:`
 DELETE /session
-
+\
 Parameters:(Session Cookie)
 
 Response Body:
