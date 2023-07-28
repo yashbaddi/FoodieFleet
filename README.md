@@ -354,3 +354,36 @@ Return:
 ---
 
 ## 4. Project Plan:
+
+#### Zeroth Week:
+
+- [x] Create a Data Model based on Desc.
+- [x] Create api contracts for the same.
+- [x] Build a project Plan.
+- [ ] Create Login Page.
+- [ ] Create a SignUp Page.
+
+#### First Week:
+
+- [ ] Restaurants CRUD incl. Frontend
+- [ ] Adding Dummy cusines
+- [ ] Adding a basic map
+- [ ] Delivery Executive CRUD incl. Frontend
+
+#### Second Week:
+
+- [ ] Understanding and modifying the Map based on Needs
+- [ ] Tracking Delivery Executive
+- [ ] Cusines CRUD incl. Frontend
+
+#### Third Week:
+
+- [ ] Calculating Delivery time and route
+- [ ] Calculating Total time
+- [ ] Adding Support for Images
+- [ ] Adding Reviews and Ratings
+
+#### Fourth Week:
+
+- [ ] Refining The App.
+- [ ] Exprimenting and adding different features
