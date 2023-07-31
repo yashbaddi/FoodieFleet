@@ -150,7 +150,7 @@ Parameters:
 
 - UserID: User ID
 - resaurantID: Restaurant ID
-- cusines: JSON Object with all the cusines and quantity
+- items: JSON Object with all the items and quantity
 
 Response Body:
 
@@ -482,25 +482,25 @@ Response Status:
 
 ---
 
-`createCusine:`
-POST /restaurant/:restaurantID/cusine/
+`createItem:`
+POST /restaurant/:restaurantID/item/
 \
-Create a cusine for a specific Restaurant
+Create a item for a specific Restaurant
 
 Path Parameters:
 
-- restaurantID: Restaurant id that wants to add the cusine
+- restaurantID: Restaurant id that wants to add the item
 
 Parameters:
 
-- Name: Name of the cusine
-- Description: Description of the cusine
+- Name: Name of the item
+- Description: Description of the item
 - Vegitarian: boolean to specify the type of the dish
-- Price: Price of the cusine
+- Price: Price of the item
 
 Response Body:
 
-- Details of that cusine in a object with cusineID
+- Details of that item in a object with itemID
 
 Response Status:
 
@@ -508,18 +508,18 @@ Response Status:
 
 ---
 
-`getCusine:`
-GET /cusine/:cusineID
+`getItem:`
+GET /item/:itemID
 \
-Read a perticualar cusine in a object with cusineID and restaurant id
+Read a perticualar item in a object with itemID and restaurant id
 
 Path Parameters:
 
-- cusineID:CusineID of the cusine
+- itemID:ItemID of the item
 
 Response Body:
 
-- Response Bodys a details of that cusine in Object
+- Response Bodys a details of that item in Object
 
 Response Status:
 
@@ -527,10 +527,10 @@ Response Status:
 
 ---
 
-`getCusinesList:`
-GET /restaurant/:restauantID/cusine
+`getItemsList:`
+GET /restaurant/:restauantID/item
 \
-Read a list of cusine that exists in the cusine list
+Read a list of item that exists in the item list
 
 Path Parameters:
 
@@ -538,7 +538,7 @@ Path Parameters:
 
 Response Body:
 
-- Details of all the cusines that the restaurant has
+- Details of all the items that the restaurant has
 
 Response Status:
 
@@ -546,26 +546,26 @@ Response Status:
 
 ---
 
-`updateCusine:`
-PUT /restaurant/:restauantID/cusine/:cusineID
+`updateItem:`
+PUT /restaurant/:restauantID/item/:itemID
 \
-Update a perticular cusine
+Update a perticular item
 
 Path Parameters:
 
 - restaurantID:ID of that restaurant
-- cusineID:id of that cusine
+- itemID:id of that item
 
 Parameters:
 
-- Name: Name of the cusine
-- Description: Description of the cusine
+- Name: Name of the item
+- Description: Description of the item
 - Vegitarian: boolean to specify the type of the dish
-- Price: Price of the cusine
+- Price: Price of the item
 
 Response Body:
 
-- Response Body a object with updated cusine details
+- Response Body a object with updated item details
 
 Response Status:
 
@@ -573,15 +573,15 @@ Response Status:
 
 ---
 
-`deleteCusine:`
-DELETE /restaurant/:restauantID/cusine/:cusineID
+`deleteItem:`
+DELETE /restaurant/:restauantID/item/:itemID
 \
-Delete a cusine
+Delete a item
 
 Path Parameters:
 
 - restaurantID:ID of that restaurant
-- cusineID:id of that cusine
+- itemID:id of that item
 
 Response Status:
 
