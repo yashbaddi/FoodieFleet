@@ -51,6 +51,8 @@ To Meet These Objectives we have following criteria
 
 ## 2. Data Modeling:
 
+![Data Model](docs/model.svg)
+
 ## 3. API Contracts:
 
 ### Users
