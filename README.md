@@ -630,7 +630,7 @@ Response Status:
 
 ## 4. Project Plan:
 
-#### Zero-th Week:
+#### Zero-th Phase:
 
 - [x] Create a Data Model based on Desc.
 - [x] Create api contracts for the same.
@@ -638,7 +638,7 @@ Response Status:
 
 #### First Phase:
 
-- [ ] Hardcoded Restaurant,1 item,delivery partner, 1 user...
+- [ ] Hardcoded 1 Restaurant,1 item,delivery partner, 1 user...
 - [ ] Basic Flow
 
 #### Second Phase:
