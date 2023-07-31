@@ -30,11 +30,16 @@ To Meet These Objectives we have following criteria
 - Totaling the order price
 - Placing the order
 - Tracking the delivery driver on map
+- Add Search option to search the restauarants
+- Add Authentication
+- Notifiation service for the delivery information
 
 2. _Restaurant Interface_ Should have the following Functionalities
 
 - Page to confirm the orders with displaying the order details
 - option to notify if the order is done
+- Add Authentiaction
+- Notifiation service for the order information
 
 3. _Delivery Driver Interface_ should have the following functionalities
 
@@ -42,6 +47,7 @@ To Meet These Objectives we have following criteria
 - Delivery Direction on Map
 - Confrimation button once delivered
 - option to tell that the driver is open to deliver
+- Add Authetication'
 
 ## 2. Data Modeling:
 
@@ -606,13 +612,9 @@ GET /session
 \
 Parameters:(Session Cookie)
 
-Response Body:
-
-- Validate Session
-
 Response Status:
 
-- 200:OK
+- 204:No Content
 - 401:Unauthorized
 
 `deleteSession:`
