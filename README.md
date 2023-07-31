@@ -632,32 +632,34 @@ Response Status:
 - [x] Create api contracts for the same.
 - [x] Build a project Plan.
 
-#### First Week:
+#### First Phase:
 
-- [ ] Create Login Page.
-- [ ] Create a SignUp Page.
-- [ ] Restaurants CRUD
-- [ ] Restaurant Frontend
-- [ ] Adding Dummy cusines
-- [ ] Adding a basic map
+- [ ] Hardcoded Restaurant,1 item,delivery partner, 1 user...
+- [ ] Basic Flow
 
-#### Second Week:
+#### Second Phase:
 
-- [ ] Delivery Executive CRUD
+- [ ] Restaurant Interface and Multiple items and UI
+- [ ] Multiple Restaurants and CRUD and UI
+
+#### Third Phase:
+
+- [ ] Multiple users
+- [ ] Login Sign Up and Auth
+
+#### Fourth Phase:
+
+- [ ] Delivery Partner Multiple CRUD and UI
 - [ ] Understanding and modifying the Map based on Needs
 - [ ] Tracking Delivery Executive
-- [ ] Delivery Executive Frontend
-
-#### Third Week:
-
-- [ ] Cusines CRUD incl. Frontend
 - [ ] Calculating Delivery time and route
 - [ ] Calculating Total time
-- [ ] Adding Support for Images
-
-#### Fourth Week:
-
 - [ ] Add Notification Service
+
+#### Fifth Phase
+
 - [ ] Adding Reviews and Ratings
+- [ ] Adding Support for Images
+- [ ] Adding Search
 - [ ] Refining The App.
 - [ ] Exprimenting and adding different features
