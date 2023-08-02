@@ -1,5 +1,14 @@
-import "./navigation.m.css";
-
 export default function Navigation() {
-  return <h1>Foodie Fleet</h1>;
+  return (
+    <>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light navigation">
+        <a className="navbar-brand navigation__header">Foodie Fleet</a>
+        <ul className="navbar-nav">
+          <li className="nav-item dropdown navigation__item--address">
+            Address
+          </li>
+        </ul>
+      </nav>
+    </>
+  );
 }
