@@ -1,19 +1,36 @@
 CREATE TABLE Users (
-  ID UUID PRIMARY KEY ,
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY ,
   Password VARCHAR NOT NULL,
   Name VARCHAR NOT NULL,
   Phone VARCHAR NOT NULL,
   Email VARCHAR NOT NULL,
 );
 
-CREATE TABLE "Restaurants" (
-  ID UUID PRIMARY KEY,
+CREATE TABLE Address(
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  Address VARCHAR,
+  Latitude NUMERIC(10, 7) NOT NULL,
+  Logitude NUMERIC(10, 7) NOT NULL,
+);
+
+CREATE TABLE Restaurants (
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   Name VARCHAR NOT NULL,
   Description VARCHAR,
   Pictures VARCHAR,
   timings JSONB,
-  is_open BOOLEAN,
-  Address_ID REFERENCES Address(Address_ID)
+  is_open BOOLEAN DEFAULT FALSE,
+  address_id UUID  REFERENCES Address(ID),
+  owner_id UUID  REFERENCES Users(ID)
+);
+
+CREATE TABLE Items (
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  Name VARCHAR NOT NULL,
+  is_vegitarian BOOLEAN DEFAULT FALSE NOT NULL,
+  Description VARCHAR,
+  Price NUMERIC(10,2),
+  Restaurant_ID UUID REFERENCES Restaurants(ID),
 );
 
 CREATE TABLE "Orders" (
@@ -46,17 +63,7 @@ CREATE TABLE "Drivers" (
 );
 
 
-CREATE TABLE "Address" (
-  "ID" <type>,
-  "Address" <type>,
-  "Latitude" <type>,
-  "Logitude" <type>,
-  "Customer_ID" <type>,
-  PRIMARY KEY ("ID"),
-  CONSTRAINT "FK_Address.Customer_ID"
-    FOREIGN KEY ("Customer_ID")
-      REFERENCES "Users"("ID")
-);
+
 
 CREATE TABLE "Sessions" (
   "ID" <type>,
