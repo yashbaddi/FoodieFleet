@@ -10,7 +10,3 @@ export async function getAllRestaurants(req, res) {
 export async function getRestaurantsByID(req, res) {
   res.json(await readRestaurant(req.params.id));
 }
-
-export async function getMenuOfRestaurant(req, res) {
-  res.json(await readItem(req.params.id));
-}
