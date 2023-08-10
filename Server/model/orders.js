@@ -37,6 +37,21 @@ export async function readOrder(filters = {}) {
 }
 
 export async function updateOrder(id, data) {
+  if (data.item) {
+    if (data.item.action == "add_item") {
+      const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
+      ON CONFLICT(order_id,item_id) 
+      DO UPDATE SET quantity=ordered_items.quantity+1`;
+      console.log(query);
+      const updateditemID = await pool.query(query, [id, data.item.id]);
+    }
+
+    return {
+      orderID: id,
+      itemID: data.item.id,
+    };
+  }
+
   if (!data.item) {
     const [expression, values] = getUpdateExpression(data);
     console.log(values);
@@ -48,7 +63,9 @@ export async function updateOrder(id, data) {
       (values.length + 1) +
       " RETURNING *";
     console.log(query);
+
     const updatedData = await pool.query(query, [...values, id]);
+
     return {
       orderID: id,
       data: updatedData,
