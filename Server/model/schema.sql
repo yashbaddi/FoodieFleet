@@ -10,7 +10,7 @@ CREATE TABLE Address(
   ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   Address VARCHAR,
   Latitude NUMERIC(10, 7) NOT NULL,
-  Logitude NUMERIC(10, 7) NOT NULL,
+  Longitude NUMERIC(10, 7) NOT NULL,
 );
 
 CREATE TABLE Restaurants (
@@ -30,20 +30,30 @@ CREATE TABLE Items (
   is_vegitarian BOOLEAN DEFAULT FALSE NOT NULL,
   Description VARCHAR,
   Price NUMERIC(10,2),
+  Restaurant_ID UUID REFERENCES Restaurants(ID) ON update cascade,
+);
+
+CREATE TABLE Orders (
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  Status VARCHAR DEFAULT 'in_cart',
+  Created_at TIMESTAMP DEFAULT Current_timestamp(2),
+  Total_amt NUMERIC DEFAULT 0,
+  Delivered_Time TIMESTAMP,
+  Customer_ID UUID REFERENCES Users(ID),
   Restaurant_ID UUID REFERENCES Restaurants(ID),
 );
 
-CREATE TABLE "Orders" (
-  "ID" <type>,
-  "Status" <type>,
-  "Created_at" <type>,
-  "Total_amt" <type>,
-  "Delivered_Time" <type>,
-  "Customer_ID" <type>,
-  "Driver_ID" <type>,
-  "Address_ID" <type>,
-  PRIMARY KEY ("ID")
+CREATE TABLE Ordered_Items (
+  Order_ID UUID REFERENCES Orders(ID),
+  Item_ID UUID REFERENCES Items(ID),
+  Quantity NUMERIC DEFAULT 1,
+  PRIMARY KEY (Order_ID, Item_ID)
 );
+
+SELECT (orders.id,orders.status,orders.Created_at,orders.delivered_time,orders.Customer_ID,orders.Customer_ID,orders.Restaurant_ID,) FROM ordered_items 
+JOIN orders ON ordered_items.order_id = orders.id
+JOIN Items ON ordered_items.Item_ID= items.id
+
 
 CREATE TABLE "Ratings" (
   "ID" <type>,
@@ -74,9 +84,4 @@ CREATE TABLE "Sessions" (
       REFERENCES "Users"("ID")
 );
 
-CREATE TABLE "Ordered_Items" (
-  "Order_ID" <type>,
-  "Item_ID" <type>,
-  "Quantity" <type>,
-  PRIMARY KEY ("Order_ID", "Item_ID")
-);
+
