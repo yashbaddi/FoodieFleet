@@ -36,6 +36,26 @@ export async function readOrder(filters = {}) {
   }
 }
 
+export async function updateOrder(id, data) {
+  if (!data.item) {
+    const [expression, values] = getUpdateExpression(data);
+    console.log(values);
+
+    const query =
+      "UPDATE orders SET" +
+      expression +
+      " WHERE id=$" +
+      (values.length + 1) +
+      " RETURNING *";
+    console.log(query);
+    const updatedData = await pool.query(query, [...values, id]);
+    return {
+      orderID: id,
+      data: updatedData,
+    };
+  }
+}
+
 // export async function createOrderedItem(orderID, data = {}) {
 //   await pool.query(
 //     "INSERT INTO Ordered_Items(order_id,item_id) VALUES($1,$2)",
