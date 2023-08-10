@@ -16,3 +16,11 @@ export async function getRestaurant(id) {
   });
   return response.json();
 }
+
+export async function getRestaurantMenu(id) {
+  const path = "restaurants/" + id + "/items/";
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+  });
+  return response.json();
+}
