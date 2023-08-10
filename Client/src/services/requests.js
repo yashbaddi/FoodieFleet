@@ -68,3 +68,12 @@ export async function removeItemFromOrder(orderID, itemID) {
   });
   return response.json();
 }
+
+export async function readOrder(orderID) {
+  const path = "orders/" + orderID;
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+  });
+  console.log(response.json);
+  return response.json();
+}
