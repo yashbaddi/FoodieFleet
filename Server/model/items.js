@@ -10,3 +10,12 @@ export async function createItem(restaurantID, data) {
   ).rows.id;
   return itemID;
 }
+
+export async function readItem(restaurantID, filters = {}) {
+  const response = (
+    await pool.query("SELECT * FROM ITEMS WHERE restaurant_id=$1", [
+      restaurantID,
+    ])
+  ).rows;
+  return response;
+}
