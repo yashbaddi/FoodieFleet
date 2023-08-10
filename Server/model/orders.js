@@ -11,6 +11,31 @@ export async function createOrder(userID, data) {
   return orderID;
 }
 
+export async function readOrder(filters = {}) {
+  if (filters.id) {
+    console.log(filters.id);
+    const orderDetails = (
+      await pool.query(
+        "SELECT row_to_json(orders) as order from orders where id=$1",
+        [filters.id]
+      )
+    ).rows[0].order;
+
+    const itemsDetails = (
+      await pool.query(
+        `SELECT row_to_json(items) as item ,quantity FROM ordered_items 
+      JOIN Items ON ordered_items.Item_ID= items.id where order_id=$1`,
+        [filters.id]
+      )
+    ).rows;
+
+    return {
+      order: orderDetails,
+      items: itemsDetails,
+    };
+  }
+}
+
 // export async function createOrderedItem(orderID, data = {}) {
 //   await pool.query(
 //     "INSERT INTO Ordered_Items(order_id,item_id) VALUES($1,$2)",
