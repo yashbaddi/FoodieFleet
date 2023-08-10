@@ -1,3 +1,4 @@
+import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
 export async function createRestaurant(userID, data) {
@@ -18,5 +19,14 @@ export async function createRestaurant(userID, data) {
 }
 
 export async function readRestaurant(filters = {}) {
-  const query = "SELECT (id,name,description,) FROM restaurants";
+  if (filters.id) {
+    const query =
+      "SELECT row_to_json(restaurants) as data FROM restaurants LEFT JOIN address ON restaurants.address_id = address.id where restaurants.id=$1";
+
+    return (await pool.query(query, [filters.id])).rows;
+  }
+  const query =
+    "SELECT row_to_json(restaurants) as data FROM restaurants LEFT JOIN address ON restaurants.address_id = address.id";
+
+  return (await pool.query(query)).rows;
 }
