@@ -1,5 +1,16 @@
 import express from "express";
+import {
+  getAllRestaurants,
+  getMenuOfRestaurant,
+  getRestaurantsByID,
+} from "../controller/restaurants.js";
 
-const restaurants = express.Router();
+const restaurantsRouter = express.Router();
 
-export default restaurants;
+restaurantsRouter.route("/").get(getAllRestaurants);
+
+restaurantsRouter.route("/:id").get(getRestaurantsByID);
+
+restaurantsRouter.route("/:id/items").get(getMenuOfRestaurant);
+
+export default restaurantsRouter;
