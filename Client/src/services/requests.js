@@ -38,3 +38,18 @@ export async function createOrder(restaurantID) {
   });
   return response.json();
 }
+
+export async function addItemToOrder(orderID, itemID) {
+  const path = "orders/" + orderID;
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: {
+      itemID: itemID,
+      action: "add_item",
+    },
+  });
+  return response.json();
+}
