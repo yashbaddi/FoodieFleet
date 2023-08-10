@@ -1,12 +1,16 @@
 import { useParams } from "react-router-dom";
 import ItemsList from "./ItemList";
-import { sampleRestaurant } from "../../hooks/data";
+import { sampleRestaurant } from "../../Data/sampleData";
+import { useEffect, useState } from "react";
+import { getRestaurant } from "../../services/requests";
 
 export default function Restaurant() {
   const { id } = useParams();
-  const restaurant = sampleRestaurant.filter(
-    (restaurant) => restaurant.id == id
-  )[0];
+  const [restaurant, setRestaurant] = useState([]);
+  useEffect(() => {
+    getRestaurant(id).then((data) => setRestaurant(data));
+  }, []);
+
   console.log("rest:", restaurant);
   return (
     <>
