@@ -8,3 +8,11 @@ export async function getAllRestaurants() {
   console.log("Get all Restaurant", response);
   return response.json();
 }
+
+export async function getRestaurant(id) {
+  const path = "restaurants/" + id;
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+  });
+  return response.json();
+}
