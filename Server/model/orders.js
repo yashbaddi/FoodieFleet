@@ -46,6 +46,18 @@ export async function updateOrder(id, data) {
       const updateditemID = await pool.query(query, [id, data.item.id]);
     }
 
+    if (data.item.action == "remove_item") {
+      const updateRes = await pool.query(
+        "UPDATE ordered_items SET quantity=quantity-1 WHERE order_id=$1 AND item_id=$2 AND quantity>=0",
+        [id, data.item.id]
+      );
+      const deleteRes = await pool.query(
+        "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2 AND quantity<=0",
+        [id, data.item.id]
+      );
+      console.log("update:", updateRes, "Delete:", deleteRes);
+    }
+
     return {
       orderID: id,
       itemID: data.item.id,
