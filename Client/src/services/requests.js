@@ -24,3 +24,17 @@ export async function getRestaurantMenu(id) {
   });
   return response.json();
 }
+
+export async function createOrder(restaurantID) {
+  const path = "orders/";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: {
+      restaurantID: restaurantID,
+    },
+  });
+  return response.json();
+}
