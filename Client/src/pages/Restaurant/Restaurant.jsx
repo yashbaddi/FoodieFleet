@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import ItemsList from "./ItemList";
-import { sampleRestaurant } from "../../Data/sampleData";
 import { useEffect, useState } from "react";
 import { getRestaurant } from "../../services/requests";
 
