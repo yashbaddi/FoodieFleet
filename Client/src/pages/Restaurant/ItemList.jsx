@@ -1,23 +1,20 @@
-import { sampleItems } from "../../hooks/data";
+import { useEffect, useState } from "react";
 import ItemContainer from "./ItemContainer";
+import { getRestaurantMenu } from "../../services/requests";
 
 export default function ItemsList(props) {
-  const items = sampleItems[props.id];
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    getRestaurantMenu(props.id).then((data) => setItems(data));
+  }, []);
+
   console.log("Items", items);
   return (
     <>
       List of Items
       {items.map((item, index) => {
-        return (
-          <ItemContainer
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            desc={item.description}
-            vegitarian={item.vegitarian}
-            price={item.price}
-          />
-        );
+        return <ItemContainer key={index} item={item} />;
       })}
     </>
   );
