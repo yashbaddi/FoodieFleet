@@ -53,7 +53,47 @@ To Meet These Objectives we have following criteria
 
 ![Data Model](docs/model.svg)
 
-## 3. API Contracts:
+## 3. Project Plan:
+
+#### Zero-th Phase:
+
+- [x] Create a Data Model based on Desc.
+- [x] Create api contracts for the same.
+- [x] Build a project Plan.
+
+#### First Phase:
+
+- [x] Hardcoded 1 Restaurant,1 item,delivery partner, 1 user...
+- [x] Basic Flow
+
+#### Second Phase:
+
+- [ ] Restaurant Interface and Multiple items and UI
+- [ ] Multiple Restaurants and CRUD and UI
+
+#### Third Phase:
+
+- [ ] Multiple users
+- [ ] Login Sign Up and Auth
+
+#### Fourth Phase:
+
+- [ ] Delivery Partner Multiple CRUD and UI
+- [ ] Understanding and modifying the Map based on Needs
+- [ ] Tracking Delivery Executive
+- [ ] Calculating Delivery time and route
+- [ ] Calculating Total time
+- [ ] Add Notification Service
+
+#### Fifth Phase
+
+- [ ] Adding Reviews and Ratings
+- [ ] Adding Support for Images
+- [ ] Adding Search
+- [ ] Refining The App.
+- [ ] Exprimenting and adding different features
+
+## 4. API Contracts:
 
 ### Users
 
@@ -627,43 +667,3 @@ Parameters:(Session Cookie)
 Response Status:
 
 - 204:No Content
-
-## 4. Project Plan:
-
-#### Zero-th Phase:
-
-- [x] Create a Data Model based on Desc.
-- [x] Create api contracts for the same.
-- [x] Build a project Plan.
-
-#### First Phase:
-
-- [ ] Hardcoded 1 Restaurant,1 item,delivery partner, 1 user...
-- [ ] Basic Flow
-
-#### Second Phase:
-
-- [ ] Restaurant Interface and Multiple items and UI
-- [ ] Multiple Restaurants and CRUD and UI
-
-#### Third Phase:
-
-- [ ] Multiple users
-- [ ] Login Sign Up and Auth
-
-#### Fourth Phase:
-
-- [ ] Delivery Partner Multiple CRUD and UI
-- [ ] Understanding and modifying the Map based on Needs
-- [ ] Tracking Delivery Executive
-- [ ] Calculating Delivery time and route
-- [ ] Calculating Total time
-- [ ] Add Notification Service
-
-#### Fifth Phase
-
-- [ ] Adding Reviews and Ratings
-- [ ] Adding Support for Images
-- [ ] Adding Search
-- [ ] Refining The App.
-- [ ] Exprimenting and adding different features
