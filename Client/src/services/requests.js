@@ -32,9 +32,9 @@ export async function createOrder(restaurantID) {
     headers: {
       "content-type": "application/json",
     },
-    body: {
+    body: JSON.stringify({
       restaurantID: restaurantID,
-    },
+    }),
   });
   return response.json();
 }
@@ -42,14 +42,16 @@ export async function createOrder(restaurantID) {
 export async function addItemToOrder(orderID, itemID) {
   const path = "orders/" + orderID;
   const response = await fetch(baseURL + path, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "content-type": "application/json",
     },
-    body: {
-      itemID: itemID,
-      action: "add_item",
-    },
+    body: JSON.stringify({
+      item: {
+        id: itemID,
+        action: "add_item",
+      },
+    }),
   });
   return response.json();
 }
@@ -57,14 +59,16 @@ export async function addItemToOrder(orderID, itemID) {
 export async function removeItemFromOrder(orderID, itemID) {
   const path = "orders/" + orderID;
   const response = await fetch(baseURL + path, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "content-type": "application/json",
     },
-    body: {
-      itemID: itemID,
-      action: "remove_item",
-    },
+    body: JSON.stringify({
+      item: {
+        id: itemID,
+        action: "remove_item",
+      },
+    }),
   });
   return response.json();
 }
