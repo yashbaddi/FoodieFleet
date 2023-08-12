@@ -4,7 +4,11 @@ import {
   readItem,
   updateItem,
 } from "../model/items.js";
-import { createRestaurant, readRestaurant } from "../model/restaurants.js";
+import {
+  createRestaurant,
+  readRestaurant,
+  updateRestaurant,
+} from "../model/restaurants.js";
 
 export async function getAllRestaurants(req, res) {
   const data = await readRestaurant();
@@ -42,4 +46,8 @@ export async function updateItemOfRestaurant(req, res) {
 
 export async function deleteItemInRestaurant(req, res) {
   res.json(await deleteItem(req.params.itemID));
+}
+
+export async function updateRestaurantByID(req, res) {
+  res.json(await updateRestaurant(req.params.id, req.body));
 }
