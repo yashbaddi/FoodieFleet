@@ -44,6 +44,14 @@ export async function updateRestaurant(id, data) {
   return response.json();
 }
 
+export async function deleteRestaurant(id) {
+  const path = "restaurants/" + id;
+  const response = await fetch(baseURL + path, {
+    method: "DELETE",
+  });
+  return response.json();
+}
+
 //Items
 export async function getRestaurantMenu(id) {
   const path = "restaurants/" + id + "/items/";
