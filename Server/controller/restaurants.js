@@ -1,4 +1,4 @@
-import { readItem } from "../model/items.js";
+import { createItem, readItem } from "../model/items.js";
 import { createRestaurant, readRestaurant } from "../model/restaurants.js";
 
 export async function getAllRestaurants(req, res) {
@@ -23,5 +23,10 @@ export async function createARestaurant(req, res) {
   );
   console.log(response);
 
+  res.json(response);
+}
+
+export async function createItemForRestaurant(req, res) {
+  const response = await createItem(req.params.restaurantID, req.body);
   res.json(response);
 }
