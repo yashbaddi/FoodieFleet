@@ -1,15 +1,13 @@
-export function getUpdateExpression(obj) {
+export function getUpdateExpression(updatedData) {
   const values = [];
-  let expression = "";
+  let updatePartialQuery = "";
   let index = 0;
-  Object.entries(obj).map(([key, value]) => {
-    if (typeof value !== "object") {
-      expression = expression + ` ${key}=$${index + 1},`;
-      values.push(value);
-      index++;
-    }
+  Object.entries(updatedData).forEach(([key, value]) => {
+    updatePartialQuery = updatePartialQuery + ` ${key}=$${index + 1},`;
+    values.push(value);
+    index++;
   });
-  return [expression.slice(0, -1), values];
+  return [updatePartialQuery.slice(0, -1), values];
 
   //   return { expression: expression.slice(0, -1), values: values };
 }
