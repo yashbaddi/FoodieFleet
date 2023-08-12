@@ -2,13 +2,14 @@ import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
 export async function createItem(restaurantID, data) {
-  const itemID = (
+  console.log(data);
+  const itemData = (
     await pool.query(
-      "INSERT INTO ITEMS(name,is_vegitarian,description,price,restaurant_ID) VALUES($1,$2,$3,$4,$5)",
-      [data.name, data.isVegitarian, data.descriprion, data.price, restaurantID]
+      "INSERT INTO ITEMS(name,is_vegitarian,description,price,restaurant_ID) VALUES($1,$2,$3,$4,$5) RETURNING *",
+      [data.name, data.isVegitarian, data.description, data.price, restaurantID]
     )
-  ).rows.id;
-  return itemID;
+  ).rows[0];
+  return itemData;
 }
 
 export async function readItem(restaurantID, filters = {}) {
@@ -18,4 +19,20 @@ export async function readItem(restaurantID, filters = {}) {
     ])
   ).rows;
   return response;
+}
+
+export async function updateItem(itemID, data) {
+  const [expression, values] = getUpdateExpression(data);
+  console.log(values);
+
+  const query =
+    "UPDATE items SET" +
+    expression +
+    " WHERE id=$" +
+    (values.length + 1) +
+    " RETURNING *";
+  console.log(query);
+
+  const updatedData = await pool.query(query, [...values, itemID]);
+  return updatedData.rows[0];
 }
