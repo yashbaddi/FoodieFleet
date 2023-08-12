@@ -32,6 +32,18 @@ export async function createRestaurant(data) {
   return response.json;
 }
 
+export async function updateRestaurant(id, data) {
+  const path = "restaurants/" + id;
+  const response = await fetch(baseURL + path, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
 //Items
 export async function getRestaurantMenu(id) {
   const path = "restaurants/" + id + "/items/";
