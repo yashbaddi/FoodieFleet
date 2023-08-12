@@ -6,6 +6,7 @@ import {
 } from "../model/items.js";
 import {
   createRestaurant,
+  deleteRestaurant,
   readRestaurant,
   updateRestaurant,
 } from "../model/restaurants.js";
@@ -50,4 +51,8 @@ export async function deleteItemInRestaurant(req, res) {
 
 export async function updateRestaurantByID(req, res) {
   res.json(await updateRestaurant(req.params.id, req.body));
+}
+
+export async function deleteRestaurantByID(req, res) {
+  res.json(await deleteRestaurant(req.params.id));
 }
