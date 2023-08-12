@@ -36,3 +36,8 @@ export async function updateItem(itemID, data) {
   const updatedData = await pool.query(query, [...values, itemID]);
   return updatedData.rows[0];
 }
+export async function deleteItem(itemID) {
+  const rowCount = (await pool.query("DELETE FROM items WHERE id=$1", [itemID]))
+    .rowCount;
+  return rowCount;
+}
