@@ -19,6 +19,19 @@ export async function getRestaurant(id) {
   return response.json();
 }
 
+export async function createRestaurant(data) {
+  console.log("in request", data);
+  const path = "restaurants/";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json;
+}
+
 //Items
 export async function getRestaurantMenu(id) {
   const path = "restaurants/" + id + "/items/";
