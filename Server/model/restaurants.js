@@ -47,3 +47,11 @@ export async function updateRestaurant(id, data) {
   console.log();
   return updatedData.rows[0];
 }
+
+export async function deleteRestaurant(id) {
+  const rowCount = (
+    await pool.query("DELETE FROM restaurants WHERE id=$1", [id])
+  ).rowCount;
+
+  return rowCount;
+}
