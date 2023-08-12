@@ -68,8 +68,9 @@ To Meet These Objectives we have following criteria
 
 #### Second Phase:
 
-- [ ] Restaurant Interface and Multiple items and UI
-- [ ] Multiple Restaurants and CRUD and UI
+- [x] Multiple items and UI
+- [x] Multiple Restaurants and CRUD and UI
+- [ ] Restaurant Interface
 
 #### Third Phase:
 

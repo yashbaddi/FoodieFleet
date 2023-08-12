@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
+import { deleteRestaurant } from "../../services/requests";
 
 export default function RestaurantContainer(props) {
   console.log("Restaurant props", props);
+  async function deleteRestaurantHandler() {
+    deleteRestaurant(props.restaurant.id);
+  }
   return (
     <>
       <Link to={`/restaurant/${props.restaurant.id}`}>
@@ -10,6 +14,7 @@ export default function RestaurantContainer(props) {
           <p>{props.restaurant.description}</p>
         </div>
       </Link>
+      <button onClick={deleteRestaurantHandler}>Delete</button>
     </>
   );
 }
