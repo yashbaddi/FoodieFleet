@@ -1,4 +1,9 @@
-import { createItem, readItem, updateItem } from "../model/items.js";
+import {
+  createItem,
+  deleteItem,
+  readItem,
+  updateItem,
+} from "../model/items.js";
 import { createRestaurant, readRestaurant } from "../model/restaurants.js";
 
 export async function getAllRestaurants(req, res) {
@@ -33,4 +38,8 @@ export async function createItemForRestaurant(req, res) {
 
 export async function updateItemOfRestaurant(req, res) {
   res.json(await updateItem(req.params.itemID, req.body));
+}
+
+export async function deleteItemInRestaurant(req, res) {
+  res.json(await deleteItem(req.params.itemID));
 }
