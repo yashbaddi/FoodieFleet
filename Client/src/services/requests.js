@@ -1,5 +1,7 @@
 const baseURL = "http://127.0.0.1:3000/";
 
+//Restaurants
+
 export async function getAllRestaurants() {
   const path = "restaurants/";
   const response = await fetch(baseURL + path, {
@@ -17,6 +19,7 @@ export async function getRestaurant(id) {
   return response.json();
 }
 
+//Items
 export async function getRestaurantMenu(id) {
   const path = "restaurants/" + id + "/items/";
   const response = await fetch(baseURL + path, {
@@ -25,6 +28,39 @@ export async function getRestaurantMenu(id) {
   return response.json();
 }
 
+export async function createItem(restaurantsID, data) {
+  const path = "restaurants/" + restaurantsID + "/items/";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function updateItem(restaurantsID, itemID, data) {
+  const path = "restaurants/" + restaurantsID + "/items/" + itemID;
+  const response = await fetch(baseURL + path, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function deleteItem(restaurantsID, itemID) {
+  const path = "restaurants/" + restaurantsID + "/items/" + itemID;
+  const response = await fetch(baseURL + path, {
+    method: "DELETE",
+  });
+  return response.json();
+}
+
+//Orders
 export async function createOrder(restaurantID) {
   const path = "orders/";
   const response = await fetch(baseURL + path, {
