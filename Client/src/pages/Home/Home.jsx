@@ -7,6 +7,7 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [isRestaurantFormVisible, setRestaurantFormVisible] = useState(false);
   console.log("Restaurant Data:", restaurants);
+
   useEffect(() => {
     getAllRestaurants().then((data) => setRestaurants(data));
   }, []);

@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import {
   createEmptyOrder,
   getOrdersByOrderID,
-  updateCurrentOrder,
+  patchCurrentOrder,
 } from "../controller/orders.js";
 
 const ordersRouter = express.Router();
@@ -13,6 +13,8 @@ ordersRouter.route("/").post(bodyParser.json(), createEmptyOrder);
 ordersRouter
   .route("/:id")
   .get(getOrdersByOrderID)
-  .put(bodyParser.json(), updateCurrentOrder);
+  .patch(bodyParser.json(), patchCurrentOrder);
+
+ordersRouter.route(":id/item/:itemId");
 
 export default ordersRouter;

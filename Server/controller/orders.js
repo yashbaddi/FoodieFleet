@@ -11,7 +11,7 @@ export async function createEmptyOrder(req, res) {
   res.json(response);
 }
 
-export async function updateCurrentOrder(req, res) {
+export async function patchCurrentOrder(req, res) {
   const response = await updateOrder(req.params.id, req.body);
   res.json(response);
 }
