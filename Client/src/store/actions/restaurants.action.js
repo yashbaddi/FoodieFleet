@@ -12,12 +12,27 @@ export function getAllRestaurants() {
   };
 }
 
-export async function createRestaurant(data) {
+export function createRestaurant(data) {
   return async (dispatch) => {
     console.log("in request", data);
     const path = "restaurants/";
     const response = await fetch(baseURL + path, {
       method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const resData = response.json();
+    dispatch({ type: "CREATE_RESTAURANT", payload: resData });
+  };
+}
+
+export function updateRestaurant(id, data) {
+  return async (dispatch) => {
+    const path = "restaurants/" + id;
+    const response = await fetch(baseURL + path, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
