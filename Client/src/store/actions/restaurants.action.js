@@ -7,7 +7,23 @@ export function getAllRestaurants() {
       method: "GET",
     });
     console.log("Get all Restaurant", response);
-    const data = await response.json();
-    dispatch({ type: "FETCH_RESTAURANTS", payload: data });
+    const resData = await response.json();
+    dispatch({ type: "GET_RESTAURANTS", payload: resData });
+  };
+}
+
+export async function createRestaurant(data) {
+  return async (dispatch) => {
+    console.log("in request", data);
+    const path = "restaurants/";
+    const response = await fetch(baseURL + path, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const resData = response.json();
+    dispatch({ type: "CREATE_RESTAURANT", payload: resData });
   };
 }
