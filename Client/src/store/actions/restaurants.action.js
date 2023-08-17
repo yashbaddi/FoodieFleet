@@ -42,3 +42,14 @@ export function updateRestaurant(id, data) {
     dispatch({ type: "CREATE_RESTAURANT", payload: resData });
   };
 }
+
+export async function deleteRestaurant(id) {
+  return async (dispatch) => {
+    const path = "restaurants/" + id;
+    const response = await fetch(baseURL + path, {
+      method: "DELETE",
+    });
+    const resData = response.json();
+    dispatch({ type: "CREATE_RESTAURANT", payload: resData });
+  };
+}

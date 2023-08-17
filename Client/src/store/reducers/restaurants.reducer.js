@@ -10,7 +10,8 @@ export default function restaurantsReducer(state = initalState, action) {
       return state.map((restaurant) =>
         restaurant.id === action.payload.id ? action.payload : restaurant
       );
-
+    case "DELETE_RESTAURANT":
+      return state.filter((restaurant) => restaurant.id === action.payload.id);
     default:
       return state;
   }
