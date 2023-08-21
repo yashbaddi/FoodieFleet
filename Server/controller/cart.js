@@ -1,4 +1,8 @@
-import { removeItemFromCart, updateQuantityInCart } from "../model/cart";
+import {
+  readItemsInCart,
+  removeItemFromCart,
+  updateQuantityInCart,
+} from "../model/cart";
 
 export async function updateCart(req, res) {
   if (req.body.item.quantity > 0) {
@@ -19,4 +23,11 @@ export async function updateCart(req, res) {
 
     res.json(deleteResponse);
   }
+}
+
+export async function readCart(req, res) {
+  const readResponse = await readItemsInCart(
+    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318"
+  );
+  res.json(readResponse);
 }
