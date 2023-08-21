@@ -31,6 +31,7 @@ export async function updateItem(itemID, data) {
     " WHERE id=$" +
     (values.length + 1) +
     " RETURNING *";
+
   console.log(query);
 
   const updatedData = await pool.query(query, [...values, itemID]);
