@@ -11,3 +11,15 @@ export async function updateQuantityInCart(userID, itemID, quantity) {
     quantity: Number(quantity),
   };
 }
+
+export async function removeItemFromCart(userID, itemID) {
+  console.log({
+    itemID,
+    UserID: userID,
+  });
+  const deleteRes = await pool.query(
+    "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2",
+    [userID, itemID]
+  );
+  return { UserID: userID, itemID, quantity: 0 };
+}
