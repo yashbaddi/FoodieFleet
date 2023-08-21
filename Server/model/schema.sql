@@ -27,10 +27,17 @@ CREATE TABLE Restaurants (
 CREATE TABLE Items (
   ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   Name VARCHAR NOT NULL,
-  is_vegitarian BOOLEAN DEFAULT FALSE NOT NULL,
+  Is_Vegetarian BOOLEAN DEFAULT FALSE NOT NULL,
   Description VARCHAR,
   Price NUMERIC(10,2),
   Restaurant_ID UUID REFERENCES Restaurants(ID) ON update cascade,
+);
+
+CREATE TABLE Cart_Items (
+  User_ID UUID REFERENCES Users(ID),
+  Item_ID UUID REFERENCES Items(ID),
+  Quantity NUMERIC DEFAULT 1,
+  PRIMARY KEY (User_ID)
 );
 
 CREATE TABLE Orders (
