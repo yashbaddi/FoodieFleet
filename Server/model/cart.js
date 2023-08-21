@@ -1,3 +1,5 @@
+import pool from "./db-connection";
+
 export async function updateQuantityInCart(userID, itemID, quantity) {
   const query = `INSERT INTO cart_items (user_id,item_id) VALUES($1,$2) 
         ON CONFLICT(order_id,item_id) 
@@ -22,4 +24,15 @@ export async function removeItemFromCart(userID, itemID) {
     [userID, itemID]
   );
   return { UserID: userID, itemID, quantity: 0 };
+}
+
+export async function readItemsInCart(userID) {
+  const readResponse = (
+    await pool.query(
+      `SELECT row_to_json(items) as item ,quantity FROM cart_items 
+      JOIN Items ON cart_items.item_ID= items.id where user_id=$1`,
+      [userID]
+    )
+  ).rows;
+  return readResponse;
 }
