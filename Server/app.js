@@ -15,7 +15,7 @@ app.use(
 
 app.use("/restaurants", restaurantsRouter);
 app.use("/orders", ordersRouter);
-app.use("cart", cartRouter);
+app.use("/cart", cartRouter);
 
 app.listen(config.app.port, () => {
   console.log(`applicaton Listening to port 3000 ${config.app.port}`);
