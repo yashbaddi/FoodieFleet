@@ -35,14 +35,14 @@ CREATE TABLE Items (
 
 CREATE TABLE Cart_Items (
   User_ID UUID REFERENCES Users(ID),
-  Item_ID UUID REFERENCES Items(ID),
+  Item_ID UUID REFERENCES Items(ID) ON DELETE CASCADE,
   Quantity NUMERIC DEFAULT 1,
   PRIMARY KEY (User_ID)
 );
 
 CREATE TABLE Orders (
   ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  Status VARCHAR DEFAULT 'in_cart',
+  Status VARCHAR DEFAULT 'placed',
   Created_at TIMESTAMP DEFAULT Current_timestamp(2),
   Total_amt NUMERIC DEFAULT 0,
   Delivered_Time TIMESTAMP,
@@ -51,8 +51,8 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Ordered_Items (
-  Order_ID UUID REFERENCES Orders(ID),
-  Item_ID UUID REFERENCES Items(ID),
+  Order_ID UUID REFERENCES Orders(ID) ON DELETE CASCADE,
+  Item_ID UUID REFERENCES Items(ID) ON DELETE CASCADE,
   Quantity NUMERIC DEFAULT 1,
   PRIMARY KEY (Order_ID, Item_ID)
 );
