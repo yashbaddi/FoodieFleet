@@ -94,6 +94,22 @@ export async function deleteItem(restaurantsID, itemID) {
 }
 
 //Cart
+export async function updateCart(itemID, quantity) {
+  const path = "cart/";
+  const response = await fetch(baseURL + path, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      item: {
+        id: itemID,
+        quantity: quantity,
+      },
+    }),
+  });
+  return response.json();
+}
 
 export async function getCartItems() {
   const path = "cart/";
