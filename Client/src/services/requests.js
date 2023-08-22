@@ -93,6 +93,17 @@ export async function deleteItem(restaurantsID, itemID) {
   return response.json();
 }
 
+//Cart
+
+export async function getCartItems() {
+  const path = "cart/";
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+  });
+  console.log(response.json);
+  return response.json();
+}
+
 //Orders
 export async function createOrder(restaurantID) {
   const path = "orders/";
@@ -108,41 +119,7 @@ export async function createOrder(restaurantID) {
   return response.json();
 }
 
-export async function addItemToOrder(orderID, itemID) {
-  const path = "orders/" + orderID;
-  const response = await fetch(baseURL + path, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      item: {
-        id: itemID,
-        action: "add_item",
-      },
-    }),
-  });
-  return response.json();
-}
-
-export async function removeItemFromOrder(orderID, itemID) {
-  const path = "orders/" + orderID;
-  const response = await fetch(baseURL + path, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      item: {
-        id: itemID,
-        action: "remove_item",
-      },
-    }),
-  });
-  return response.json();
-}
-
-export async function readOrder(orderID) {
+export async function getOrder(orderID) {
   const path = "orders/" + orderID;
   const response = await fetch(baseURL + path, {
     method: "GET",
