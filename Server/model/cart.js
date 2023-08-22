@@ -1,8 +1,9 @@
-import pool from "./db-connection";
+import pool from "./db-connection.js";
 
-export async function updateQuantityInCart(userID, itemID, quantity) {
-  const query = `INSERT INTO cart_items (user_id,item_id) VALUES($1,$2) 
-        ON CONFLICT(order_id,item_id) 
+export async function updateQuantityInCart(userID, itemID, quantity = 1) {
+  console.log("userID", userID, "itemID", itemID, "quantity", quantity);
+  const query = `INSERT INTO cart_items (user_id,item_id,quantity) VALUES($1,$2,$3) 
+        ON CONFLICT(user_id,item_id) 
         DO UPDATE SET quantity=$3 RETURNING quantity`;
   console.log(query);
   const updatedItem = await pool.query(query, [userID, itemID, quantity]);
@@ -20,7 +21,7 @@ export async function removeItemFromCart(userID, itemID) {
     UserID: userID,
   });
   const deleteRes = await pool.query(
-    "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2",
+    "DELETE FROM cart_items WHERE user_id=$1 AND item_id=$2",
     [userID, itemID]
   );
   return { UserID: userID, itemID, quantity: 0 };
