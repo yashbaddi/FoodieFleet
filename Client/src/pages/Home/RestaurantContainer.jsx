@@ -1,20 +1,25 @@
 import { Link } from "react-router-dom";
 import { deleteRestaurant } from "../../services/requests";
 
-export default function RestaurantContainer(props) {
-  console.log("Restaurant props", props);
+export default function RestaurantContainer({ restaurant, onUpdate }) {
+  console.log("Restaurant props", restaurant);
+
   async function deleteRestaurantHandler() {
-    deleteRestaurant(props.restaurant.id);
+    deleteRestaurant(restaurant.id);
+    onUpdate(restaurant.id);
   }
   return (
     <>
-      <Link to={`/restaurant/${props.restaurant.id}`}>
+      <Link to={`/restaurant/${restaurant.id}`}>
         <div className="border mx-3 my-1 p-2">
-          <h3>{props.restaurant.name}</h3>
-          <p>{props.restaurant.description}</p>
+          <h3>{restaurant.name}</h3>
+          <p>{restaurant.description}</p>
         </div>
       </Link>
       <button onClick={deleteRestaurantHandler}>Delete</button>
+      <Link to={`/restaurant/${restaurant.id}/update`}>
+        <button>Update Restaurant</button>
+      </Link>
     </>
   );
 }
