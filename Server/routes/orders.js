@@ -1,14 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import {
-  createEmptyOrder,
+  createNewOrder,
   getOrdersByOrderID,
   patchCurrentOrder,
 } from "../controller/orders.js";
 
 const ordersRouter = express.Router();
 
-ordersRouter.route("/").post(bodyParser.json(), createEmptyOrder);
+ordersRouter.route("/").post(bodyParser.json(), createNewOrder);
 
 ordersRouter
   .route("/:id")
