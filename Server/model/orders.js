@@ -8,7 +8,18 @@ export async function createOrder(userID, data) {
       [userID, data.restaurantID]
     )
   ).rows[0].id;
-  return orderID;
+  console.log("orderID", orderID);
+
+  const itemOrders = (
+    await pool.query(
+      "INSERT INTO Ordered_Items(order_id,item_id,quantity) SELECT $2,item_id,quantity FROM cart_items WHERE user_id=$1 RETURNING (item_id,quantity)",
+      [userID, orderID]
+    )
+  ).rows;
+  return {
+    orderID: orderID,
+    items: itemOrders,
+  };
 }
 
 export async function readOrder(filters = {}) {
@@ -36,57 +47,51 @@ export async function readOrder(filters = {}) {
   }
 }
 
-export async function updateOrder(id, data) {
-  let quantity;
-  if (data.item) {
-    if (data.item.action == "add_item") {
-      const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
+export async function updateQuantity(orderID, itemID, quantity) {
+  const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
       ON CONFLICT(order_id,item_id) 
-      DO UPDATE SET quantity=ordered_items.quantity+1 RETURNING ordered_items.quantity`;
-      console.log(query);
-      const updatedItem = await pool.query(query, [id, data.item.id]);
-      quantity = updatedItem.rows[0].quantity;
-    }
+      DO UPDATE SET quantity=$3 RETURNING quantity`;
+  console.log(query);
+  const updatedItem = await pool.query(query, [orderID, itemID, quantity]);
+  quantity = updatedItem.rows[0].quantity;
 
-    if (data.item.action == "remove_item") {
-      const updateRes = await pool.query(
-        "UPDATE ordered_items SET quantity=quantity-1 WHERE order_id=$1 AND item_id=$2 AND quantity>=0 RETURNING quantity",
-        [id, data.item.id]
-      );
-      const deleteRes = await pool.query(
-        "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2 AND quantity<=0",
-        [id, data.item.id]
-      );
-      console.log("update:", updateRes, "Delete:", deleteRes);
-      quantity = updateRes.rowCount ? updateRes.rows[0].quantity : 0;
-    }
+  return {
+    orderID: orderID,
+    itemID: itemID,
+    quantity: Number(quantity),
+  };
+}
 
-    return {
-      orderID: id,
-      itemID: data.item.id,
-      quantity: Number(quantity),
-    };
-  }
+export async function deleteItemFromOrder(orderID, itemID) {
+  console.log({
+    itemID,
+    orderID,
+  });
+  const deleteRes = await pool.query(
+    "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2",
+    [orderID, itemID]
+  );
+  return { orderID, itemID, quantity: 0 };
+}
 
-  if (!data.item) {
-    const [expression, values] = getUpdateExpression(data);
-    console.log(values);
+export async function patchOrder(id, data) {
+  const [expression, values] = getUpdateExpression(data);
+  console.log(values);
 
-    const query =
-      "UPDATE orders SET" +
-      expression +
-      " WHERE id=$" +
-      (values.length + 1) +
-      " RETURNING *";
-    console.log(query);
+  const query =
+    "UPDATE orders SET" +
+    expression +
+    " WHERE id=$" +
+    (values.length + 1) +
+    " RETURNING *";
+  console.log(query);
 
-    const updatedData = await pool.query(query, [...values, id]);
+  const updatedData = await pool.query(query, [...values, id]);
 
-    return {
-      orderID: id,
-      data: updatedData.rows[0],
-    };
-  }
+  return {
+    orderID: id,
+    data: updatedData.rows[0],
+  };
 }
 
 // export async function createOrderedItem(orderID, data = {}) {
