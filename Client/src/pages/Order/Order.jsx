@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
-import { orderID } from "../../Data/sampleData";
+import { getCartItemsAction } from "../../store/actionCreators/cart.action";
 import OrderContainer from "./OrderContainers";
-import { createOrder, readOrder } from "../../services/requests";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Order() {
-  const [ordersData, setOrderData] = useState({});
-  const [orderedItems, setOrderedItems] = useState([]);
-  console.log("Ordered Data", ordersData);
-  console.log("Ordered Items", orderedItems);
-
-  useEffect(() => {
-    readOrder(orderID).then((data) => {
-      setOrderData(data.order);
-      setOrderedItems(data.items);
-    });
-  }, [ordersData, orderedItems]);
+  // const [orderedItems, setOrderedItems] = useState([]);
+  // const dispatch = useDispatch();
+  const orderedItemsData = useSelector((state) => state.cart);
+  console.log("OrderItemData:", orderedItemsData);
+  const dispatch = useDispatch();
+  // const restaurants = useSelector((state) => state.restaurants);
+  // const dispatch = useDispatch();
+  dispatch(getCartItemsAction());
+  ``;
+  // useEffect(() => {
+  //   // dispatch(getOrderDetails(orderID));
+  //   setOrderedItems(orderedItemsData);
+  // }, [orderedItemsData]);
 
   return (
     <>
       <h1>Orders</h1>
-      {orderedItems.map((orderedItem, index) => {
+      {orderedItemsData.map((orderedItem, index) => {
         return (
           <OrderContainer
             key={index}

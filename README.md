@@ -68,8 +68,9 @@ To Meet These Objectives we have following criteria
 
 #### Second Phase:
 
-- [ ] Restaurant Interface and Multiple items and UI
-- [ ] Multiple Restaurants and CRUD and UI
+- [x] Multiple items and UI
+- [x] Multiple Restaurants and CRUD and UI
+- [x] Restaurant Interface
 
 #### Third Phase:
 
@@ -279,6 +280,45 @@ Parameter:
 Response Body:
 
 - boolean true to confirm
+
+Response Status:
+
+- 200:OK
+
+---
+
+`getCart`
+GET /cart
+\
+Parameters:
+
+- resaurantID: Restaurant ID
+
+Cookie: UserID: User ID
+
+Response Body:
+
+- items: JSON Object with all the items and quantity
+
+Response Status:
+
+- 200:OK
+
+---
+
+`updateCart`
+PUT /cart/
+\
+Parameters:
+
+- itemID: Item ID
+- quantity: Quantity
+
+Cookie: UserID: User ID
+
+Response Body:
+
+- Respective ItemID and quantity that are modified
 
 Response Status:
 
@@ -549,7 +589,7 @@ Response Status:
 ---
 
 `getItem:`
-GET /item/:itemID
+GET /restaurant/:restaurantID/item/:itemID
 \
 Read a perticualar item in a object with itemID and restaurant id
 
