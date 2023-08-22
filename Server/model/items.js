@@ -5,8 +5,8 @@ export async function createItem(restaurantID, data) {
   console.log(data);
   const itemData = (
     await pool.query(
-      "INSERT INTO ITEMS(name,is_vegitarian,description,price,restaurant_ID) VALUES($1,$2,$3,$4,$5) RETURNING *",
-      [data.name, data.isVegitarian, data.description, data.price, restaurantID]
+      "INSERT INTO ITEMS(name,is_vegetarian,description,price,restaurant_ID) VALUES($1,$2,$3,$4,$5) RETURNING *",
+      [data.name, data.isVegetarian, data.description, data.price, restaurantID]
     )
   ).rows[0];
   return itemData;
