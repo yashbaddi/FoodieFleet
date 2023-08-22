@@ -2,7 +2,7 @@ import {
   readItemsInCart,
   removeItemFromCart,
   updateQuantityInCart,
-} from "../model/cart";
+} from "../model/cart.js";
 
 export async function updateCart(req, res) {
   if (req.body.item.quantity > 0) {
