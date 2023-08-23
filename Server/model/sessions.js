@@ -15,3 +15,10 @@ export async function readSession(ID) {
   ).rows;
   return sessionData;
 }
+
+export async function deleteSession(ID) {
+  const rowCount = (await pool.query("DELETE FROM Sessions WHERE ID=$1", [ID]))
+    .rowCount;
+
+  return rowCount;
+}
