@@ -6,6 +6,11 @@ CREATE TABLE Users (
   Email VARCHAR NOT NULL,
 );
 
+CREATE TABLE Sessions (
+  ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  User_ID UUID  REFERENCES Users(ID) ON DELETE CASCADE
+);
+
 CREATE TABLE Address(
   ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   Address VARCHAR,
@@ -82,13 +87,6 @@ CREATE TABLE "Drivers" (
 
 
 
-CREATE TABLE "Sessions" (
-  "ID" <type>,
-  "User_ID" <type>,
-  PRIMARY KEY ("ID"),
-  CONSTRAINT "FK_Sessions.User_ID"
-    FOREIGN KEY ("User_ID")
-      REFERENCES "Users"("ID")
-);
+
 
 
