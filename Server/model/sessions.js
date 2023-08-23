@@ -8,3 +8,10 @@ export async function createSession(userID) {
   ).rows;
   return sessionData;
 }
+
+export async function readSession(ID) {
+  const sessionData = (
+    await pool.query("SELECT * FROM Sessions WHERE id=$1", [ID])
+  ).rows;
+  return sessionData;
+}
