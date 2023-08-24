@@ -1,6 +1,6 @@
 import pool from "./db-connection.js";
 
-export default {
+const sessionModel = {
   createSession: createSession,
   readSession: readSession,
   deleteSession: deleteSession,
@@ -28,3 +28,5 @@ async function deleteSession(ID) {
 
   return rowCount;
 }
+
+export default sessionModel;
