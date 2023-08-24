@@ -1,6 +1,6 @@
 import pool from "./db-connection.js";
 
-export default {
+const cartModel = {
   updateQuantityInCart: updateQuantityInCart,
   removeItemFromCart: removeItemFromCart,
   readItemsInCart: readItemsInCart,
@@ -43,3 +43,5 @@ async function readItemsInCart(userID) {
   ).rows;
   return readResponse;
 }
+
+export default cartModel;
