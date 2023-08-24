@@ -2,12 +2,13 @@ import pool from "./db-connection.js";
 
 const userModel = {
   createUser: createUser,
-  readUserByID: readUserByID,
+  readUser: readUser,
   updateUser: updateUser,
   deleteUser: deleteUser,
 };
 
 async function createUser(newUser) {
+  console.log(newUser);
   const userData = (
     await pool.query(
       "INSERT INTO users(name,phone,email) VALUES($1,$2,$3) RETURNING *",
@@ -17,8 +18,11 @@ async function createUser(newUser) {
   return userData;
 }
 
-async function readUserByID(id) {
-  return (await pool.query("SELECT * FROM users WHERE id=$1", id)).rows;
+async function readUser(filters = {}) {
+  if (filters.id) {
+    return (await pool.query("SELECT * FROM users WHERE id=$1", filters.id))
+      .rows;
+  }
 }
 
 async function updateUser(userID, user) {
@@ -31,11 +35,10 @@ async function updateUser(userID, user) {
   return userData;
 }
 
-async function deleteUser(id) {
-  const deleteResponse = await pool.query("DELETE FROM users WHERE id=$1", [
-    id,
-  ]);
-  return deleteResponse.rowCount;
+async function deleteUser(filters) {
+  if (filters.id) {
+    return await pool.query("DELETE FROM users WHERE id=$1", [filters.id]);
+  }
 }
 
 export default userModel;
