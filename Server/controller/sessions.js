@@ -1,5 +1,3 @@
-import { createSession } from "../model/sessions.js";
-
-export async function createASession() {
+export async function createSession() {
   const res = await createSession;
 }

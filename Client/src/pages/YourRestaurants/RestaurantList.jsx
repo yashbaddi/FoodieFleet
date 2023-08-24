@@ -25,7 +25,13 @@ export default function RestaurantList() {
     <>
       List of Restaurant
       {restaurants.map((restaurant, index) => {
-        return <RestaurantContainer key={index} restaurant={restaurant} />;
+        return (
+          <RestaurantContainer
+            key={index}
+            restaurant={restaurant}
+            onUpdate={updateList}
+          />
+        );
       })}
     </>
   );

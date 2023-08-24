@@ -8,8 +8,8 @@ import Home from "./pages/Home/Home";
 import Restaurant from "./pages/Restaurant/Restaurant";
 import Order from "./pages/Order/Order";
 import Navigation from "./components/navigation";
-import NewRestaurant from "./pages/Home/NewRestaurant/NewRestaurant";
-import UpdateRestaurant from "./pages/Home/UpdateRestaurant/UpdateRestaurant";
+import NewRestaurant from "./pages/YourRestaurants/NewRestaurant/NewRestaurant";
+import UpdateRestaurant from "./pages/YourRestaurants/UpdateRestaurant/UpdateRestaurant";
 import CreateItem from "./pages/Restaurant/createItem/createItem";
 import UpdateItem from "./pages/Restaurant/updateItem/updateItem";
 
