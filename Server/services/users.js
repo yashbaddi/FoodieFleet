@@ -3,6 +3,8 @@ import userModel from "../model/users";
 const userService = {
   createUser: createUser,
   readUserByID: readUserByID,
+  updateUser: updateUser,
+  deleteUser: deleteUser,
 };
 
 async function createUser(newUserData) {
@@ -19,3 +21,9 @@ async function updateUser(userID, updatedUserData) {
   const userData = await userModel.updateUser(userID, updatedUserData);
   return userData;
 }
+
+async function deleteUser(userID) {
+  const userData = await userModel.deleteUser({ id: userID });
+}
+
+export default userService;
