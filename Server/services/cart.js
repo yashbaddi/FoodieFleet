@@ -21,4 +21,9 @@ async function updateCart(userID, itemID, quantity) {
   }
 }
 
+async function readCart(userID) {
+  const readResponse = await cartModel.readItemsInCart(userID);
+  return readResponse;
+}
+
 export default cartService;
