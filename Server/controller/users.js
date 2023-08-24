@@ -4,6 +4,7 @@ const userController = {
   createUser: createUser,
   readUser: readUser,
   updateUser: updateUser,
+  deleteUser: deleteUser,
 };
 
 async function createUser(req, res) {
@@ -20,3 +21,10 @@ async function updateUser(req, res) {
   const response = userService.updateUser(req.params.id, req.body);
   res.json(response);
 }
+
+async function deleteUser(req, res) {
+  const response = userService.deleteUser(req.params.id);
+  res.json(response);
+}
+
+export default userController;
