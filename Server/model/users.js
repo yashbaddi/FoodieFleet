@@ -2,43 +2,40 @@ import pool from "./db-connection.js";
 
 const userModel = {
   createUser: createUser,
-  readUser: readUser,
+  readUserByID: readUserByID,
   updateUser: updateUser,
   deleteUser: deleteUser,
 };
 
-async function createUser(data) {
-  console.log(data);
+async function createUser(newUser) {
   const userData = (
     await pool.query(
       "INSERT INTO users(name,phone,email) VALUES($1,$2,$3) RETURNING *",
-      [data.name, data.phone, data.email]
+      [newUser.name, newUser.phone, newUser.email]
     )
   ).rows;
   return userData;
 }
 
-async function readUser(filters = {}) {
-  if (filters.id) {
-    return (await pool.query("SELECT * FROM users WHERE id=$1", filters.id))
-      .rows;
-  }
+async function readUserByID(id) {
+  return (await pool.query("SELECT * FROM users WHERE id=$1", id)).rows;
 }
 
-async function updateUser(userID, data) {
+async function updateUser(userID, user) {
   const userData = (
     await pool.query(
       "UPDATE users SET name=$2 phone=$3 email=$4 WHERE id=$1 RETURNING *",
-      [userID, data.name, data.phone, data.email]
+      [userID, user.name, user.phone, user.email]
     )
   ).rows;
   return userData;
 }
 
-async function deleteUser(filters) {
-  if (filters.id) {
-    return await pool.query("DELETE FROM users WHERE id=$1", [filters.id]);
-  }
+async function deleteUser(id) {
+  const deleteResponse = await pool.query("DELETE FROM users WHERE id=$1", [
+    id,
+  ]);
+  return deleteResponse.rowCount;
 }
 
 export default userModel;
