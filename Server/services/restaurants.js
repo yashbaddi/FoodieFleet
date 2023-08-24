@@ -31,4 +31,9 @@ async function getRestaurantsByID(restaurnatID) {
   return data;
 }
 
+async function getMenuOfRestaurant(restaurantID) {
+  const response = await itemModel.readItem(restaurantID);
+  return response;
+}
+
 export default restaurantService;
