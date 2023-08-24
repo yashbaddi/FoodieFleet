@@ -1,9 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { readCart, updateCart } from "../controller/cart.js";
+
+import cartCorntroller from "../controller/cart.js";
 
 const cartRouter = express.Router();
 
-cartRouter.route("/").get(readCart).put(bodyParser.json(), updateCart);
+cartRouter
+  .route("/")
+  .get(cartCorntroller.readCart)
+  .put(bodyParser.json(), cartCorntroller.updateCart);
 
 export default cartRouter;
