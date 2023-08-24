@@ -20,6 +20,7 @@ const restaurantService = {
   getRestaurantsByID: getRestaurantsByID,
   getMenuOfRestaurant: getMenuOfRestaurant,
   createRestaurant: createRestaurant,
+  createItemForRestaurant: createItemForRestaurant,
 };
 
 async function getAllRestaurants() {
@@ -42,6 +43,11 @@ async function createRestaurant(userID, restaurantData) {
     userID,
     restaurantData
   );
+  return response;
+}
+
+async function createItemForRestaurant(restaurantID, itemData) {
+  const response = await createItem(restaurantID, itemData);
   return response;
 }
 
