@@ -1,6 +1,6 @@
-import ordersModel from "../model/orders.js";
+import orderModel from "../model/orders.js";
 
-const ordersService = {
+const orderService = {
   getOrdersByOrderID: getOrdersByOrderID,
   createNewOrder: createNewOrder,
   patchCurrentOrder: patchCurrentOrder,
@@ -8,25 +8,25 @@ const ordersService = {
 };
 
 async function getOrdersByOrderID(orderID) {
-  const readResponse = await ordersModel.readOrder({ id: orderID });
+  const readResponse = await orderModel.readOrder({ id: orderID });
   return readResponse;
 }
 
 async function createNewOrder(userID, restaurantID) {
-  const response = await ordersModel.createOrder(userID, {
+  const response = await orderModel.createOrder(userID, {
     restaurantID: restaurantID,
   });
   return response;
 }
 
 async function patchCurrentOrder(orderID, order) {
-  const response = await ordersModel.patchOrder(orderID, order);
+  const response = await orderModel.patchOrder(orderID, order);
   return response;
 }
 
 async function updateItemsInOrder(orderID, item) {
   if (item.quantity > 0) {
-    const updateResponse = await ordersModel.updateQuantity(
+    const updateResponse = await orderModel.updateQuantity(
       orderID,
       item.id,
       item.quantity
@@ -36,7 +36,7 @@ async function updateItemsInOrder(orderID, item) {
   }
 
   if (item.quantity <= 0) {
-    const deleteResponse = await ordersModel.deleteItemFromOrder(
+    const deleteResponse = await orderModel.deleteItemFromOrder(
       orderID,
       item.id
     );
@@ -45,4 +45,4 @@ async function updateItemsInOrder(orderID, item) {
   }
 }
 
-export default ordersService;
+export default orderService;
