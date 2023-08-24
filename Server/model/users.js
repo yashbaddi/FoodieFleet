@@ -1,6 +1,6 @@
 import pool from "./db-connection.js";
 
-export default {
+const userModel = {
   createUser: createUser,
   readUser: readUser,
   updateUser: updateUser,
@@ -40,3 +40,5 @@ async function deleteUser(filters) {
     return await pool.query("DELETE FROM users WHERE id=$1", [filters.id]);
   }
 }
+
+export default userModel;
