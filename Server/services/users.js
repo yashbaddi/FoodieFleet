@@ -14,3 +14,8 @@ async function readUserByID(userID) {
   const userData = await userModel.readUser({ id: userID });
   return userData;
 }
+
+async function updateUser(userID, updatedUserData) {
+  const userData = await userModel.updateUser(userID, updatedUserData);
+  return userData;
+}
