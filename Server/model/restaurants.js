@@ -1,7 +1,8 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
+import ordersModel from "./orders.js";
 
-export default {
+const restaurantModel = {
   createRestaurant: createRestaurant,
   readRestaurant: readRestaurant,
   updateRestaurant: updateRestaurant,
@@ -62,3 +63,5 @@ async function deleteRestaurant(id) {
 
   return rowCount;
 }
+
+export default ordersModel;
