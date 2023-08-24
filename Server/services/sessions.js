@@ -15,4 +15,7 @@ async function readSession(sessionID) {
   return sessionDetails;
 }
 
+async function deleteSession() {
+  const sessionDetails = await sessionModel.deleteSession(sessionID);
+}
 export default sessionService;
