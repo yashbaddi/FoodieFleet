@@ -1,7 +1,15 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-export async function createOrder(userID, data) {
+export default {
+  createOrder: createOrder,
+  readOrder: readOrder,
+  updateQuantity: updateQuantity,
+  deleteItemFromOrder: deleteItemFromOrder,
+  patchOrder: patchOrder,
+};
+
+async function createOrder(userID, data) {
   const orderID = (
     await pool.query(
       "INSERT INTO Orders(customer_id,restaurant_id) values($1,$2) RETURNING ID",
@@ -22,7 +30,7 @@ export async function createOrder(userID, data) {
   };
 }
 
-export async function readOrder(filters = {}) {
+async function readOrder(filters = {}) {
   if (filters.id) {
     console.log(filters.id);
     const orderDetails = (
@@ -47,7 +55,7 @@ export async function readOrder(filters = {}) {
   }
 }
 
-export async function updateQuantity(orderID, itemID, quantity) {
+async function updateQuantity(orderID, itemID, quantity) {
   const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
       ON CONFLICT(order_id,item_id) 
       DO UPDATE SET quantity=$3 RETURNING quantity`;
@@ -62,7 +70,7 @@ export async function updateQuantity(orderID, itemID, quantity) {
   };
 }
 
-export async function deleteItemFromOrder(orderID, itemID) {
+async function deleteItemFromOrder(orderID, itemID) {
   console.log({
     itemID,
     orderID,
@@ -74,7 +82,7 @@ export async function deleteItemFromOrder(orderID, itemID) {
   return { orderID, itemID, quantity: 0 };
 }
 
-export async function patchOrder(id, data) {
+async function patchOrder(id, data) {
   const [expression, values] = getUpdateExpression(data);
   console.log(values);
 

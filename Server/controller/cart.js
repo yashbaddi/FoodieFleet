@@ -4,7 +4,12 @@ import {
   updateQuantityInCart,
 } from "../model/cart.js";
 
-export async function updateCart(req, res) {
+export default {
+  updateCart: updateCart,
+  readCart: readCart,
+};
+
+async function updateCart(req, res) {
   if (req.body.item.quantity > 0) {
     const updateResponse = await updateQuantityInCart(
       "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
@@ -25,7 +30,7 @@ export async function updateCart(req, res) {
   }
 }
 
-export async function readCart(req, res) {
+async function readCart(req, res) {
   const readResponse = await readItemsInCart(
     "8968071c-4f3d-4fb9-87f8-4f2ccba4c318"
   );

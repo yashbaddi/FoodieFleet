@@ -1,7 +1,14 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-export async function createRestaurant(userID, data) {
+export default {
+  createRestaurant: createRestaurant,
+  readRestaurant: readRestaurant,
+  updateRestaurant: updateRestaurant,
+  deleteRestaurant: deleteRestaurant,
+};
+
+async function createRestaurant(userID, data) {
   console.log(data);
   // const addressID = (
   //   await pool.query(
@@ -19,7 +26,7 @@ export async function createRestaurant(userID, data) {
   return restaurantData;
 }
 
-export async function readRestaurant(filters = {}) {
+async function readRestaurant(filters = {}) {
   if (filters.id) {
     const query =
       "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.id=$1";
@@ -31,7 +38,7 @@ export async function readRestaurant(filters = {}) {
   return (await pool.query(query)).rows;
 }
 
-export async function updateRestaurant(id, data) {
+async function updateRestaurant(id, data) {
   const [expression, values] = getUpdateExpression(data);
   console.log(values);
 
@@ -48,7 +55,7 @@ export async function updateRestaurant(id, data) {
   return updatedData.rows[0];
 }
 
-export async function deleteRestaurant(id) {
+async function deleteRestaurant(id) {
   const rowCount = (
     await pool.query("DELETE FROM restaurants WHERE id=$1", [id])
   ).rowCount;

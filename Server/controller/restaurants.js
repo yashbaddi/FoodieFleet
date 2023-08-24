@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import {
   createItem,
   deleteItem,
@@ -11,21 +12,33 @@ import {
   updateRestaurant,
 } from "../model/restaurants.js";
 
-export async function getAllRestaurants(req, res) {
+export default {
+  getAllRestaurants: getAllRestaurants,
+  getRestaurantsByID: getRestaurantsByID,
+  getMenuOfRestaurant: getMenuOfRestaurant,
+  createARestaurant: createARestaurant,
+  createItemForRestaurant: createItemForRestaurant,
+  updateItemOfRestaurant: updateItemOfRestaurant,
+  deleteItemInRestaurant: deleteItemInRestaurant,
+  updateRestaurantByID: updateRestaurantByID,
+  deleteRestaurantByID: deleteRestaurantByID,
+};
+
+async function getAllRestaurants(req, res) {
   const data = await readRestaurant();
   const response = data.map((restaurant) => restaurant.data);
   res.json(response);
 }
 
-export async function getRestaurantsByID(req, res) {
+async function getRestaurantsByID(req, res) {
   res.json(await readRestaurant({ id: req.params.id }));
 }
 
-export async function getMenuOfRestaurant(req, res) {
+async function getMenuOfRestaurant(req, res) {
   res.json(await readItem(req.params.restaurantID));
 }
 
-export async function createARestaurant(req, res) {
+async function createARestaurant(req, res) {
   console.log("req body", req.body);
   const response = await createRestaurant(
     "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
@@ -36,23 +49,23 @@ export async function createARestaurant(req, res) {
   res.json(response);
 }
 
-export async function createItemForRestaurant(req, res) {
+async function createItemForRestaurant(req, res) {
   const response = await createItem(req.params.restaurantID, req.body);
   res.json(response);
 }
 
-export async function updateItemOfRestaurant(req, res) {
+async function updateItemOfRestaurant(req, res) {
   res.json(await updateItem(req.params.itemID, req.body));
 }
 
-export async function deleteItemInRestaurant(req, res) {
+async function deleteItemInRestaurant(req, res) {
   res.json(await deleteItem(req.params.itemID));
 }
 
-export async function updateRestaurantByID(req, res) {
+async function updateRestaurantByID(req, res) {
   res.json(await updateRestaurant(req.params.id, req.body));
 }
 
-export async function deleteRestaurantByID(req, res) {
+async function deleteRestaurantByID(req, res) {
   res.json(await deleteRestaurant(req.params.id));
 }
