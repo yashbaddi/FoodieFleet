@@ -23,6 +23,7 @@ const restaurantService = {
   createItemForRestaurant: createItemForRestaurant,
   updateItemOfRestaurant: updateItemOfRestaurant,
   deleteItemInRestaurant: deleteItemInRestaurant,
+  updateRestaurantByID: updateRestaurantByID,
 };
 
 async function getAllRestaurants() {
@@ -61,6 +62,14 @@ async function updateItemOfRestaurant(itemID, itemData) {
 async function deleteItemInRestaurant(itemID) {
   const response = await itemModel.deleteItem(itemID);
   return response;
+}
+
+async function updateRestaurantByID(restaurantID, restaurantData) {
+  const updatedResponse = await restaurantModel.updateRestaurant(
+    restaurantID,
+    restaurantData
+  );
+  return updatedResponse;
 }
 
 export default restaurantService;
