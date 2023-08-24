@@ -1,7 +1,7 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-export default {
+const itemModel = {
   createItem: createItem,
   readItem: readItem,
   updateItem: updateItem,
@@ -49,3 +49,5 @@ async function deleteItem(itemID) {
     .rowCount;
   return rowCount;
 }
+
+export default itemModel;
