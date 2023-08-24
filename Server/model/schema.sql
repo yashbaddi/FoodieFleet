@@ -61,9 +61,9 @@ CREATE TABLE Ordered_Items (
   PRIMARY KEY (Order_ID, Item_ID)
 );
 
-SELECT (orders.id,orders.status,orders.Created_at,orders.delivered_time,orders.Customer_ID,orders.Customer_ID,orders.Restaurant_ID,) FROM ordered_items 
-JOIN orders ON ordered_items.order_id = orders.id
-JOIN Items ON ordered_items.Item_ID= items.id
+-- SELECT (orders.id,orders.status,orders.Created_at,orders.delivered_time,orders.Customer_ID,orders.Customer_ID,orders.Restaurant_ID,) FROM ordered_items 
+-- JOIN orders ON ordered_items.order_id = orders.id
+-- JOIN Items ON ordered_items.Item_ID= items.id
 
 
 CREATE TABLE "Ratings" (
