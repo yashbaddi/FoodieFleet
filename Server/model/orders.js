@@ -1,7 +1,7 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-export default {
+const ordersModel = {
   createOrder: createOrder,
   readOrder: readOrder,
   updateQuantity: updateQuantity,
@@ -127,3 +127,5 @@ async function patchOrder(id, data) {
 //     ).rows;
 //   }
 // }
+
+export default ordersModel;
