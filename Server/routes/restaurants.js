@@ -1,38 +1,27 @@
 import express from "express";
-import {
-  createARestaurant,
-  createItemForRestaurant,
-  deleteItemInRestaurant,
-  deleteRestaurantByID,
-  getAllRestaurants,
-  getMenuOfRestaurant,
-  getRestaurantsByID,
-  updateItemOfRestaurant,
-  updateRestaurantByID,
-} from "../controller/restaurants.js";
 import bodyParser from "body-parser";
-
+import restaurantController from "../controller/restaurants.js";
 const restaurantsRouter = express.Router();
 
 restaurantsRouter
   .route("/")
-  .get(getAllRestaurants)
-  .post(bodyParser.json(), createARestaurant);
+  .get(restaurantController.getAllRestaurants)
+  .post(bodyParser.json(), restaurantController.createARestaurant);
 
 restaurantsRouter
   .route("/:id")
-  .get(getRestaurantsByID)
-  .put(bodyParser.json(), updateRestaurantByID)
-  .delete(deleteRestaurantByID);
+  .get(restaurantController.getRestaurantsByID)
+  .put(bodyParser.json(), restaurantController.updateRestaurantByID)
+  .delete(restaurantController.deleteRestaurantByID);
 
 restaurantsRouter
   .route("/:restaurantID/items")
-  .get(getMenuOfRestaurant)
-  .post(bodyParser.json(), createItemForRestaurant);
+  .get(restaurantController.getMenuOfRestaurant)
+  .post(bodyParser.json(), restaurantController.createItemForRestaurant);
 
 restaurantsRouter
   .route("/:restaurantID/items/:itemID")
-  .put(bodyParser.json(), updateItemOfRestaurant)
-  .delete(deleteItemInRestaurant);
+  .put(bodyParser.json(), restaurantController.updateItemOfRestaurant)
+  .delete(restaurantController.deleteItemInRestaurant);
 
 export default restaurantsRouter;
