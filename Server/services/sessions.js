@@ -3,6 +3,7 @@ import sessionModel from "../model/sessions";
 const sessionService = {
   createSession: createSession,
   readSession: readSession,
+  deleteSession: deleteSession,
 };
 
 async function createSession(userID) {
