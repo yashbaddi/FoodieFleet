@@ -1,17 +1,3 @@
-import { get } from "lodash";
-import {
-  createItem,
-  deleteItem,
-  readItem,
-  updateItem,
-} from "../model/items.js";
-import {
-  createRestaurant,
-  deleteRestaurant,
-  readRestaurant,
-  updateRestaurant,
-} from "../model/restaurants.js";
-
 import restaurantModel from "../model/restaurants.js";
 import itemModel from "../model/items.js";
 
@@ -24,6 +10,7 @@ const restaurantService = {
   updateItemOfRestaurant: updateItemOfRestaurant,
   deleteItemInRestaurant: deleteItemInRestaurant,
   updateRestaurantByID: updateRestaurantByID,
+  deleteRestaurantByID: deleteRestaurantByID,
 };
 
 async function getAllRestaurants() {
@@ -70,6 +57,11 @@ async function updateRestaurantByID(restaurantID, restaurantData) {
     restaurantData
   );
   return updatedResponse;
+}
+
+async function deleteRestaurantByID(restaurantID) {
+  const deleteResponse = await restaurantModel.deleteRestaurant(restaurantID);
+  return deleteResponse;
 }
 
 export default restaurantService;
