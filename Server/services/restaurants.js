@@ -18,6 +18,8 @@ import itemModel from "../model/items.js";
 const restaurantService = {
   getAllRestaurants: getAllRestaurants,
   getRestaurantsByID: getRestaurantsByID,
+  getMenuOfRestaurant: getMenuOfRestaurant,
+  createRestaurant: createRestaurant,
 };
 
 async function getAllRestaurants() {
@@ -33,6 +35,13 @@ async function getRestaurantsByID(restaurnatID) {
 
 async function getMenuOfRestaurant(restaurantID) {
   const response = await itemModel.readItem(restaurantID);
+  return response;
+}
+async function createRestaurant(userID, restaurantData) {
+  const response = await restaurantModel.createRestaurant(
+    userID,
+    restaurantData
+  );
   return response;
 }
 
