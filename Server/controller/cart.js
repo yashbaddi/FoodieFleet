@@ -7,7 +7,7 @@ const cartCorntroller = {
 
 async function updateCart(req, res) {
   const updateResponse = await cartService.updateCart(
-    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
+    res.locals.userID,
     req.body.item.id,
     req.body.item.quantity
   );
@@ -15,9 +15,7 @@ async function updateCart(req, res) {
 }
 
 async function readCart(req, res) {
-  const readResponse = await cartService.readCart(
-    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318"
-  );
+  const readResponse = await cartService.readCart(res.locals.userID);
   res.json(readResponse);
 }
 
