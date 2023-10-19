@@ -16,8 +16,8 @@ import UpdateItem from "./pages/Restaurant/updateItem/updateItem";
 function App() {
   return (
     <>
-      <Navigation />
       <Provider store={store}>
+        {location.pathname !== "/login" && <Navigation />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/restaurant/new" element={<NewRestaurant />} />
