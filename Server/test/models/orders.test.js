@@ -1,6 +1,6 @@
 import { createOrder, readOrder, updateOrder } from "../../model/orders.js";
 
-// createOrder("8968071c-4f3d-4fb9-87f8-4f2ccba4c318", {
+// createOrder(res.locals.userID, {
 //   restaurantID: "b424d354-f611-442e-b384-f80d8597d766",
 // });
 
