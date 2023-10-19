@@ -13,8 +13,18 @@ const restaurantController = {
 };
 
 async function getAllRestaurants(req, res) {
-  const response = await restaurantService.getAllRestaurants();
-  res.json(response);
+  if (req.query.opened) {
+    const response = await restaurantService.getAllOpenedRestaurants();
+    res.json(response);
+  } else if (req.query.ownerID) {
+    const response = await restaurantService.getRestaurantsByOwner(
+      req.query.ownerID
+    );
+    res.json(response);
+  } else {
+    const response = await restaurantService.getAllRestaurants();
+    res.json(response);
+  }
 }
 
 async function getRestaurantsByID(req, res) {
@@ -31,7 +41,7 @@ async function getMenuOfRestaurant(req, res) {
 
 async function createRestaurant(req, res) {
   const response = await restaurantService.createRestaurant(
-    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
+    res.locals.userID,
     req.body
   );
   res.json(response);
