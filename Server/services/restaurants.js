@@ -3,6 +3,7 @@ import itemModel from "../model/items.js";
 
 const restaurantService = {
   getAllRestaurants: getAllRestaurants,
+  getRestaurantsByOwner: getRestaurantsByOwner,
   getRestaurantsByID: getRestaurantsByID,
   getMenuOfRestaurant: getMenuOfRestaurant,
   createRestaurant: createRestaurant,
@@ -15,6 +16,12 @@ const restaurantService = {
 
 async function getAllRestaurants() {
   const data = await restaurantModel.readRestaurant();
+  const response = data.map((restaurant) => restaurant.data);
+  return response;
+}
+
+async function getRestaurantsByOwner(ownerID) {
+  const data = restaurantModel.readRestaurant({ ownerID: ownerID });
   const response = data.map((restaurant) => restaurant.data);
   return response;
 }
