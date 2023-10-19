@@ -1,4 +1,4 @@
-import { getUpdateExpression } from "../utils.js";
+import { getTimeInHHMMFormat, getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 import orderModel from "./orders.js";
 
@@ -33,6 +33,18 @@ async function readRestaurant(filters = {}) {
       "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.id=$1";
 
     return (await pool.query(query, [filters.id])).rows;
+  }
+  if (filters.ownerID) {
+    const query =
+      "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.owner_id=$1";
+
+    return (await pool.query(query, [filters.ownerID])).rows;
+  }
+  if (filters.opened) {
+    const time = Number(getTimeInHHMMFormat());
+    const query =
+      "SELECT row_to_json(restaurants) as data FROM restaurants where ('Open_timings'<=$1 AND 'Close_timings'>=$1 AND 'Override_timings' != 'closed') OR 'Override_timings'='open'";
+    return (await pool.query(query, [time])).rows;
   }
   const query = "SELECT row_to_json(restaurants) as data FROM restaurants";
 
