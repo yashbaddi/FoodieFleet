@@ -1,3 +1,6 @@
+import querystring from "querystring";
+import config from "./config.js";
+
 export function getUpdateExpression(updatedData) {
   const values = [];
   let updatePartialQuery = "";
