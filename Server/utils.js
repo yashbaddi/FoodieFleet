@@ -38,3 +38,7 @@ export function generateAuthTokenForm(code, redirectUri) {
   });
   return data.toString();
 }
+
+export function getTimeInHHMMFormat() {
+  return `${new Date().getHours()}${new Date().getMinutes()}`;
+}
