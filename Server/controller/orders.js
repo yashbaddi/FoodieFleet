@@ -1,11 +1,3 @@
-import {
-  patchOrder,
-  readOrder,
-  createOrder,
-  updateQuantity,
-  deleteItemFromOrder,
-} from "../model/orders.js";
-
 import orderService from "../services/orders.js";
 
 const orderController = {
@@ -21,7 +13,7 @@ async function getOrdersByOrderID(req, res) {
 
 async function createNewOrder(req, res) {
   const response = orderService.createNewOrder(
-    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
+    res.locals.userID,
     req.body.restaurantID
   );
   res.json(response);
