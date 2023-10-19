@@ -27,3 +27,14 @@ export function generateAuthUrl() {
   const authURL = "http://localhost:4000/oauth/authorize?" + params.toString();
   return authURL;
 }
+
+export function generateAuthTokenForm(code, redirectUri) {
+  const data = new URLSearchParams({
+    client_id: config.oauth.clientID,
+    client_secret: config.oauth.clientSecret,
+    grant_type: "authorization_code",
+    redirect_uri: redirectUri,
+    code: code,
+  });
+  return data.toString();
+}
