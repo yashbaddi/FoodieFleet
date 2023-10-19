@@ -1,13 +1,13 @@
 import userModel from "../model/users.js";
 
 const userService = {
-  createUserIfNotExists: createUser,
+  createUserIfNotExists: createUserIfNotExisits,
   readUserByID: readUserByID,
   updateUser: updateUser,
   deleteUser: deleteUser,
 };
 
-async function createUser(newUserData) {
+async function createUserIfNotExisits(newUserData) {
   const data = await userModel.createUserIfNotExists(newUserData);
   return data;
 }
