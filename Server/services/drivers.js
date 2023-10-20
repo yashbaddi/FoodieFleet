@@ -10,9 +10,15 @@ const DriverService = {
   updateDriverStatus,
   updateDriversLocation,
   getNearestDriver,
+  getDriverStatus,
 };
 
-function addDriver(userID) {}
+function addDriver(userID) {
+  AvailableDrivers.push({
+    userID: userID,
+    status: "Available",
+  });
+}
 
 function removeDriver() {}
 
@@ -22,7 +28,9 @@ function updateDriversLocation(clientID, latitude, longitude) {
   DriversLocations[clientID] = turf.point([latitude, longitude]);
 }
 
-function requestAllDriversLocation() {}
+function getDriverStatus(clientID) {
+  return DriversLocations[clientID];
+}
 
 function getNearestDriver() {}
 
