@@ -11,6 +11,7 @@ const DriverService = {
   updateDriversLocation,
   getNearestDriver,
   getDriverStatus,
+  getAllDriversLocation,
 };
 
 function addDriver(userID) {
@@ -30,6 +31,10 @@ function updateDriversLocation(clientID, latitude, longitude) {
 
 function getDriverStatus(clientID) {
   return DriversLocations[clientID];
+}
+
+function getAllDriversLocation() {
+  return DriversLocations;
 }
 
 function getNearestDriver() {}
