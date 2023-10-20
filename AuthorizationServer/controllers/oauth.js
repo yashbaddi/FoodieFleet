@@ -51,6 +51,7 @@ export async function approveHandler(req, res, next) {
     // // const authResponse = JSON.parse(req.cookies["x-auth-response"]);
     // res.clearCookie("x-auth-query");
     // res.clearCookie("x-auth-response");
+    console.log("authrize Request query Params:", req.query);
 
     const result = await oauth.authorize(authRequest, authResponse, options);
     console.log("authorization Result", result);

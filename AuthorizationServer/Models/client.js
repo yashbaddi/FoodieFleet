@@ -1,8 +1,12 @@
 import client from "./db-connection.js";
 
 export async function readClientDB(id) {
-  const res = await client.get("client:" + id);
-  return JSON.parse(res);
+  // console.log("the read Client ID:", "client:" + id);
+  const clientKey = "client:" + id;
+  console.log(clientKey);
+  const resp = await client.get(clientKey);
+  console.log(resp);
+  return JSON.parse(resp);
 }
 
 export async function createClientDB(id, data) {
