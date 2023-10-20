@@ -74,8 +74,8 @@ To Meet These Objectives we have following criteria
 
 #### Third Phase:
 
-- [ ] Multiple users
-- [ ] Login Sign Up and Auth
+- [x] Multiple users
+- [x] Login Sign Up and Auth
 
 #### Fourth Phase:
 
