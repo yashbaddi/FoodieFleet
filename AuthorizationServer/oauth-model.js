@@ -1,5 +1,4 @@
 //A model part of the oauth2-server
-import { privateKey } from "../config.js";
 import jsonwebtoken from "jsonwebtoken";
 import { readClientDB } from "./Models/client.js";
 import { createCodeDB, deleteCodeDB, readCodeDB } from "./Models/authcodes.js";
@@ -9,6 +8,7 @@ const oauthModel = {
   getClient: async (clientId, clientSecret) => {
     const client = await readClientDB(clientId);
     console.log("Oauth Get User ClientSecret:", clientSecret);
+    console.log("client From DB:", client);
     return {
       id: clientId,
       clientSecret: clientSecret,
