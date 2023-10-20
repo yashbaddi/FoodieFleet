@@ -1,38 +1,44 @@
 import express from "express";
-import {
-  createARestaurant,
-  createItemForRestaurant,
-  deleteItemInRestaurant,
-  deleteRestaurantByID,
-  getAllRestaurants,
-  getMenuOfRestaurant,
-  getRestaurantsByID,
-  updateItemOfRestaurant,
-  updateRestaurantByID,
-} from "../controller/restaurants.js";
 import bodyParser from "body-parser";
-
+import restaurantController from "../controller/restaurants.js";
+import { authMiddleware } from "../middlewares/auth.js";
 const restaurantsRouter = express.Router();
 
 restaurantsRouter
   .route("/")
-  .get(getAllRestaurants)
-  .post(bodyParser.json(), createARestaurant);
+  .get(authMiddleware, restaurantController.getAllRestaurants)
+  .post(
+    authMiddleware,
+    bodyParser.json(),
+    restaurantController.createRestaurant
+  );
 
 restaurantsRouter
   .route("/:id")
-  .get(getRestaurantsByID)
-  .put(bodyParser.json(), updateRestaurantByID)
-  .delete(deleteRestaurantByID);
+  .get(authMiddleware, restaurantController.getRestaurantsByID)
+  .put(
+    authMiddleware,
+    bodyParser.json(),
+    restaurantController.updateRestaurantByID
+  )
+  .delete(authMiddleware, restaurantController.deleteRestaurantByID);
 
 restaurantsRouter
   .route("/:restaurantID/items")
-  .get(getMenuOfRestaurant)
-  .post(bodyParser.json(), createItemForRestaurant);
+  .get(authMiddleware, restaurantController.getMenuOfRestaurant)
+  .post(
+    authMiddleware,
+    bodyParser.json(),
+    restaurantController.createItemForRestaurant
+  );
 
 restaurantsRouter
   .route("/:restaurantID/items/:itemID")
-  .put(bodyParser.json(), updateItemOfRestaurant)
-  .delete(deleteItemInRestaurant);
+  .put(
+    authMiddleware,
+    bodyParser.json(),
+    restaurantController.updateItemOfRestaurant
+  )
+  .delete(authMiddleware, restaurantController.deleteItemInRestaurant);
 
 export default restaurantsRouter;

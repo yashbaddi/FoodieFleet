@@ -1,58 +1,86 @@
-import {
-  createItem,
-  deleteItem,
-  readItem,
-  updateItem,
-} from "../model/items.js";
-import {
-  createRestaurant,
-  deleteRestaurant,
-  readRestaurant,
-  updateRestaurant,
-} from "../model/restaurants.js";
+import restaurantService from "../services/restaurants.js";
 
-export async function getAllRestaurants(req, res) {
-  const data = await readRestaurant();
-  const response = data.map((restaurant) => restaurant.data);
+const restaurantController = {
+  getAllRestaurants: getAllRestaurants,
+  getRestaurantsByID: getRestaurantsByID,
+  getMenuOfRestaurant: getMenuOfRestaurant,
+  createRestaurant: createRestaurant,
+  createItemForRestaurant: createItemForRestaurant,
+  updateItemOfRestaurant: updateItemOfRestaurant,
+  deleteItemInRestaurant: deleteItemInRestaurant,
+  updateRestaurantByID: updateRestaurantByID,
+  deleteRestaurantByID: deleteRestaurantByID,
+};
+
+async function getAllRestaurants(req, res) {
+  if (req.query.opened) {
+    const response = await restaurantService.getAllOpenedRestaurants();
+    res.json(response);
+  } else if (req.query.ownerID) {
+    const response = await restaurantService.getRestaurantsByOwner(
+      req.query.ownerID
+    );
+    res.json(response);
+  } else {
+    const response = await restaurantService.getAllRestaurants();
+    res.json(response);
+  }
+}
+
+async function getRestaurantsByID(req, res) {
+  const response = await restaurantService.getRestaurantsByID(req.params.id);
   res.json(response);
 }
 
-export async function getRestaurantsByID(req, res) {
-  res.json(await readRestaurant({ id: req.params.id }));
+async function getMenuOfRestaurant(req, res) {
+  const response = await restaurantService.getMenuOfRestaurant(
+    req.params.restaurantID
+  );
+  res.json(response);
 }
 
-export async function getMenuOfRestaurant(req, res) {
-  res.json(await readItem(req.params.restaurantID));
-}
-
-export async function createARestaurant(req, res) {
-  console.log("req body", req.body);
-  const response = await createRestaurant(
-    "8968071c-4f3d-4fb9-87f8-4f2ccba4c318",
+async function createRestaurant(req, res) {
+  const response = await restaurantService.createRestaurant(
+    res.locals.userID,
     req.body
   );
-  console.log(response);
-
   res.json(response);
 }
 
-export async function createItemForRestaurant(req, res) {
-  const response = await createItem(req.params.restaurantID, req.body);
+async function createItemForRestaurant(req, res) {
+  const response = await restaurantService.createItemForRestaurant(
+    req.params.restaurantID,
+    req.body
+  );
   res.json(response);
 }
 
-export async function updateItemOfRestaurant(req, res) {
-  res.json(await updateItem(req.params.itemID, req.body));
+async function updateItemOfRestaurant(req, res) {
+  const response = await restaurantService.updateItemOfRestaurant(
+    req.params.itemID,
+    req.body
+  );
+  res.json(response);
 }
 
-export async function deleteItemInRestaurant(req, res) {
-  res.json(await deleteItem(req.params.itemID));
+async function deleteItemInRestaurant(req, res) {
+  const response = await restaurantService.deleteItemInRestaurant(
+    req.params.itemID
+  );
+  res.json(response);
 }
 
-export async function updateRestaurantByID(req, res) {
-  res.json(await updateRestaurant(req.params.id, req.body));
+async function updateRestaurantByID(req, res) {
+  const response = await restaurantService.updateRestaurantByID(
+    req.params.id,
+    req.body
+  );
+  res.json(response);
 }
 
-export async function deleteRestaurantByID(req, res) {
-  res.json(await deleteRestaurant(req.params.id));
+async function deleteRestaurantByID(req, res) {
+  const response = await restaurantService.deleteRestaurantByID(req.params.id);
+  res.json(response);
 }
+
+export default restaurantController;

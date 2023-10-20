@@ -1,7 +1,15 @@
-import { getUpdateExpression } from "../utils.js";
+import { getTimeInHHMMFormat, getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
+import orderModel from "./orders.js";
 
-export async function createRestaurant(userID, data) {
+const restaurantModel = {
+  createRestaurant: createRestaurant,
+  readRestaurant: readRestaurant,
+  updateRestaurant: updateRestaurant,
+  deleteRestaurant: deleteRestaurant,
+};
+
+async function createRestaurant(userID, data) {
   console.log(data);
   // const addressID = (
   //   await pool.query(
@@ -19,19 +27,31 @@ export async function createRestaurant(userID, data) {
   return restaurantData;
 }
 
-export async function readRestaurant(filters = {}) {
+async function readRestaurant(filters = {}) {
   if (filters.id) {
     const query =
       "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.id=$1";
 
     return (await pool.query(query, [filters.id])).rows;
   }
+  if (filters.ownerID) {
+    const query =
+      "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.owner_id=$1";
+
+    return (await pool.query(query, [filters.ownerID])).rows;
+  }
+  if (filters.opened) {
+    const time = Number(getTimeInHHMMFormat());
+    const query =
+      "SELECT row_to_json(restaurants) as data FROM restaurants where ('Open_timings'<=$1 AND 'Close_timings'>=$1 AND 'Override_timings' != 'closed') OR 'Override_timings'='open'";
+    return (await pool.query(query, [time])).rows;
+  }
   const query = "SELECT row_to_json(restaurants) as data FROM restaurants";
 
   return (await pool.query(query)).rows;
 }
 
-export async function updateRestaurant(id, data) {
+async function updateRestaurant(id, data) {
   const [expression, values] = getUpdateExpression(data);
   console.log(values);
 
@@ -48,10 +68,12 @@ export async function updateRestaurant(id, data) {
   return updatedData.rows[0];
 }
 
-export async function deleteRestaurant(id) {
+async function deleteRestaurant(id) {
   const rowCount = (
     await pool.query("DELETE FROM restaurants WHERE id=$1", [id])
   ).rowCount;
 
   return rowCount;
 }
+
+export default restaurantModel;

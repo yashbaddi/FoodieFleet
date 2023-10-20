@@ -1,7 +1,14 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-export async function createItem(restaurantID, data) {
+const itemModel = {
+  createItem: createItem,
+  readItem: readItem,
+  updateItem: updateItem,
+  deleteItem: deleteItem,
+};
+
+async function createItem(restaurantID, data) {
   console.log(data);
   const itemData = (
     await pool.query(
@@ -12,7 +19,7 @@ export async function createItem(restaurantID, data) {
   return itemData;
 }
 
-export async function readItem(restaurantID, filters = {}) {
+async function readItem(restaurantID, filters = {}) {
   const response = (
     await pool.query("SELECT * FROM ITEMS WHERE restaurant_id=$1", [
       restaurantID,
@@ -21,7 +28,7 @@ export async function readItem(restaurantID, filters = {}) {
   return response;
 }
 
-export async function updateItem(itemID, data) {
+async function updateItem(itemID, data) {
   const [expression, values] = getUpdateExpression(data);
   console.log(values);
 
@@ -37,8 +44,10 @@ export async function updateItem(itemID, data) {
   const updatedData = await pool.query(query, [...values, itemID]);
   return updatedData.rows[0];
 }
-export async function deleteItem(itemID) {
+async function deleteItem(itemID) {
   const rowCount = (await pool.query("DELETE FROM items WHERE id=$1", [itemID]))
     .rowCount;
   return rowCount;
 }
+
+export default itemModel;

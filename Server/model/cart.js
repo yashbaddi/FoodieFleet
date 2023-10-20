@@ -1,6 +1,12 @@
 import pool from "./db-connection.js";
 
-export async function updateQuantityInCart(userID, itemID, quantity = 1) {
+const cartModel = {
+  updateQuantityInCart: updateQuantityInCart,
+  removeItemFromCart: removeItemFromCart,
+  readItemsInCart: readItemsInCart,
+};
+
+async function updateQuantityInCart(userID, itemID, quantity = 1) {
   console.log("userID", userID, "itemID", itemID, "quantity", quantity);
   const query = `INSERT INTO cart_items (user_id,item_id,quantity) VALUES($1,$2,$3) 
         ON CONFLICT(user_id,item_id) 
@@ -15,7 +21,7 @@ export async function updateQuantityInCart(userID, itemID, quantity = 1) {
   };
 }
 
-export async function removeItemFromCart(userID, itemID) {
+async function removeItemFromCart(userID, itemID) {
   console.log({
     itemID,
     UserID: userID,
@@ -27,7 +33,7 @@ export async function removeItemFromCart(userID, itemID) {
   return { UserID: userID, itemID, quantity: 0 };
 }
 
-export async function readItemsInCart(userID) {
+async function readItemsInCart(userID) {
   const readResponse = (
     await pool.query(
       `SELECT row_to_json(items) as item ,quantity FROM cart_items 
@@ -37,3 +43,5 @@ export async function readItemsInCart(userID) {
   ).rows;
   return readResponse;
 }
+
+export default cartModel;

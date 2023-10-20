@@ -15,7 +15,7 @@ const restaurantData = {
   },
 };
 
-// createRestaurant("8968071c-4f3d-4fb9-87f8-4f2ccba4c318", restaurantData);
+// createRestaurant(res.locals.userID, restaurantData);
 console.log(
   await readRestaurant({
     id: "b424d354-f611-442e-b384-f80d8597d766",

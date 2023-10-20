@@ -1,19 +1,19 @@
 import express from "express";
 import bodyParser from "body-parser";
-import {
-  createNewOrder,
-  getOrdersByOrderID,
-  patchCurrentOrder,
-} from "../controller/orders.js";
+
+import orderController from "../controller/orders.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 const ordersRouter = express.Router();
 
-ordersRouter.route("/").post(bodyParser.json(), createNewOrder);
+ordersRouter
+  .route("/")
+  .post(authMiddleware, bodyParser.json(), orderController.createNewOrder);
 
 ordersRouter
   .route("/:id")
-  .get(getOrdersByOrderID)
-  .patch(bodyParser.json(), patchCurrentOrder);
+  .get(authMiddleware, orderController.getOrdersByOrderID)
+  .patch(authMiddleware, bodyParser.json(), orderController.patchCurrentOrder);
 
 ordersRouter.route(":id/item/:itemId");
 

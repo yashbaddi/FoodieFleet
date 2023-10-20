@@ -1,3 +1,6 @@
+import querystring from "querystring";
+import config from "./config.js";
+
 export function getUpdateExpression(updatedData) {
   const values = [];
   let updatePartialQuery = "";
@@ -10,4 +13,32 @@ export function getUpdateExpression(updatedData) {
   return [updatePartialQuery.slice(0, -1), values];
 
   //   return { expression: expression.slice(0, -1), values: values };
+}
+
+export function generateAuthUrl() {
+  const params = querystring.stringify({
+    client_id: config.oauth.clientID,
+    redirect_uri: config.oauth.redirectUri,
+    response_type: "code",
+    scope: "profile",
+    state: "randomstring",
+  });
+  console.log("queryString", params);
+  const authURL = "http://localhost:4000/oauth/authorize?" + params.toString();
+  return authURL;
+}
+
+export function generateAuthTokenForm(code, redirectUri) {
+  const data = new URLSearchParams({
+    client_id: config.oauth.clientID,
+    client_secret: config.oauth.clientSecret,
+    grant_type: "authorization_code",
+    redirect_uri: redirectUri,
+    code: code,
+  });
+  return data.toString();
+}
+
+export function getTimeInHHMMFormat() {
+  return `${new Date().getHours()}${new Date().getMinutes()}`;
 }

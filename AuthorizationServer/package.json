@@ -1,0 +1,25 @@
+{
+  "name": "authorizationserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-oauth-server": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "oauth2-server": "^3.1.1",
+    "querystring": "^0.2.1",
+    "redis": "^4.6.10",
+    "uuid": "^9.0.1"
+  },
+  "type": "module"
+}
