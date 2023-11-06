@@ -2,17 +2,18 @@ import restaurantModel from "../model/restaurants.js";
 import itemModel from "../model/items.js";
 
 const restaurantService = {
-  getAllRestaurants: getAllRestaurants,
-  getAllOpenedRestaurants: getAllOpenedRestaurants,
-  getRestaurantsByOwner: getRestaurantsByOwner,
-  getRestaurantsByID: getRestaurantsByID,
-  getMenuOfRestaurant: getMenuOfRestaurant,
-  createRestaurant: createRestaurant,
-  createItemForRestaurant: createItemForRestaurant,
-  updateItemOfRestaurant: updateItemOfRestaurant,
-  deleteItemInRestaurant: deleteItemInRestaurant,
-  updateRestaurantByID: updateRestaurantByID,
-  deleteRestaurantByID: deleteRestaurantByID,
+  getAllRestaurants,
+  getAllOpenedRestaurants,
+  getRestaurantsByOwner,
+  getRestaurantsByID,
+  getMenuOfRestaurant,
+  createRestaurant,
+  createItemForRestaurant,
+  updateItemOfRestaurant,
+  deleteItemInRestaurant,
+  updateRestaurantByID,
+  deleteRestaurantByID,
+  getRestaurantLocation,
 };
 
 async function getAllRestaurants() {
@@ -36,6 +37,10 @@ async function getRestaurantsByOwner(ownerID) {
 async function getRestaurantsByID(restaurnatID) {
   const data = restaurantModel.readRestaurant({ id: restaurnatID });
   return data;
+}
+
+async function getRestaurantLocation(restaurantID) {
+  return restaurantModel.readRestaurantLocation(restaurantID);
 }
 
 async function getMenuOfRestaurant(restaurantID) {
