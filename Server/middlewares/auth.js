@@ -1,13 +1,8 @@
-import jwt from "jsonwebtoken";
-import config from "../config.js";
-import userService from "../services/users.js";
+import { validateJWTCookie } from "../utils.js";
 
 export async function authMiddleware(req, res, next) {
   try {
-    const payload = jwt.verify(req.cookies.token, config.oauth.clientSecret);
-    res.locals.userID = payload.sub.id;
-    console.log(res.locals.userID);
-    userService.createUserIfNotExists(res.locals.userID);
+    res.locals.userID = validateJWTCookie(req.cookies.token);
     next();
   } catch (e) {
     console.log("Error IN Auth MiddleWare", e);
