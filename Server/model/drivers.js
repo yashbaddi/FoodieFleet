@@ -4,8 +4,8 @@ import pool from "./db-connection.js";
 const driversModel = {
   updateMemberLocation,
   readMemberLocation,
-
   updateDriverStatus,
+  getDrivers,
 };
 
 async function updateMemberLocation(memberID, location) {
@@ -34,6 +34,21 @@ async function updateDriverStatus(driverID, status) {
       status,
     ])
   ).rows;
+}
+
+async function getDrivers(filters = {}) {
+  if (filters.id)
+    return (
+      await pool.query("SELECT * FROM drivers where user_id=$1", [filters.id])
+    ).rows;
+  if (filters.status)
+    return (
+      await pool.query("SELECT * FROM drivers where status=$1", [
+        filters.status,
+      ])
+    ).rows;
+
+  return (await pool.query("SELECT * FROM drivers", [filters.status])).rows;
 }
 
 export default driversModel;
