@@ -112,6 +112,19 @@ async function updateQuantity(orderID, itemID, quantity) {
   };
 }
 
+async function updateOrderStatus(orderID, status) {
+  if (status === "picked") {
+    const query =
+      "UPDATE orders SET status=$2,pickup_time=CURRENT_TIMESTAMP WHERE id=$1";
+    return (await pool.query(query, [orderID, status])).rows;
+  }
+  if (status == "delivered") {
+    const query =
+      "UPDATE orders SET status=$2,delivered_time=CURRENT_TIMESTAMP WHERE id=$1";
+    return (await pool.query(query, [orderID, status])).rows;
+  }
+}
+
 async function deleteItemFromOrder(orderID, itemID) {
   console.log({
     itemID,
