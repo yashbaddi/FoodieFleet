@@ -34,14 +34,23 @@ async function removeItemFromCart(userID, itemID) {
 }
 
 async function readItemsInCart(userID) {
-  const readResponse = (
+  let restaurantRes;
+  const itemResponse = (
     await pool.query(
-      `SELECT row_to_json(items) as item ,quantity FROM cart_items 
-      JOIN Items ON cart_items.item_ID= items.id where user_id=$1`,
+      `SELECT row_to_json(items) as item,quantity FROM cart_items 
+      JOIN Items ON cart_items.item_ID=items.id 
+      where user_id=$1`,
       [userID]
     )
   ).rows;
-  return readResponse;
+  // if (itemResponse.length !== 0) {
+  //   restaurantRes = await pool.query(
+  //     "SELECT row_to_json(restaurants) from restaurants where id=$1",
+  //     [itemResponse[0].item.restaurant_id]
+  //   );
+  //   console.log(restaurantRes);
+  // }
+  return itemResponse;
 }
 
 export default cartModel;
