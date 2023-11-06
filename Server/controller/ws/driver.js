@@ -7,6 +7,7 @@ const driverWsController = {
   addDriverSocket,
   updateLocation,
   updateStatus,
+  updateOrderStatus,
 };
 
 async function addDriverSocket(ws) {
@@ -22,6 +23,12 @@ async function updateLocation(ws, wsRequest) {
 }
 async function updateStatus(ws, wsRequest) {
   await driversService.updateDriverStatus(ws.user, wsRequest.data.status);
+}
+async function updateOrderStatus() {
+  await orderService.updateOrderStatus(
+    wsRequest.data.orderID,
+    wsRequest.data.status
+  );
 }
 
 export default driverWsController;
