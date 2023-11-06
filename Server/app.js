@@ -6,6 +6,8 @@ import ordersRouter from "./routes/orders.js";
 import cartRouter from "./routes/cart.js";
 import authRouter from "./routes/auth.js";
 import config from "./config.js";
+import driversRouter from "./routes/drivers.js";
+import userRouter from "./routes/users.js";
 import expressWs from "express-ws";
 
 const app = express();
@@ -23,6 +25,8 @@ app.use(
 app.use("/restaurants", restaurantsRouter);
 app.use("/orders", ordersRouter);
 app.use("/cart", cartRouter);
+app.use("/driver", driversRouter);
+app.use("/user", userRouter);
 app.use("/auth", authRouter);
 
 app.listen(config.app.port, () => {
