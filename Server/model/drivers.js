@@ -7,6 +7,7 @@ const driversModel = {
   updateDriverStatus,
   getDrivers,
   getNearbyMembers,
+  setUserToDriver,
 };
 
 async function updateMemberLocation(memberID, location) {
@@ -50,6 +51,14 @@ async function getDrivers(filters = {}) {
     ).rows;
 
   return (await pool.query("SELECT * FROM drivers", [filters.status])).rows;
+}
+
+async function setUserToDriver(userID) {
+  return (
+    await pool.query("INSERT INTO drivers(user_id) VALUES($1) RETURNING *", [
+      userID,
+    ])
+  ).rows;
 }
 
 async function getNearbyMembers(location) {
