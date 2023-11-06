@@ -6,6 +6,7 @@ const driverSockets = {};
 const driverWsController = {
   addDriverSocket,
   updateLocation,
+  updateStatus,
 };
 
 async function addDriverSocket(ws) {
@@ -18,6 +19,9 @@ async function updateLocation(ws, wsRequest) {
     wsRequest.data.latitude,
     wsRequest.data.longitude
   );
+}
+async function updateStatus(ws, wsRequest) {
+  await driversService.updateDriverStatus(ws.user, wsRequest.data.status);
 }
 
 export default driverWsController;
