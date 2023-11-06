@@ -4,6 +4,7 @@ const userWsController = {
   setUserSocket,
   closeUserSocket,
   sendDriverLocation,
+  sendNotification,
 };
 
 async function setUserSocket(ws) {
@@ -19,6 +20,14 @@ async function sendDriverLocation(userID, location) {
   const payload = {
     type: "driver_location",
     data: location,
+  };
+  userSockets[userID].send(JSON.stringify(payload));
+}
+
+async function sendNotification(userID, notification) {
+  const payload = {
+    type: "notification",
+    data: notification,
   };
   userSockets[userID].send(JSON.stringify(payload));
 }
