@@ -1,13 +1,16 @@
 import express from "express";
 import cors from "cors";
-import config from "./config.js";
 import cookieParser from "cookie-parser";
 import restaurantsRouter from "./routes/restaurants.js";
 import ordersRouter from "./routes/orders.js";
 import cartRouter from "./routes/cart.js";
 import authRouter from "./routes/auth.js";
+import config from "./config.js";
+import expressWs from "express-ws";
 
 const app = express();
+
+expressWs(app);
 app.use(cookieParser());
 
 app.use(
