@@ -1,42 +1,44 @@
-import turf from "@turf/turf";
+import driversModel from "../model/drivers.js";
 
-const DriversLocations = {};
-const AvailableDrivers = [];
-const BusyDrivers = [];
+// const DriversLocations = [];
+// const AvailableDrivers = new Set();
+// const BusyDrivers = new Set();
 
-const DriverService = {
-  addDriver,
-  removeDriver,
-  updateDriverStatus,
-  updateDriversLocation,
+const driversService = {
+  //   addDriver,
+  updateDriverLocation,
   getNearestDriver,
   getDriverStatus,
-  getAllDriversLocation,
+  updateDriverStatus,
+  readDriverLocation,
+  //   getAllDriversLocation,
 };
 
-function addDriver(userID) {
-  AvailableDrivers.push({
-    userID: userID,
-    status: "Available",
+function updateDriverLocation(userID, latitude, longitude) {
+  return driversModel.updateMemberLocation(userID, {
+    latitude,
+    longitude,
   });
 }
 
-function removeDriver() {}
-
-function updateDriverStatus() {}
-
-function updateDriversLocation(clientID, latitude, longitude) {
-  DriversLocations[clientID] = turf.point([latitude, longitude]);
+function readDriverLocation(driverID) {
+  return driversModel.readMemberLocation(driverID);
 }
 
-function getDriverStatus(clientID) {
-  return DriversLocations[clientID];
+function updateDriverStatus(userID, status) {
+  return driversModel.updateDriverStatus(userID, status);
 }
 
-function getAllDriversLocation() {
-  return DriversLocations;
+async function getDriverStatus(userID) {
+  return (await driversModel.getDrivers({ id: userID }))[0].status;
 }
 
-function getNearestDriver() {}
+// function getAllDriversLocation() {
+//   return DriversLocations;
+// }
 
-export default DriverService;
+function getNearestDriver(location) {
+  return driversModel.getNearbyMembers(location);
+}
+
+export default driversService;
