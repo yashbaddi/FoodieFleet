@@ -6,6 +6,7 @@ const driversModel = {
   readMemberLocation,
   updateDriverStatus,
   getDrivers,
+  getNearbyMembers,
 };
 
 async function updateMemberLocation(memberID, location) {
@@ -51,6 +52,19 @@ async function getDrivers(filters = {}) {
   return (await pool.query("SELECT * FROM drivers", [filters.status])).rows;
 }
 
+async function getNearbyMembers(location) {
+  const res = await redisClient.geoRadius(
+    "driverLocations",
+    {
+      longitude: location.longitude,
+      latitude: location.latitude,
+    },
+    500,
+    "m"
+  );
+  console.log(res);
+  return res;
+}
 export default driversModel;
 // const data = await updateMemberLocation("harsh", {
 //   latitude: 12.9602122,
