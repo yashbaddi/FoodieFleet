@@ -7,6 +7,7 @@ import driversModel from "../model/drivers.js";
 const driversService = {
   //   addDriver,
   updateDriverLocation,
+  setDriverToBusy,
   getNearestDriver,
   getDriverStatus,
   updateDriverStatus,
@@ -27,6 +28,9 @@ function readDriverLocation(driverID) {
 
 function updateDriverStatus(userID, status) {
   return driversModel.updateDriverStatus(userID, status);
+}
+function setDriverToBusy(userID) {
+  return driversModel.updateDriverStatus(userID, "BUSY");
 }
 
 async function getDriverStatus(userID) {
