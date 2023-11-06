@@ -8,6 +8,7 @@ const driversService = {
   //   addDriver,
   updateDriverLocation,
   setDriverToBusy,
+  setDriverToAvailable,
   getNearestDriver,
   getDriverStatus,
   updateDriverStatus,
@@ -31,6 +32,10 @@ function updateDriverStatus(userID, status) {
 }
 function setDriverToBusy(userID) {
   return driversModel.updateDriverStatus(userID, "BUSY");
+}
+
+function setDriverToAvailable(userID) {
+  return driversModel.updateDriverStatus(userID, "AVAILABLE");
 }
 
 async function getDriverStatus(userID) {
