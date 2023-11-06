@@ -40,7 +40,7 @@ CREATE TABLE Cart_Items (
   User_ID VARCHAR REFERENCES Users(ID) ON DELETE CASCADE,
   Item_ID UUID REFERENCES Items(ID) ON DELETE CASCADE,
   Quantity NUMERIC DEFAULT 1,
-  PRIMARY KEY (User_ID)
+  PRIMARY KEY (User_ID,Item_ID)
 );
 
 CREATE TABLE Orders (
@@ -85,11 +85,10 @@ CREATE TABLE Ordered_Items (
 --       REFERENCES "Orders"("ID")
 -- );
 
--- CREATE TABLE "Drivers" (
---   "ID" <type>,
---   "isAvailable" <type>,
---   PRIMARY KEY ("ID")
--- );
+CREATE TABLE "Drivers" (
+  User_Id VARCHAR REFERENCES Users(ID) ON DELETE CASCADE, 
+  status VARCHAR(255) DEFAULT 'BUSY'
+);
 
 
 
