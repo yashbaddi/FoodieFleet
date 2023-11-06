@@ -9,6 +9,7 @@ const orderService = {
   createNewOrder,
   patchCurrentOrder,
   updateItemsInOrder,
+  updateOrderStatus,
 };
 
 async function getOrdersByOrderID(orderID) {
@@ -79,6 +80,10 @@ async function updateItemsInOrder(orderID, item) {
 
     return deleteResponse;
   }
+}
+
+async function updateOrderStatus(orderID, status) {
+  return orderModel.updateOrderStatus(orderID, status);
 }
 
 export default orderService;
