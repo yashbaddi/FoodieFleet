@@ -2,12 +2,20 @@ import orderService from "../services/orders.js";
 
 const orderController = {
   getOrdersByOrderID,
+  getOrdersByUserID,
   createNewOrder,
   patchCurrentOrder,
 };
 
 async function getOrdersByOrderID(req, res) {
   const response = await orderService.getOrdersByOrderID(req.params.id);
+  res.json(response);
+}
+
+async function getOrdersByUserID(req, res) {
+  const response = await orderService.getOrdersByUserID(res.locals.userID);
+  console.log("response", response);
+
   res.json(response);
 }
 
