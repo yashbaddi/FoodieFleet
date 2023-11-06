@@ -1,10 +1,13 @@
+import { userWsController } from "../controller/ws/user.js";
 import orderModel from "../model/orders.js";
+import driversService from "./drivers.js";
+import restaurantService from "./restaurants.js";
 
 const orderService = {
-  getOrdersByOrderID: getOrdersByOrderID,
-  createNewOrder: createNewOrder,
-  patchCurrentOrder: patchCurrentOrder,
-  updateItemsInOrder: updateItemsInOrder,
+  getOrdersByOrderID,
+  createNewOrder,
+  patchCurrentOrder,
+  updateItemsInOrder,
 };
 
 async function getOrdersByOrderID(orderID) {
@@ -12,10 +15,34 @@ async function getOrdersByOrderID(orderID) {
   return readResponse;
 }
 
-async function createNewOrder(userID, restaurantID) {
-  const response = await orderModel.createOrder(userID, {
-    restaurantID: restaurantID,
-  });
+async function createNewOrder(userID, restaurantID, location) {
+  const restaurantLocation = await restaurantService.getRestaurantLocation(
+    restaurantID
+  );
+  console.log(restaurantLocation);
+  const nearbyDriver = await driversService.getNearestDriver(
+    restaurantLocation
+  );
+  console.log("nearby Driver:", nearbyDriver);
+  const response = await orderModel.createOrder(
+    userID,
+    {
+      restaurantID: restaurantID,
+    },
+    nearbyDriver[0],
+    {
+      latitude: location[0],
+      longitude: location[1],
+    }
+  );
+
+  setInterval(async () => {
+    const location = await driversService.readDriverLocation(nearbyDriver[0]);
+    userWsController.sendDriverLocation(userID, location);
+  }, 5000);
+
+  console.log(nearbyDriver);
+
   return response;
 }
 
