@@ -4,6 +4,8 @@ import pool from "./db-connection.js";
 const driversModel = {
   updateMemberLocation,
   readMemberLocation,
+
+  updateDriverStatus,
 };
 
 async function updateMemberLocation(memberID, location) {
@@ -23,6 +25,15 @@ async function updateMemberLocation(memberID, location) {
 async function readMemberLocation(memberID) {
   const res = await redisClient.geoPos("driverLocations", memberID);
   return res[0];
+}
+
+async function updateDriverStatus(driverID, status) {
+  return (
+    await pool.query("UPDATE TABLE drivers SET status=$2 where user_id=$1", [
+      driverID,
+      status,
+    ])
+  ).rows;
 }
 
 export default driversModel;
