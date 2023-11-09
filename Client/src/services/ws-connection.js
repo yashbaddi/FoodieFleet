@@ -84,3 +84,14 @@ export function updateDriverStatusWS(ws, status) {
   };
   ws.send(JSON.stringify(payload));
 }
+
+export function updateOrderStatusWS(ws, orderID, status) {
+  const payload = {
+    type: "orderStatus",
+    data: {
+      orderID,
+      status,
+    },
+  };
+  ws.send(JSON.stringify(payload));
+}
