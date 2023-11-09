@@ -24,8 +24,12 @@ restaurantsRouter.ws("/ws", bodyParser.json(), (ws, req) => {
   }
   restaurantWsController.setRestaurantSocket(ws);
   ws.send(JSON.stringify(payload));
+  const interval = setInterval(() => {
+    ws.send(JSON.stringify({ type: "PingPong", data: "ping" }));
+  }, 2000);
 
   ws.on("close", () => {
+    clearInterval(interval);
     restaurantWsController.closeRestaurantSocket(ws);
   });
 });
