@@ -1,3 +1,5 @@
+import { coordinates } from "../utils/getLocations";
+
 const baseURL = "http://localhost:3000/";
 
 //Restaurants
@@ -10,6 +12,17 @@ export async function getAllOpenedRestaurants() {
   });
   isAuthenticated(response);
   console.log("Get all Restaurant", response);
+  return response.json();
+}
+
+export async function getAllOwnedRestaurants() {
+  const path = "restaurants/?owned=true";
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+    credentials: "include",
+  });
+  isAuthenticated(response);
+  console.log("Get Owned Restaurant", response);
   return response.json();
 }
 
@@ -152,7 +165,7 @@ export async function getCartItems() {
 }
 
 //Orders
-export async function createOrder(restaurantID) {
+export async function createOrder(restaurantID, location) {
   const path = "orders/";
   const response = await fetch(baseURL + path, {
     credentials: "include",
@@ -162,6 +175,7 @@ export async function createOrder(restaurantID) {
     },
     body: JSON.stringify({
       restaurantID: restaurantID,
+      location: location,
     }),
   });
   isAuthenticated(response);
