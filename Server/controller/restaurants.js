@@ -16,9 +16,9 @@ async function getAllRestaurants(req, res) {
   if (req.query.opened) {
     const response = await restaurantService.getAllOpenedRestaurants();
     res.json(response);
-  } else if (req.query.ownerID) {
+  } else if (req.query.owner) {
     const response = await restaurantService.getRestaurantsByOwner(
-      req.query.ownerID
+      res.locals.userID
     );
     res.json(response);
   } else {
