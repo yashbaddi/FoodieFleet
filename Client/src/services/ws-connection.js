@@ -49,3 +49,22 @@ export function createRestaurantSocketConnect() {
   };
   return wsClient;
 }
+export function createDriverSocketConnect() {
+  const wsClient = new WebSocket(serverUrl + "driver/ws");
+  wsClient.onopen = (ws) => {
+    console.log("driver socket connection success");
+  };
+  const interval = setInterval(() => {
+    wsClient.send(JSON.stringify({ type: "PingPong", data: "ping" }));
+  }, 2000);
+  wsClient.onmessage = (message) => {
+    const msg = JSON.parse(message.data.toString());
+    console.log("msg:", msg);
+    if (msg.type === "order") {
+    }
+  };
+  wsClient.onclose = () => {
+    clearInterval(interval);
+  };
+  return wsClient;
+}
