@@ -76,3 +76,11 @@ export function sendLocationWS(ws, location) {
   };
   ws.send(JSON.stringify(payload));
 }
+
+export function updateDriverStatusWS(ws, status) {
+  const payload = {
+    type: "status",
+    data: { status },
+  };
+  ws.send(JSON.stringify(payload));
+}
