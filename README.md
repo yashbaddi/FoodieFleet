@@ -79,7 +79,7 @@ To Meet These Objectives we have following criteria
 
 #### Fourth Phase:
 
-- [ ] Delivery Partner Multiple CRUD and UI
+- [x] Delivery Partner Multiple CRUD and UI
 - [ ] Understanding and modifying the Map based on Needs
 - [ ] Tracking Delivery Executive
 - [ ] Calculating Delivery time and route
@@ -88,8 +88,9 @@ To Meet These Objectives we have following criteria
 
 #### Fifth Phase
 
+- [ ] Working on UI
 - [ ] Adding Reviews and Ratings
-- [ ] Adding Support for Images
+- [ ] Adding Dummy Data
 - [ ] Adding Search
 - [ ] Refining The App.
 - [ ] Exprimenting and adding different features
