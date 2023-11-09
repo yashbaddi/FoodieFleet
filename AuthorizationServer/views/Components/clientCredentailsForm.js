@@ -22,6 +22,8 @@ export function clientCredentialsForm(root) {
   scope.type = "text";
   scope.placeholder = "Scope";
 
+  createClientBtn.textContent = "Generate Client";
+
   clientCredentailsFormDiv.append(
     applicationName,
     redirectURI,
