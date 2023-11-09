@@ -1,5 +1,3 @@
-import { coordinates } from "../utils/getLocations";
-
 const baseURL = "http://localhost:3000/";
 
 //Restaurants
