@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { validateJWTCookie } from "../utils.js";
-import { userWsController } from "../controller/ws/user.js";
+import userWsController from "../controller/ws/user.js";
 import expressWs from "express-ws";
 
 const userRouter = express.Router();
@@ -13,6 +13,9 @@ userRouter.ws("/ws", (ws, req) => {
   const payload = {
     type: "open",
   };
+  const interval = setInterval(() => {
+    ws.send(JSON.stringify({ type: "PingPong", data: "ping" }));
+  }, 2000);
   try {
     const user = validateJWTCookie(req.cookies.token);
     ws.user = user;
@@ -23,6 +26,7 @@ userRouter.ws("/ws", (ws, req) => {
 
   ws.send(JSON.stringify(payload));
   ws.on("close", () => {
+    clearInterval(interval);
     userWsController.closeUserSocket(ws);
   });
 });
