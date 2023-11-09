@@ -24,6 +24,9 @@ driversRouter.ws("/ws", (ws, req) => {
   // ws.on("connection", (ws, req) => {
 
   // });
+  const interval = setInterval(() => {
+    ws.send(JSON.stringify({ type: "PingPong", data: "ping" }));
+  }, 2000);
 
   ws.on("message", (data) => {
     if (wsRequest.type === "open");
@@ -36,6 +39,7 @@ driversRouter.ws("/ws", (ws, req) => {
   });
 
   ws.on("close", () => {
+    clearInterval(interval);
     driverWsController.closeDriverSocket(ws);
   });
 });
