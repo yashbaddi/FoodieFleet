@@ -68,3 +68,11 @@ export function createDriverSocketConnect() {
   };
   return wsClient;
 }
+
+export function sendLocationWS(ws, location) {
+  const payload = {
+    type: "location",
+    data: location,
+  };
+  ws.send(JSON.stringify(payload));
+}
