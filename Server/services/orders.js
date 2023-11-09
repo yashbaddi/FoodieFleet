@@ -1,4 +1,4 @@
-import { userWsController } from "../controller/ws/user.js";
+import userWsController from "../controller/ws/user.js";
 import orderModel from "../model/orders.js";
 import driversService from "./drivers.js";
 import restaurantService from "./restaurants.js";
