@@ -2,6 +2,9 @@ import express from "express";
 import { validateJWTCookie } from "../utils.js";
 import driverWsController from "../controller/ws/driver.js";
 import expressWs from "express-ws";
+import { authMiddleware } from "../middlewares/auth.js";
+import { driverController } from "../controller/driver.js";
+import bodyParser from "body-parser";
 
 const driversRouter = express.Router();
 expressWs(driversRouter);
@@ -43,5 +46,7 @@ driversRouter.ws("/ws", (ws, req) => {
     driverWsController.closeDriverSocket(ws);
   });
 });
+
+driversRouter.route("/").get(authMiddleware, driverController.getDriverDetails);
 
 export default driversRouter;
