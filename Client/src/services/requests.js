@@ -193,6 +193,17 @@ export async function getOrder(orderID) {
   return response.json();
 }
 
+export async function getDriversDetails() {
+  const path = "driver/";
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+    credentials: "include",
+  });
+  console.log(response.json);
+  isAuthenticated(response);
+  return response.json();
+}
+
 export async function loginWithAuthProvider() {}
 
 function isAuthenticated(response) {
