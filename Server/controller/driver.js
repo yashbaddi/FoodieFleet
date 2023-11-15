@@ -1,4 +1,4 @@
-import driversService from "../services/drivers";
+import driversService from "../services/drivers.js";
 
 export const driverController = {
   getDriverDetails,
