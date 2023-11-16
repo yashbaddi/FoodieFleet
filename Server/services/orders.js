@@ -6,6 +6,7 @@ import restaurantService from "./restaurants.js";
 const orderService = {
   getOrdersByOrderID,
   getOrdersByUserID,
+  getOrdersByRestaurantOwener,
   createNewOrder,
   patchCurrentOrder,
   updateItemsInOrder,
@@ -13,13 +14,21 @@ const orderService = {
 };
 
 async function getOrdersByOrderID(orderID) {
-  const readResponse = await orderModel.readOrder({ id: orderID });
+  const readResponse = await orderModel.readOrders({ id: orderID });
   return readResponse;
 }
 
 async function getOrdersByUserID(userID) {
-  const readResponse = await orderModel.readOrder({
-    userID: userID,
+  const readResponse = await orderModel.readOrders({
+    userID,
+  });
+  console.log(readResponse);
+  return readResponse;
+}
+
+async function getOrdersByRestaurantOwener(ownerID) {
+  const readResponse = await orderModel.readOrders({
+    ownerID,
   });
   console.log(readResponse);
   return readResponse;
