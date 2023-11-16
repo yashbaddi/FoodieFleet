@@ -181,6 +181,29 @@ export async function createOrder(restaurantID, location) {
   return response.json();
 }
 
+export async function getAllOrdersByUser() {
+  const path = "orders/";
+  const response = await fetch(baseURL + path, {
+    credentials: "include",
+    method: "GET",
+  });
+  isAuthenticated(response);
+
+  return response.json();
+}
+
+export async function getAllOrdersByOwner() {
+  const path = "orders/?owner=true";
+  const response = await fetch(baseURL + path, {
+    credentials: "include",
+    method: "GET",
+  });
+
+  isAuthenticated(response);
+
+  return response.json();
+}
+
 export async function getOrder(orderID) {
   const path = "orders/" + orderID;
   const response = await fetch(baseURL + path, {
