@@ -9,6 +9,7 @@ export const restaurantWsController = {
   closeRestaurantSocket,
   sendDriverDetails,
   updateOrderStatus,
+  sendNotification,
 };
 
 async function sendOrderDetails(restaurantOwner, order) {
@@ -33,6 +34,14 @@ async function updateOrderStatus(ws, wsRequest) {
   if (status == "REJECTED") {
     orderService.setOrderToRejected(orderID);
   }
+}
+
+async function sendNotification(userID, notification) {
+  const payload = {
+    type: "notification",
+    data: notification,
+  };
+  restaurantSockets[userID]?.send(JSON.stringify(payload));
 }
 
 async function setRestaurantSocket(ws) {
