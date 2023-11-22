@@ -8,6 +8,7 @@ const orderModel = {
   deleteItemFromOrder,
   patchOrder,
   updateOrderStatus,
+  assignDriverToOrder,
 };
 
 async function createOrder(userID, data, location) {
@@ -100,6 +101,15 @@ async function updateQuantity(orderID, itemID, quantity) {
     itemID: itemID,
     quantity: Number(quantity),
   };
+}
+
+async function assignDriverToOrder(
+  orderID,
+  driverID,
+  status = "PARTNER_ASSIGNED"
+) {
+  const query = `UPDATE orders SET driver_id=$2 status=$3 WHERE id=$1`;
+  return (await pool.query(query, [orderID, driverID, status])).rows;
 }
 
 async function updateOrderStatus(orderID, status) {
