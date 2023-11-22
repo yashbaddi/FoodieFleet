@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-let counter = 0;
-
 function useGeolocation() {
   const [location, setLocation] = useState({
     isLoaded: false,
@@ -9,14 +7,13 @@ function useGeolocation() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      counter = counter + 0.001;
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           function (position) {
             const { latitude, longitude } = position.coords;
             setLocation({
               isLoaded: true,
-              coordinates: [latitude + counter, longitude + counter],
+              coordinates: [latitude, longitude],
             });
           },
           function (error) {
@@ -33,7 +30,7 @@ function useGeolocation() {
         });
       }
       // console.log("coords:", location);
-    }, 5000);
+    }, 2000);
   }, [location]);
   return location;
 }
