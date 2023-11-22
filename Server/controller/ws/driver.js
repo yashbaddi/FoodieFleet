@@ -17,12 +17,14 @@ async function addDriverSocket(ws) {
 }
 
 async function updateLocation(ws, wsRequest) {
+  console.log("update Driver Location", wsRequest);
   await driversService.updateDriverLocation(
     ws.user,
-    wsRequest.data.latitude,
-    wsRequest.data.longitude
+    wsRequest.data[0],
+    wsRequest.data[1]
   );
 }
+
 async function updateStatus(ws, wsRequest) {
   await driversService.updateDriverStatus(ws.user, wsRequest.data.status);
 }
