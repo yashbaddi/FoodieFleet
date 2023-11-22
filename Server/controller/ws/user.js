@@ -9,6 +9,7 @@ const userWsController = {
   getDriverDetails,
   sendDriverLocation,
   sendNotification,
+  sendStatusNotification,
 };
 
 async function setUserSocket(ws) {
@@ -48,6 +49,13 @@ async function sendNotification(userID, notification) {
     data: notification,
   };
   userSockets[userID]?.send(JSON.stringify(payload));
+}
+
+async function sendStatusNotification(userID, orderID, status) {
+  sendNotification(userID, {
+    orderID,
+    status,
+  });
 }
 
 export default userWsController;
