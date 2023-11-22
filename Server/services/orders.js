@@ -15,6 +15,7 @@ const orderService = {
   updateItemsInOrder,
   updateOrderStatus,
   setOrderToPreparing,
+  setOrderToPartnerAssigned,
 };
 async function getOrdersByOrderID(orderID) {
   const readResponse = await orderModel.readOrders({ id: orderID });
@@ -72,6 +73,21 @@ async function setOrderToPreparing(orderID) {
     "PREPARING"
   );
   await driversService.searchNearbyDriver(order.id);
+}
+
+async function setOrderToPartnerAssigned(orderID, driverID) {
+  const response = await orderModel.assignDriverToOrder(orderID, driverID);
+  const order = await orderModel.readOrders({ id: orderID });
+  userWsController.sendNotification(order.customer_id, {
+    orderID: order.id,
+    status: "PARTNER_ASSIGNED",
+    partner: order.driver,
+  });
+  restaurantWsController.sendNotification(order.restaurant.owner_id, {
+    orderID: order.id,
+    status: "PARTNER_ASSIGNED",
+    partner: order.driver,
+  });
 }
 
 async function patchCurrentOrder(orderID, order) {
