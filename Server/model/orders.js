@@ -10,12 +10,12 @@ const orderModel = {
   updateOrderStatus,
 };
 
-async function createOrder(userID, data, driver, location) {
-  console.log("drover:", driver);
-  const orderID = (
+async function createOrder(userID, data, location) {
+  // console.log("drover:", driver);
+  const order = (
     await pool.query(
-      "INSERT INTO orders(customer_id,restaurant_id,driver_id,delivery_location) values($1,$2,$3,$4) RETURNING ID",
-      [userID, data.restaurantID, driver, location]
+      "INSERT INTO orders(customer_id,restaurant_id,delivery_location) values($1,$2,$3,$4) RETURNING *",
+      [userID, data.restaurantID, location]
     )
   ).rows[0].id;
   console.log("orderID", orderID);
@@ -27,7 +27,7 @@ async function createOrder(userID, data, driver, location) {
     )
   ).rows;
   return {
-    orderID: orderID,
+    order: order,
     items: itemOrders,
   };
 }
@@ -51,18 +51,18 @@ async function readOrders(filters = {}) {
     left join users on orders.driver_id=users.id 
     join ordered_items on ordered_items.order_id=orders.id 
     join items on ordered_items.item_id=items.id 
-    where orders.customer=$1
+    where orders.customer_id=$1
     group by orders.id,restaurants.id,users.id`;
     return (await pool.query(query, [filters.userID])).rows;
   }
 
   if (filters.ownerID) {
+    console.log("Owner ID In orders Model", filters.ownerID);
     const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
-    left join restaurants on orders.restaurant_id=restaurants.id 
+    left join restaurants on orders.restaurant_id=restaurants.id and restaurants.owner_id=$1
     left join users on orders.driver_id=users.id 
     join ordered_items on ordered_items.order_id=orders.id 
     join items on ordered_items.item_id=items.id 
-    where restaurants.owner_id=$1
     group by orders.id,restaurants.id,users.id`;
     return (await pool.query(query, [filters.ownerID])).rows;
   }
@@ -103,12 +103,17 @@ async function updateQuantity(orderID, itemID, quantity) {
 }
 
 async function updateOrderStatus(orderID, status) {
-  if (status === "picked") {
+  if (status === "PREPARING" || status === "REJECTED") {
+    const query = "UPDATE orders SET status=$2 WHERE id=$1";
+    return (await pool.query(query, [orderID, status])).rows;
+  }
+
+  if (status === "DELIVERING") {
     const query =
       "UPDATE orders SET status=$2,pickup_time=CURRENT_TIMESTAMP WHERE id=$1";
     return (await pool.query(query, [orderID, status])).rows;
   }
-  if (status == "delivered") {
+  if (status == "DELIVERED") {
     const query =
       "UPDATE orders SET status=$2,delivered_time=CURRENT_TIMESTAMP WHERE id=$1";
     return (await pool.query(query, [orderID, status])).rows;
