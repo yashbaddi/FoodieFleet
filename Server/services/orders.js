@@ -17,7 +17,9 @@ const orderService = {
   setOrderToPreparing,
   setOrderToPartnerAssigned,
   setOrderToDelivering,
+  setOrderToRejected,
 };
+
 async function getOrdersByOrderID(orderID) {
   const readResponse = await orderModel.readOrders({ id: orderID });
   return readResponse.length !== 0 ? readResponse[0] : {};
@@ -93,6 +95,10 @@ async function setOrderToPartnerAssigned(orderID, driverID) {
 
 async function setOrderToDelivering(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "DELIVERING");
+}
+
+async function setOrderToRejected(orderID) {
+  const status = await orderModel.updateOrderStatus(orderID, "REJECTED");
 }
 
 async function patchCurrentOrder(orderID, order) {
