@@ -32,6 +32,7 @@ export function createUserSocketConnect(getNotifications) {
   };
   return wsClient;
 }
+
 export function createRestaurantSocketConnect(setNewOrder, getNotifications) {
   const wsClient = new WebSocket(serverUrl + "restaurants/ws");
   wsClient.onopen = (ws) => {
