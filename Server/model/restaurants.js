@@ -7,6 +7,7 @@ const restaurantModel = {
   updateRestaurant: updateRestaurant,
   deleteRestaurant: deleteRestaurant,
   readRestaurantLocation,
+  readRestaurantOwner,
 };
 
 async function createRestaurant(userID, data) {
@@ -54,6 +55,17 @@ async function readRestaurant(filters = {}) {
   const query = "SELECT row_to_json(restaurants) as data FROM restaurants";
 
   return (await pool.query(query)).rows;
+}
+
+async function readRestaurantOwner(restaurantID) {
+  const response = (
+    await pool.query("SELECT owner_id from restaurants where id=$1", [
+      restaurantID,
+    ])
+  ).rows[0]?.ownerID;
+
+  if (response) return response;
+  throw new Error("Invalid Restaurant ID");
 }
 
 async function readRestaurantLocation(restaurantID) {
