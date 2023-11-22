@@ -8,6 +8,7 @@ export const restaurantWsController = {
   setRestaurantSocket,
   closeRestaurantSocket,
   sendDriverDetails,
+  updateOrderStatus,
 };
 
 async function sendOrderDetails(restaurantOwner, order) {
@@ -21,6 +22,17 @@ async function sendOrderDetails(restaurantOwner, order) {
 async function sendDriverDetails(ws, wsRequest) {
   console.log("Request to send driver Location Details in Restaurant");
   driversService.sendDriversLocationInInterval(ws, wsRequest.data.driverID);
+}
+
+async function updateOrderStatus(ws, wsRequest) {
+  const { status, orderID } = wsRequest.data;
+  console.log(wsRequest);
+  if (status == "PREPARING") {
+    orderService.setOrderToPreparing(orderID);
+  }
+  if (status == "REJECTED") {
+    orderService.setOrderToRejected(orderID);
+  }
 }
 
 async function setRestaurantSocket(ws) {
