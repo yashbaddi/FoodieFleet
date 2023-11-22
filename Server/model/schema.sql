@@ -45,7 +45,7 @@ CREATE TABLE Cart_Items (
 
 CREATE TABLE Orders (
   ID UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  Status VARCHAR DEFAULT 'placed',
+  Status VARCHAR DEFAULT 'PLACED',
   Created_at TIMESTAMP DEFAULT Current_timestamp(2),
   Total_amt NUMERIC DEFAULT 0,
   Delivered_Time TIMESTAMP,
