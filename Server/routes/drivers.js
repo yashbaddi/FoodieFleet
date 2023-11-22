@@ -32,13 +32,14 @@ driversRouter.ws("/ws", (ws, req) => {
   }, 2000);
 
   ws.on("message", (data) => {
-    if (wsRequest.type === "open");
-    if (wsRequest.type === "location")
-      driverWsController.updateLocation(ws, wsRequest);
-    if (wsRequest.type === "status")
-      driverWsController.updateStatus(ws, wsRequest);
-    if (wsRequest.type === "orderStatus")
-      driverWsController.updateOrderStatus(ws, wsRequest);
+    const message = JSON.parse(data);
+    console.log("in message", message);
+    if (message.type === "open");
+    if (message.type === "location")
+      driverWsController.updateLocation(ws, message);
+    if (message.type === "status") driverWsController.updateStatus(ws, message);
+    if (message.type === "orderStatus")
+      driverWsController.updateOrderStatus(ws, message);
   });
 
   ws.on("close", () => {
