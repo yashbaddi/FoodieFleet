@@ -13,6 +13,11 @@ import RestaurantDashboard from "./pages/RestaurantDashboard";
 import NewRestaurant from "./pages/NewRestaurant";
 // import UpdateRestaurant from "./components/UpdateRestaurant";
 import UpdateRestaurant from "./pages/UpdateRestaurant";
+import MyAccount from "./pages/MyAccount";
+import DriversDashboard from "./pages/DriversDashboard";
+import RestaurantsByUser from "./pages/RestaurantsByUser";
+import RestaurantOrders from "./pages/RestaurantOrders";
+import Orders from "./pages/Orders";
 // import NewRestaurant from "./components/NewRestaurant";
 // import UpdateRestaurant from "./components/UpdateRestaurant";
 // import CreateItem from "./pages/Restaurant/CreateItem";
@@ -28,20 +33,35 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/restaurant/:id" element={<Restaurant />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/orders" />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/track-order/:orderID" element={<TrackOrder />} />
-          <Route
-            path="/my-account/restaurants"
-            element={<RestaurantDashboard />}
-          />
-          <Route
-            path="/my-account/restaurants/new"
-            element={<NewRestaurant />}
-          />
-          <Route
-            path="/my-account/restaurants/:id/update"
-            element={<UpdateRestaurant />}
-          />
+          <Route path="/my-account" element={<MyAccount />}>
+            <Route
+              path="/my-account/restaurant-admin"
+              element={<RestaurantDashboard />}
+            />
+            <Route
+              path="/my-account/restaurant-admin/orders"
+              element={<RestaurantOrders />}
+            />
+
+            <Route
+              path="/my-account/restaurant-admin/restaurants"
+              element={<RestaurantsByUser />}
+            />
+            <Route
+              path="/my-account/restaurant-admin/new-restaurant"
+              element={<NewRestaurant />}
+            />
+            <Route
+              path="/my-account/restaurant-adminrestaurants/:id/update"
+              element={<UpdateRestaurant />}
+            />
+            <Route
+              path="/my-account/delivery-partner"
+              element={<DriversDashboard />}
+            />
+          </Route>
         </Routes>
       </Provider>
     </>
