@@ -25,6 +25,13 @@ userRouter.ws("/ws", (ws, req) => {
   userWsController.setUserSocket(ws);
 
   ws.send(JSON.stringify(payload));
+
+  ws.on("message", (data) => {
+    const message = JSON.parse(data);
+
+    if (message.type === "get_driver_location")
+      userWsController.getDriverDetails(ws, message);
+  });
   ws.on("close", () => {
     clearInterval(interval);
     userWsController.closeUserSocket(ws);
