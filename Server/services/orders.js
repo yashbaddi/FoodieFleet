@@ -2,7 +2,6 @@ import { restaurantWsController } from "../controller/ws/restaurant.js";
 import userWsController from "../controller/ws/user.js";
 import orderModel from "../model/orders.js";
 import restaurantModel from "../model/restaurants.js";
-import userModel from "../model/users.js";
 import driversService from "./drivers.js";
 import restaurantService from "./restaurants.js";
 
