@@ -6,7 +6,7 @@ export const driverController = {
 };
 
 async function getDriverDetails(req, res) {
-  const response = await driversService.getDriverStatus(res.locals.userID);
+  const response = await driversService.getDriverDetails(res.locals.userID);
   res.json(response);
 }
 
