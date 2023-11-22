@@ -10,23 +10,37 @@ const restaurantsRouter = express.Router();
 
 expressWs(restaurantsRouter);
 
-restaurantsRouter.ws("/ws", bodyParser.json(), (ws, req) => {
+restaurantsRouter.ws("/ws", (ws, req) => {
   const payload = {
     type: "open",
   };
+  console.log("Inside WS Restaurant");
 
   try {
     const user = validateJWTCookie(req.cookies.token);
-    ws.restaurantID = req.body.restaurantID;
-    console.log("restaurant ID in ws connection:", ws.restaurantID);
+    ws.restaurantOwner = user;
+    console.log("restaurant owner ID in ws connection:", ws.restaurantOwner);
   } catch (e) {
     console.log(e);
   }
+  console.log("Socket Connection Open");
   restaurantWsController.setRestaurantSocket(ws);
   ws.send(JSON.stringify(payload));
+
   const interval = setInterval(() => {
     ws.send(JSON.stringify({ type: "PingPong", data: "ping" }));
   }, 2000);
+
+  ws.on("message", (data) => {
+    const message = JSON.parse(data);
+    console.dir(message);
+    if (message.type === "status") {
+      console.log("inside order statrus");
+      restaurantWsController.updateOrderStatus(ws, message);
+    }
+    if (message.type === "getDriverLocation")
+      restaurantWsController.sendDriverDetails(ws, message);
+  });
 
   ws.on("close", () => {
     clearInterval(interval);
