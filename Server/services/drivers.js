@@ -18,6 +18,7 @@ const driversService = {
   readDriverLocation,
   getDriverDetails,
   sendDriversLocationInInterval,
+  searchNearbyDriver,
   //   getAllDriversLocation,
 };
 
@@ -66,6 +67,18 @@ function getNearestDriver(location) {
     }
   }
   return drivers[0];
+}
+
+async function searchNearbyDriver(orderID) {
+  const order = (await orderModel.readOrders({ id: orderID }))[0];
+
+  const driverSearchInterval = setInterval(() => {
+    const driver = driversService.getNearestDriver(order.restaurant.id);
+    if (driver) {
+      orderService.setOrderToPartnerAssigned(order.id, driver);
+      clearInterval(driverSearchInterval);
+    }
+  }, 2000);
 }
 
 function sendDriversLocationInInterval(userID, driverID) {
