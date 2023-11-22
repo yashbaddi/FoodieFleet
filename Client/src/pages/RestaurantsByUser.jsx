@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllOwnedRestaurants } from "../services/requests";
-import RestaurantContainerEditable from "./RestaurantContainerEditable";
+import RestaurantContainerEditable from "../components/RestaurantContainerEditable";
 
 export default function RestaurantsByUser() {
   const [restaurants, setRestaurants] = useState([]);
