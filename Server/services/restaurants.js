@@ -29,7 +29,7 @@ async function getAllOpenedRestaurants() {
 }
 
 async function getRestaurantsByOwner(ownerID) {
-  const data = restaurantModel.readRestaurant({ ownerID: ownerID });
+  const data = await restaurantModel.readRestaurant({ ownerID: ownerID });
   const response = data.map((restaurant) => restaurant.data);
   return response;
 }
