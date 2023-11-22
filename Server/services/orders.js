@@ -1,5 +1,8 @@
+import { restaurantWsController } from "../controller/ws/restaurant.js";
 import userWsController from "../controller/ws/user.js";
 import orderModel from "../model/orders.js";
+import restaurantModel from "../model/restaurants.js";
+import userModel from "../model/users.js";
 import driversService from "./drivers.js";
 import restaurantService from "./restaurants.js";
 
@@ -11,11 +14,11 @@ const orderService = {
   patchCurrentOrder,
   updateItemsInOrder,
   updateOrderStatus,
+  setOrderToPreparing,
 };
-
 async function getOrdersByOrderID(orderID) {
   const readResponse = await orderModel.readOrders({ id: orderID });
-  return readResponse;
+  return readResponse.length !== 0 ? readResponse[0] : {};
 }
 
 async function getOrdersByUserID(userID) {
@@ -39,30 +42,36 @@ async function createNewOrder(userID, restaurantID, location) {
     restaurantID
   );
   console.log(restaurantLocation);
-  const nearbyDriver = await driversService.getNearestDriver(
-    restaurantLocation
-  );
-  console.log("nearby Driver:", nearbyDriver);
   const response = await orderModel.createOrder(
     userID,
     {
       restaurantID: restaurantID,
     },
-    nearbyDriver[0],
     {
       latitude: location[0],
       longitude: location[1],
     }
   );
+  const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
+    restaurantID
+  );
 
-  setInterval(async () => {
-    const location = await driversService.readDriverLocation(nearbyDriver[0]);
-    userWsController.sendDriverLocation(userID, location);
-  }, 5000);
-
-  console.log(nearbyDriver);
+  restaurantWsController.sendOrderDetails(restaurantOwnerID, response[0]);
 
   return response;
+}
+
+async function setOrderToPreparing(orderID) {
+  const status = await orderModel.updateOrderStatus(orderID, "PREPARING");
+
+  const order = await orderModel.readOrders({ id: orderID });
+
+  userWsController.sendStatusNotification(
+    order.customer_id,
+    order.id,
+    "PREPARING"
+  );
+  await driversService.searchNearbyDriver(order.id);
 }
 
 async function patchCurrentOrder(orderID, order) {
