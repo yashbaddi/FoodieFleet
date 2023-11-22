@@ -17,6 +17,7 @@ const driversService = {
   updateDriverStatus,
   readDriverLocation,
   getDriverDetails,
+  sendDriversLocationInInterval,
   //   getAllDriversLocation,
 };
 
@@ -65,6 +66,13 @@ function getNearestDriver(location) {
     }
   }
   return drivers[0];
+}
+
+function sendDriversLocationInInterval(userID, driverID) {
+  setInterval(async () => {
+    const location = await driversService.readDriverLocation(driverID);
+    userWsController.sendDriverLocation(userID, location);
+  }, 5000);
 }
 
 export default driversService;
