@@ -6,6 +6,7 @@ const userWsController = {
   setUserSocket,
   getUserSocket,
   closeUserSocket,
+  getDriverDetails,
   sendDriverLocation,
   sendNotification,
 };
@@ -17,6 +18,15 @@ async function setUserSocket(ws) {
 
 async function getUserSocket(userID) {
   return userSockets[userID];
+}
+
+async function getDriverDetails(ws, wsRequest) {
+  console.log("Request to send driver Location Details in Restaurant");
+
+  driversService.sendDriversLocationInInterval(
+    ws.user,
+    wsRequest.data.driverID
+  );
 }
 
 async function closeUserSocket(ws) {
