@@ -1,23 +1,32 @@
-const restaurantSockets = [];
+import orderService from "../../services/orders.js";
+import driversService from "../../services/drivers.js";
+
+const restaurantSockets = {};
 
 export const restaurantWsController = {
   sendOrderDetails,
   setRestaurantSocket,
   closeRestaurantSocket,
+  sendDriverDetails,
 };
 
-async function sendOrderDetails(restaurantID, order) {
+async function sendOrderDetails(restaurantOwner, order) {
   const payload = {
     type: "order",
     data: order,
   };
-  restaurantSockets[restaurantID].send(JSON.stringify(payload));
+  restaurantSockets[restaurantOwner].send(JSON.stringify(payload));
+}
+
+async function sendDriverDetails(ws, wsRequest) {
+  console.log("Request to send driver Location Details in Restaurant");
+  driversService.sendDriversLocationInInterval(ws, wsRequest.data.driverID);
 }
 
 async function setRestaurantSocket(ws) {
-  restaurantSockets[ws.restaurantID] = ws;
+  restaurantSockets[ws.restaurantOwner] = ws.user;
 }
 
 async function closeRestaurantSocket(ws) {
-  restaurantSockets[ws.restaurantID] = undefined;
+  restaurantSockets[ws.restaurantOwner] = undefined;
 }
