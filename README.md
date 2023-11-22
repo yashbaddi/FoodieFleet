@@ -80,20 +80,19 @@ To Meet These Objectives we have following criteria
 #### Fourth Phase:
 
 - [x] Delivery Partner Multiple CRUD and UI
-- [ ] Understanding and modifying the Map based on Needs
-- [ ] Tracking Delivery Executive
-- [ ] Calculating Delivery time and route
-- [ ] Calculating Total time
-- [ ] Add Notification Service
-
-#### Fifth Phase
-
+- [x] Understanding and modifying the Map based on Needs
+- [x] Tracking Delivery Executive
+- [x] Calculating Delivery time and route
 - [ ] Working on UI
-- [ ] Adding Reviews and Ratings
+- [ ] Refining the application
+
+#### Fifth Phase (Extra Features)
+
 - [ ] Adding Dummy Data
 - [ ] Adding Search
 - [ ] Refining The App.
 - [ ] Exprimenting and adding different features
+- [ ] Calculating Total time
 
 ## 4. API Contracts:
 
