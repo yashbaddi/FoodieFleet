@@ -1,5 +1,6 @@
 import driversService from "../../services/drivers.js";
 import orderService from "../../services/orders.js";
+import orderModel from "../../model/orders.js";
 
 // createOrder(res.locals.userID, {
 //   restaurantID: "b424d354-f611-442e-b384-f80d8597d766",
@@ -30,20 +31,27 @@ import orderService from "../../services/orders.js";
 //   },
 // });
 
-const driv = await driversService.updateDriverLocation(
-  "gagan",
-  12.9351088,
-  77.6157508
-);
+// const driv = await driversService.updateDriverLocation(
+//   "gagan",
+//   12.9351088,
+//   77.6157508
+// );
 
-const data = await orderService.createNewOrder(
-  "yashbaddi",
-  "dd7ee8dd-87c4-42ac-8270-f382b770f4cc",
-  {
-    latitude: 12.9615365,
-    longitude: 77.6441559,
-  }
-);
-console.log("data:", data);
+// const data = await orderService.createNewOrder(
+//   "yashbaddi",
+//   "dd7ee8dd-87c4-42ac-8270-f382b770f4cc",
+//   {
+//     latitude: 12.9615365,
+//     longitude: 77.6441559,
+//   }
+// );
+// console.log("data:", data);
 
 // console.log(JSON.stringify(data, null, 4));
+
+console.dir(
+  await orderModel.readOrders({
+    id: "621ea03a-cee6-4ec8-a325-b0119d7a1787",
+  }),
+  { depth: null }
+);
