@@ -46,8 +46,8 @@ export default function Navigation() {
             </button>
           </div>
         </div>
-        {isProfileDropDownOpen && <ProfileDropMenu />}
       </nav>
+      {isProfileDropDownOpen && <ProfileDropMenu />}
     </>
   );
 }
