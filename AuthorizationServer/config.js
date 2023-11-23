@@ -11,7 +11,7 @@ const config = {
   },
   host: process.env.HOST,
   port: parseInt(process.env.PORT, 10),
-  corsOrigin: process.env.CORS_URLS.split(" "),
+  corsOrigin: process.env.CORS_URLS ? process.env.CORS_URLS.split(" ") : [],
 };
 
 export default config;
