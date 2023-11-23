@@ -1,9 +1,10 @@
 /* eslint-disable no-empty */
+import config from "../../config";
 import { store } from "../store";
 
 import { updateDriverLocation } from "../store/actionCreators/driverLocation.action";
 
-const serverUrl = "ws://localhost:3000/";
+const serverUrl = config.api.url;
 
 export function createUserSocketConnect(getNotifications) {
   const wsClient = new WebSocket(serverUrl + "user/ws");
