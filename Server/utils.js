@@ -27,7 +27,8 @@ export function generateAuthUrl() {
     state: "randomstring",
   });
   console.log("queryString", params);
-  const authURL = "http://localhost:4000/oauth/authorize?" + params.toString();
+  const authURL =
+    config.oauth.providerURL + "/oauth/authorize?" + params.toString();
   return authURL;
 }
 

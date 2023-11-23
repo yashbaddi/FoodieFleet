@@ -12,7 +12,7 @@ async function authorize(req, res) {
 
 async function authCallback(req, res) {
   const code = req.query.code;
-  const tokenData = await fetch("http://localhost:4000/oauth/token/", {
+  const tokenData = await fetch(config.oauth.providerURL + "/oauth/token/", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
