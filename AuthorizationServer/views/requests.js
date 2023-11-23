@@ -1,7 +1,6 @@
-import config from "../config.js";
 import { getSearchParamString } from "./store/queryParams.js";
 
-const serverURL = `${config.host}:${config.port}`;
+const serverURL = ``;
 
 export async function loginRequest(username, password) {
   const path = "/session/";
