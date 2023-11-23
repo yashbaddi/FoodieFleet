@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   createDriverSocketConnect,
   sendLocationWS,
-  updateDriverStatusWS,
 } from "../services/ws-connection";
 import { getDriversDetails } from "../services/requests";
 import useGeolocation from "../hooks/useGeoLocation";
