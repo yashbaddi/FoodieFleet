@@ -5,6 +5,7 @@ import oauthModel from "../oauth-model.js";
 import OAuth2Server from "oauth2-server";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import config from "../config.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -25,7 +26,8 @@ export async function authorizeHandler(req, res, next) {
   // res.cookie("x-auth-query", JSON.stringify(req.query));
   // res.cookies("x-auth-response", JSON.stringify(authResponse));
   res.redirect(
-    "http://localhost:4000/oauth/consent?" + querystring.stringify(req.query)
+    `${config.host}:${config.port}/oauth/consent?` +
+      querystring.stringify(req.query)
   );
 }
 

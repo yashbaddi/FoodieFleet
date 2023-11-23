@@ -5,6 +5,7 @@ import clientRouter from "./routes/client.js";
 import usersRouter from "./routes/users.js";
 import sessionRouter from "./routes/session.js";
 import cors from "cors";
+import config from "./config.js";
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: config.corsOrigin,
     credentials: true,
   })
 );
@@ -27,4 +28,4 @@ app.use((err, req, res, next) => {
   res.status(err.code || 500).json(err);
 });
 
-app.listen(4000);
+app.listen(config.port);
