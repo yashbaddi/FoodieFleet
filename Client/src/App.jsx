@@ -6,7 +6,7 @@ import { store } from "./store";
 
 import Home from "./pages/Home";
 import Restaurant from "./pages/Restaurant";
-import Navigation from "./components/navigation";
+import Navigation from "./components/Navigation";
 import Cart from "./pages/Cart";
 import TrackOrder from "./pages/TrackOrder";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
