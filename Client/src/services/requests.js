@@ -232,7 +232,7 @@ export async function getDriversDetails() {
 export async function loginWithAuthProvider() {}
 
 function isAuthenticated(response) {
-  const baseURL = "http://localhost:3000/";
+  const baseURL = config.api.url;
 
   if (response.status == 401) {
     const path = "auth/";
