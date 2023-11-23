@@ -1,4 +1,6 @@
-const baseURL = "http://localhost:3000/";
+import config from "../../config";
+
+const baseURL = config.api.url;
 
 //Restaurants
 
