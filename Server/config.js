@@ -5,6 +5,7 @@ const config = {
   app: {
     port: Number(process.env.SERVER_PORT),
     corsOrigin: process.env.CORS_URLS ? process.env.CORS_URLS.split(" ") : [],
+    clientURL: process.env.CLIENT_URL,
   },
   db: {
     host: process.env.DB_HOST,

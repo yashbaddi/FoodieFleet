@@ -30,7 +30,7 @@ async function authCallback(req, res) {
   //   const sessionData = await sessionService.createSession(tokenData.user.id);
   //   res.cookie("sid", sessionData.id);
   // res.send("hey");
-  res.redirect("http://localhost:5173");
+  res.redirect(config.app.clientURL);
 }
 
 export default authController;
