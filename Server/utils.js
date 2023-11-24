@@ -29,6 +29,7 @@ export function generateAuthUrl() {
   console.log("queryString", params);
   const authURL =
     config.oauth.providerURL + "/oauth/authorize?" + params.toString();
+  console.log("The auth URL:", authURL);
   return authURL;
 }
 
