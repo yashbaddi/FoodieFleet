@@ -31,7 +31,7 @@ function useGeolocation() {
       }
       // console.log("coords:", location);
     }, 2000);
-  }, [location]);
+  }, []);
   return location;
 }
 
