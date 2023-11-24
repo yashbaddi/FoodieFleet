@@ -42,6 +42,7 @@ export default function TrackOrder() {
 
       if (notificationData.status === "PARTNER_ASSIGNED") {
         setPartnerDetails(notificationData.partner);
+        getDriverLocationWS(socket, order.driver_id);
       }
     }
   }

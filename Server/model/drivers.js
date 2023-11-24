@@ -63,8 +63,10 @@ async function setUserToDriver(userID) {
 async function getNearbyMembers(location, distance) {
   const res = await redisClient.georadius(
     "driverLocations",
-    location.longitude,
-    location.latitude,
+    {
+      longitude: location.longitude,
+      latitude: location.latitude,
+    },
     distance,
     "m"
   );
