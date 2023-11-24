@@ -40,7 +40,7 @@ async function sendDriverLocation(userID, location) {
     type: "partner_location",
     data: location,
   };
-  userSockets[userID].send(JSON.stringify(payload));
+  userSockets[userID]?.send(JSON.stringify(payload));
 }
 
 async function sendNotification(userID, notification) {
