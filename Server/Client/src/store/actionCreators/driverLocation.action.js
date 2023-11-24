@@ -4,8 +4,8 @@ export function updateDriverLocation(location) {
     dispatch({
       type: "UPDATE_DRIVER_LOCATION",
       payload: {
-        latitude: Number(location.latitude),
-        longitude: Number(location.longitude),
+        latitude: Number(location[0]),
+        longitude: Number(location[1]),
       },
     });
   };
