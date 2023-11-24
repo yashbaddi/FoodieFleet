@@ -1,10 +1,10 @@
 import express from "express";
-import restaurantsRouter from "./restaurants";
-import ordersRouter from "./orders";
-import cartRouter from "./cart";
-import driversRouter from "./drivers";
-import userRouter from "./users";
-import authRouter from "./auth";
+import restaurantsRouter from "./restaurants.js";
+import ordersRouter from "./orders.js";
+import cartRouter from "./cart.js";
+import driversRouter from "./drivers.js";
+import userRouter from "./users.js";
+import authRouter from "./auth.js";
 
 const apiRouter = express.Router();
 expressWs(apiRouter);
