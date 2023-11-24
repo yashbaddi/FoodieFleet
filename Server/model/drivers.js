@@ -12,7 +12,7 @@ const driversModel = {
 
 async function updateMemberLocation(memberID, location) {
   console.log("memberID:", memberID, "drivero:", location);
-  const res = await redisClient.geoAdd("driverLocations", [
+  const res = await redisClient.geoadd("driverLocations", [
     {
       longitude: location.longitude,
       latitude: location.latitude,
@@ -25,7 +25,7 @@ async function updateMemberLocation(memberID, location) {
 }
 
 async function readMemberLocation(memberID) {
-  const res = await redisClient.geoPos("driverLocations", memberID);
+  const res = await redisClient.geopos("driverLocations", memberID);
   return res[0];
 }
 
@@ -62,7 +62,7 @@ async function setUserToDriver(userID) {
 }
 
 async function getNearbyMembers(location, distance) {
-  const res = await redisClient.geoRadius(
+  const res = await redisClient.georadius(
     "driverLocations",
     {
       longitude: location.longitude,
