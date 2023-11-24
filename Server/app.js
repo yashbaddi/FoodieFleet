@@ -29,6 +29,11 @@ app.use("/driver", driversRouter);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
 app.listen(config.app.port, () => {
   console.log(`applicaton Listening to port ${config.app.port}`);
 });
