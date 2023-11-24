@@ -23,14 +23,9 @@ async function authCallback(req, res) {
 
   console.log("token getn", tokenDataBody);
 
-  res.cookie("token", tokenDataBody.accessToken, { httpOnly: true });
+  res.cookie("token", tokenDataBody.accessToken);
 
-  //   await authService.saveToken(tokenData);
-  //   await authService.updateUserViaResourceServer(tokenData);
-  //   const sessionData = await sessionService.createSession(tokenData.user.id);
-  //   res.cookie("sid", sessionData.id);
-  // res.send("hey");
-  res.redirect(config.app.clientURL);
+  res.redirect(302, config.app.clientURL);
 }
 
 export default authController;
