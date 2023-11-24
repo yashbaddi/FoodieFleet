@@ -25,14 +25,15 @@ export async function authorizeHandler(req, res, next) {
 
   // res.cookie("x-auth-query", JSON.stringify(req.query));
   // res.cookies("x-auth-response", JSON.stringify(authResponse));
+
   res.redirect(
-    `${config.host}:${config.port}/oauth/consent?` +
-      querystring.stringify(req.query)
+    `${config.host}/oauth/consent?` + querystring.stringify(req.query)
   );
 }
 
 export async function consentHandler(req, res, next) {
   console.log("enter consent");
+  console.log(path.join(__dirname, "../views"));
   express.static(path.join(__dirname, "../views"))(req, res, next);
 }
 
