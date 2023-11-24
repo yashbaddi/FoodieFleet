@@ -19,12 +19,12 @@ async function createOrder(userID, data, location) {
       [userID, data.restaurantID, location]
     )
   ).rows[0].id;
-  console.log("orderID", orderID);
+  console.log("orderID", order.id);
 
   const itemOrders = (
     await pool.query(
       "INSERT INTO ordered_items(order_id,item_id,quantity) SELECT $2,item_id,quantity FROM cart_items WHERE user_id=$1 RETURNING (item_id,quantity)",
-      [userID, orderID]
+      [userID, order.id]
     )
   ).rows;
   return {

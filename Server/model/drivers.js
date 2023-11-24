@@ -24,8 +24,8 @@ async function updateMemberLocation(memberID, location) {
 }
 
 async function readMemberLocation(memberID) {
-  console.log("memberID in readmember location", memberID);
   const res = await redisClient.geopos("driverLocations", memberID);
+  console.log("memberID in readmember location", memberID, "responese", res[0]);
   return res[0];
 }
 
