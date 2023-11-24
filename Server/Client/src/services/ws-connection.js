@@ -4,7 +4,7 @@ import { store } from "../store";
 
 import { updateDriverLocation } from "../store/actionCreators/driverLocation.action";
 
-const serverUrl = config.api.url;
+const serverUrl = config.api.wsURL;
 
 export function createUserSocketConnect(getNotifications) {
   const wsClient = new WebSocket(serverUrl + "user/ws");
