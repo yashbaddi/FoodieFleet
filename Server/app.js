@@ -14,9 +14,6 @@ import apiRouter from "./routes/api.js";
 
 const app = express();
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/Client/dist")));
-
 expressWs(app);
 app.use(cookieParser());
 
@@ -29,6 +26,9 @@ app.use(
 
 app.use("/api", apiRouter);
 
+const __dirname = path.resolve();
+console.log(__dirname);
+app.use(express.static(path.join(__dirname, "/Client/dist")));
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/Client/dist/index.html"))
 );

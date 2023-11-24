@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ItemContainer from "../components/ItemContainer";
+import ItemContainer from "./ItemContainer";
 import { getRestaurantMenu } from "../services/requests";
 
 export default function ItemsList({ id }) {
