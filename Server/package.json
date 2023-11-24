@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "build":"cd Client && npm install && npm run build",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
