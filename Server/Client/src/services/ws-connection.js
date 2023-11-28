@@ -88,7 +88,7 @@ export function sendLocationWS(ws, location) {
 
 export function updateDriverStatusWS(ws, status) {
   const payload = {
-    type: "status",
+    type: "pratner_status",
     data: { status },
   };
   ws.send(JSON.stringify(payload));
