@@ -10,8 +10,6 @@ redisClient.on("error", (err) => {
   console.log(err);
 });
 
-// await redisClient.connect();
-
 const pool = new Pool({
   user: config.db.user,
   host: config.db.host,
