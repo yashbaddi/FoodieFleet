@@ -1,3 +1,4 @@
+import driverWsController from "../controller/ws/driver.js";
 import { redisClient } from "./db-connection.js";
 import pool from "./db-connection.js";
 
@@ -11,21 +12,18 @@ const driversModel = {
 };
 
 async function updateMemberLocation(memberID, location) {
-  console.log("memberID:", memberID, "drivero:", location);
   const res = await redisClient.geoadd(
     "driverLocations",
     location.longitude,
     location.latitude,
     memberID
   );
-  console.log(res);
 
   return JSON.parse(res);
 }
 
 async function readMemberLocation(memberID) {
   const res = await redisClient.geopos("driverLocations", memberID);
-  console.log("memberID in readmember location", memberID, "responese", res[0]);
   return res[0];
 }
 
@@ -62,31 +60,21 @@ async function setUserToDriver(userID) {
 }
 
 async function getNearbyMembers(location, distance) {
+  const response = await pool.query(
+    `SELECT * FROM drivers WHERE status='AVAILABLE'`
+  );
+  const availableDrivers = response.rows.map((row) => row.user_id);
   const res = await redisClient.georadius(
     "driverLocations",
-    {
-      longitude: location.longitude,
-      latitude: location.latitude,
-    },
+    location.longitude,
+    location.latitude,
     distance,
     "m"
   );
-  console.log(res);
-  return res;
+  const activeDrivers = await driverWsController.getAllActiveDrivers();
+  const filteredDrivers = availableDrivers.filter(
+    (driver) => res.includes(driver) && activeDrivers.includes(driver)
+  );
+  return filteredDrivers;
 }
 export default driversModel;
-// const data = await updateMemberLocation("harsh", {
-//   latitude: 12.9602122,
-//   longitude: 77.6447949,
-// });
-
-// console.log("in data", await data);
-
-// const suo = await readMemberLocation("harsh");
-
-// console.log("location REade:", await suo);
-
-// const duo = await getNearbyMembers({
-//   latitude: 12.9602122,
-//   longitude: 77.6447949,
-// });
