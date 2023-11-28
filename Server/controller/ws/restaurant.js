@@ -27,13 +27,8 @@ async function sendDriverDetails(ws, wsRequest) {
 
 async function updateOrderStatus(ws, wsRequest) {
   const { status, orderID } = wsRequest.data;
-  console.log(wsRequest);
-  if (status == "PREPARING") {
-    orderService.setOrderToPreparing(orderID);
-  }
-  if (status == "REJECTED") {
-    orderService.setOrderToRejected(orderID);
-  }
+  if (status === "PREPARING" || status === "REJECTED")
+    orderService.updateOrderStatus(orderID, status);
 }
 
 async function sendNotification(userID, notification) {
