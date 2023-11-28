@@ -1,13 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// import restaurantsRouter from "./routes/restaurants.js";
-// import ordersRouter from "./routes/orders.js";
-// import cartRouter from "./routes/cart.js";
-// import authRouter from "./routes/auth.js";
 import config from "./config.js";
-// import driversRouter from "./routes/drivers.js";
-// import userRouter from "./routes/users.js";
 import path from "path";
 import expressWs from "express-ws";
 import apiRouter from "./routes/api.js";
@@ -32,13 +26,6 @@ app.use(express.static(path.join(__dirname, "/Client/dist")));
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/Client/dist/index.html"))
 );
-
-// app.use("/restaurants", restaurantsRouter);
-// app.use("/orders", ordersRouter);
-// app.use("/cart", cartRouter);
-// app.use("/driver", driversRouter);
-// app.use("/user", userRouter);
-// app.use("/auth", authRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
