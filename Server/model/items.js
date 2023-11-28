@@ -1,12 +1,7 @@
 import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
-const itemModel = {
-  createItem: createItem,
-  readItem: readItem,
-  updateItem: updateItem,
-  deleteItem: deleteItem,
-};
+const itemModel = { createItem, readItem, updateItem, deleteItem };
 
 async function createItem(restaurantID, data) {
   console.log(data);
