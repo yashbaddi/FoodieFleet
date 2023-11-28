@@ -56,29 +56,50 @@ async function getDriverDetails(userID) {
 //   return DriversLocations;
 // }
 
-function getNearestDriver(location) {
-  const drivers = [];
+async function getNearestDriver(location) {
+  console.log("In get Nearest Driver");
+  let drivers = [];
   let distance = 100;
-  while (!drivers) {
-    drivers = driversModel.getNearbyMembers(location);
-    distance += 100;
-    if (distance >= 2000) {
+  console.log(drivers.length);
+  while (drivers.length === 0) {
+    console.log("in drivers mode");
+    drivers = await driversModel.getNearbyMembers(location, distance);
+    distance += 500;
+    console.log("updated distance:", distance);
+    if (distance >= 10000) {
+      console.log("Distance beyond 2000");
       break;
     }
+    console.log("is while still:", drivers.length === 0);
   }
+  console.log(drivers);
   return drivers[0];
 }
 
 async function searchNearbyDriver(orderID) {
-  const order = (await orderModel.readOrders({ id: orderID }))[0];
+  const order = await orderModel.readOrders({ id: orderID });
+  console.log("Searching Nearby Drivers...");
+  const driver = await assignDriverToOrder(order);
+  if (!driver) {
+    const driverSearchInterval = setInterval(async () => {
+      const driver = await assignDriverToOrder(order);
 
-  const driverSearchInterval = setInterval(() => {
-    const driver = driversService.getNearestDriver(order.restaurant.id);
-    if (driver) {
-      orderService.setOrderToPartnerAssigned(order.id, driver);
-      clearInterval(driverSearchInterval);
-    }
-  }, 2000);
+      if (driver) {
+        clearInterval(driverSearchInterval);
+      }
+    }, 60000);
+  }
+}
+
+async function assignDriverToOrder(order) {
+  const driver = await driversService.getNearestDriver(
+    order.restaurant.location
+  );
+  if (driver) {
+    console.log("partner to be assigned:", driver);
+    await orderService.setOrderToPartnerAssigned(order.id, driver);
+    return driver;
+  }
 }
 
 function sendDriversLocationInInterval(userID, driverID) {
