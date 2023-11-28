@@ -12,14 +12,12 @@ const orderModel = {
 };
 
 async function createOrder(userID, data, location) {
-  // console.log("drover:", driver);
   const order = (
     await pool.query(
-      "INSERT INTO orders(customer_id,restaurant_id,delivery_location) values($1,$2,$3,$4) RETURNING *",
+      "INSERT INTO orders(customer_id,restaurant_id,delivery_location) values($1,$2,$3) RETURNING *",
       [userID, data.restaurantID, location]
     )
-  ).rows[0].id;
-  console.log("orderID", order.id);
+  ).rows[0];
 
   const itemOrders = (
     await pool.query(
@@ -42,8 +40,8 @@ async function readOrders(filters = {}) {
   join items on ordered_items.item_id=items.id 
   where orders.id=$1
   group by orders.id,restaurants.id,users.id`;
-
-    return (await pool.query(query, [filters.id])).rows;
+    const order = (await pool.query(query, [filters.id])).rows;
+    if (order) return order[0];
   }
 
   if (filters.userID) {
@@ -58,9 +56,8 @@ async function readOrders(filters = {}) {
   }
 
   if (filters.ownerID) {
-    console.log("Owner ID In orders Model", filters.ownerID);
     const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
-    left join restaurants on orders.restaurant_id=restaurants.id and restaurants.owner_id=$1
+    join restaurants on orders.restaurant_id=restaurants.id and restaurants.owner_id=$1
     left join users on orders.driver_id=users.id 
     join ordered_items on ordered_items.order_id=orders.id 
     join items on ordered_items.item_id=items.id 
@@ -70,7 +67,7 @@ async function readOrders(filters = {}) {
 
   if (filters.driverID) {
     const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
-    left join restaurants on orders.restaurant_id=restaurants.id 
+    join restaurants on orders.restaurant_id=restaurants.id 
     left join users on orders.driver_id=users.id 
     join ordered_items on ordered_items.order_id=orders.id 
     join items on ordered_items.item_id=items.id 
@@ -80,7 +77,7 @@ async function readOrders(filters = {}) {
   }
 
   const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
-  left join restaurants on orders.restaurant_id=restaurants.id 
+  join restaurants on orders.restaurant_id=restaurants.id 
   left join users on orders.driver_id=users.id 
   join ordered_items on ordered_items.order_id=orders.id 
   join items on ordered_items.item_id=items.id 
@@ -92,7 +89,6 @@ async function updateQuantity(orderID, itemID, quantity) {
   const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
       ON CONFLICT(order_id,item_id) 
       DO UPDATE SET quantity=$3 RETURNING quantity`;
-  console.log(query);
   const updatedItem = await pool.query(query, [orderID, itemID, quantity]);
   quantity = updatedItem.rows[0].quantity;
 
@@ -108,8 +104,20 @@ async function assignDriverToOrder(
   driverID,
   status = "PARTNER_ASSIGNED"
 ) {
-  const query = `UPDATE orders SET driver_id=$2 status=$3 WHERE id=$1`;
-  return (await pool.query(query, [orderID, driverID, status])).rows;
+  try {
+    await pool.query("BEGIN");
+    const query = `UPDATE orders SET driver_id=$2,status=$3 WHERE id=$1`;
+    const response = await pool.query(query, [orderID, driverID, status]);
+    await pool.query("UPDATE TABLE drivers SET status=$2 where user_id=$1", [
+      driverID,
+      "ON_DELIVERY",
+    ]);
+    await pool.query("COMMIT");
+
+    return response.rows;
+  } catch (err) {
+    pool.query("ROLLBACK");
+  }
 }
 
 async function updateOrderStatus(orderID, status) {
@@ -124,17 +132,24 @@ async function updateOrderStatus(orderID, status) {
     return (await pool.query(query, [orderID, status])).rows;
   }
   if (status == "DELIVERED") {
-    const query =
-      "UPDATE orders SET status=$2,delivered_time=CURRENT_TIMESTAMP WHERE id=$1";
-    return (await pool.query(query, [orderID, status])).rows;
+    try {
+      await pool.query("BEGIN");
+      const query =
+        "UPDATE orders SET status=$2,delivered_time=CURRENT_TIMESTAMP WHERE id=$1";
+      const response = await pool.query(query, [orderID, status]);
+      await pool.query("UPDATE TABLE drivers SET status=$2 where user_id=$1", [
+        driverID,
+        "AVAILABLE",
+      ]);
+      await pool.query("COMMIT");
+      return response.rows;
+    } catch (err) {
+      await pool.query("ROLLBACK");
+    }
   }
 }
 
 async function deleteItemFromOrder(orderID, itemID) {
-  console.log({
-    itemID,
-    orderID,
-  });
   const deleteRes = await pool.query(
     "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2",
     [orderID, itemID]
@@ -144,15 +159,12 @@ async function deleteItemFromOrder(orderID, itemID) {
 
 async function patchOrder(id, data) {
   const [expression, values] = getUpdateExpression(data);
-  console.log(values);
-
   const query =
     "UPDATE orders SET" +
     expression +
     " WHERE id=$" +
     (values.length + 1) +
     " RETURNING *";
-  console.log(query);
 
   const updatedData = await pool.query(query, [...values, id]);
 
