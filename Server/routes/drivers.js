@@ -10,7 +10,6 @@ const driversRouter = express.Router();
 expressWs(driversRouter);
 
 driversRouter.ws("/ws", (ws, req) => {
-  console.log("inside ws");
   const payload = {
     type: "open",
   };
@@ -33,12 +32,12 @@ driversRouter.ws("/ws", (ws, req) => {
 
   ws.on("message", (data) => {
     const message = JSON.parse(data);
-    console.log("in message", message);
     if (message.type === "open");
     if (message.type === "location")
       driverWsController.updateLocation(ws, message);
-    if (message.type === "status") driverWsController.updateStatus(ws, message);
-    if (message.type === "orderStatus")
+    if (message.type === "partner_status")
+      driverWsController.updateStatus(ws, message);
+    if (message.type === "status")
       driverWsController.updateOrderStatus(ws, message);
   });
 
