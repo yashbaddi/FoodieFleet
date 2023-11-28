@@ -31,11 +31,8 @@ export default function Cart() {
         orderedItemsData[0].item.restaurant_id,
         location.coordinates
       );
-      navigate("/track-order/" + res.orderID);
-      // break;.
+      navigate("/track-order/" + res.order.id);
     }
-
-    // console.log("orderCreated:", res);
   }
 
   return (
