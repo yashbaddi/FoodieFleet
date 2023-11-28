@@ -9,7 +9,8 @@ const driverWsController = {
   updateStatus,
   updateOrderStatus,
   closeDriverSocket,
-  assignDriver,
+  sendOrderDetailsToPartner,
+  getAllActiveDrivers,
 };
 
 async function addDriverSocket(ws) {
@@ -18,28 +19,35 @@ async function addDriverSocket(ws) {
 
 async function updateLocation(ws, wsRequest) {
   console.log("update Driver Location", wsRequest);
-  await driversService.updateDriverLocation(
-    ws.user,
-    wsRequest.data[0],
-    wsRequest.data[1]
-  );
+  if (wsRequest.data) {
+    await driversService.updateDriverLocation(
+      ws.user,
+      wsRequest.data[0],
+      wsRequest.data[1]
+    );
+  }
 }
 
 async function updateStatus(ws, wsRequest) {
   await driversService.updateDriverStatus(ws.user, wsRequest.data.status);
 }
-async function updateOrderStatus() {
-  await orderService.updateOrderStatus(
-    wsRequest.data.orderID,
-    wsRequest.data.status
-  );
+
+async function getAllActiveDrivers() {
+  console.log("driver Sockets", driverSockets);
+  return Object.keys(driverSockets);
+}
+
+async function updateOrderStatus(ws, wsRequest) {
+  const { orderID, status } = wsRequest.data;
+  if (status === "DELIVERING" || status === "DELIVERED")
+    await orderService.updateOrderStatus(orderID, status);
 }
 
 async function closeDriverSocket(ws) {
   driverSockets[ws.user] = undefined;
 }
 
-async function assignDriver(driverID, order) {
+async function sendOrderDetailsToPartner(driverID, order) {
   const payload = {
     type: "order",
     data: order,
