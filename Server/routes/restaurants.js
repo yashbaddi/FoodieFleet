@@ -14,12 +14,10 @@ restaurantsRouter.ws("/ws", (ws, req) => {
   const payload = {
     type: "open",
   };
-  console.log("Inside WS Restaurant");
 
   try {
     const user = validateJWTCookie(req.cookies.token);
     ws.restaurantOwner = user;
-    console.log("restaurant owner ID in ws connection:", ws.restaurantOwner);
   } catch (e) {
     console.log(e);
   }
@@ -33,9 +31,7 @@ restaurantsRouter.ws("/ws", (ws, req) => {
 
   ws.on("message", (data) => {
     const message = JSON.parse(data);
-    console.dir(message);
     if (message.type === "status") {
-      console.log("inside order statrus");
       restaurantWsController.updateOrderStatus(ws, message);
     }
     if (message.type === "getDriverLocation")
