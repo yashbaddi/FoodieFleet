@@ -1,7 +1,9 @@
+import driverWsController from "../controller/ws/driver.js";
 import { restaurantWsController } from "../controller/ws/restaurant.js";
 import userWsController from "../controller/ws/user.js";
 import orderModel from "../model/orders.js";
 import restaurantModel from "../model/restaurants.js";
+import cartService from "./cart.js";
 import driversService from "./drivers.js";
 import restaurantService from "./restaurants.js";
 
@@ -22,7 +24,7 @@ const orderService = {
 
 async function getOrdersByOrderID(orderID) {
   const readResponse = await orderModel.readOrders({ id: orderID });
-  return readResponse.length !== 0 ? readResponse[0] : {};
+  return readResponse ? readResponse : {};
 }
 
 async function getOrdersByUserID(userID) {
@@ -56,20 +58,30 @@ async function createNewOrder(userID, restaurantID, location) {
       longitude: location[1],
     }
   );
-  const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
-    restaurantID
-  );
-
-  restaurantWsController.sendOrderDetails(restaurantOwnerID, response[0]);
+  if (response[0]) {
+    cartService.clearCartForUser(userID);
+    const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
+      restaurantID
+    );
+    restaurantWsController.sendOrderDetails(restaurantOwnerID, response[0]);
+  }
 
   return response;
+}
+
+async function updateOrderStatus(orderID, status) {
+  if (status === "PREPARING") orderService.setOrderToPreparing(orderID);
+  if (status === "DELIVERING") orderService.setOrderToDelivering(orderID);
+  if (status === "DELIVERED") orderService.setOrderToDelivered(orderID);
+  if (status === "REJECTED") orderService.setOrderToRejected(orderID);
 }
 
 async function setOrderToPreparing(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "PREPARING");
 
   const order = await orderModel.readOrders({ id: orderID });
-
+  console.log(orderID, "set to preparing");
+  console.log("order in setOrderToPreparing:", order);
   userWsController.sendStatusNotification(
     order.customer_id,
     order.id,
@@ -81,28 +93,60 @@ async function setOrderToPreparing(orderID) {
 async function setOrderToPartnerAssigned(orderID, driverID) {
   const response = await orderModel.assignDriverToOrder(orderID, driverID);
   const order = await orderModel.readOrders({ id: orderID });
+
   userWsController.sendNotification(order.customer_id, {
     orderID: order.id,
     status: "PARTNER_ASSIGNED",
     partner: order.driver,
   });
+
   restaurantWsController.sendNotification(order.restaurant.owner_id, {
     orderID: order.id,
     status: "PARTNER_ASSIGNED",
     partner: order.driver,
   });
+  driverWsController.sendOrderDetailsToPartner(order.driver.id, order);
+
+  console.log("driver ", order.driver, "assigned to ", order.id);
 }
 
 async function setOrderToDelivering(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "DELIVERING");
+  const order = await orderModel.readOrders({ id: orderID });
+  userWsController.sendNotification(order.customer_id, {
+    orderID: order.id,
+    status: "DELIVERING",
+    partner: order.driver,
+  });
+  restaurantWsController.sendNotification(order.restaurant.owner_id, {
+    orderID: order.id,
+    status: "DELIVERING",
+    partner: order.driver,
+  });
 }
 
 async function setOrderToRejected(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "REJECTED");
+  const order = await orderModel.readOrders({ id: orderID });
+  userWsController.sendNotification(order.customer_id, {
+    orderID: order.id,
+    status: "REJECTED",
+  });
 }
 
 async function setOrderToDelivered(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "DELIVERED");
+  const order = await orderModel.readOrders({ id: orderID });
+  userWsController.sendNotification(order.customer_id, {
+    orderID: order.id,
+    status: "DELIVERED",
+    partner: order.driver,
+  });
+  restaurantWsController.sendNotification(order.restaurant.owner_id, {
+    orderID: order.id,
+    status: "DELIVERED",
+    partner: order.driver,
+  });
 }
 
 async function patchCurrentOrder(orderID, order) {
@@ -129,10 +173,6 @@ async function updateItemsInOrder(orderID, item) {
 
     return deleteResponse;
   }
-}
-
-async function updateOrderStatus(orderID, status) {
-  return orderModel.updateOrderStatus(orderID, status);
 }
 
 export default orderService;
