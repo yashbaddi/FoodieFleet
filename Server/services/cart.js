@@ -1,9 +1,6 @@
 import cartModel from "../model/cart.js";
 
-const cartService = {
-  updateCart: updateCart,
-  readCart: readCart,
-};
+const cartService = { updateCart, readCart, clearCartForUser };
 
 async function updateCart(userID, itemID, quantity) {
   if (quantity > 0) {
@@ -19,6 +16,11 @@ async function updateCart(userID, itemID, quantity) {
     const deleteResponse = await cartModel.removeItemFromCart(userID, itemID);
     return deleteResponse;
   }
+}
+
+async function clearCartForUser(userID) {
+  const readResponse = await cartModel.clearItemsInCart(userID);
+  return readResponse;
 }
 
 async function readCart(userID) {
