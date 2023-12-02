@@ -20,8 +20,15 @@ async function createRestaurant(userID, data) {
   // ).rows.id;
   const restaurantData = (
     await pool.query(
-      "INSERT INTO restaurants(name,description,timings,owner_id) values($1,$2,$3,$4) RETURNING *",
-      [data.name, data.description, data.timings, userID]
+      "INSERT INTO restaurants(name,description,open_timings,close_timings,location,owner_id) values($1,$2,$3,$4,$5,$6) RETURNING *",
+      [
+        data.name,
+        data.description,
+        data.timings.open,
+        data.timings.close,
+        data.location,
+        userID,
+      ]
     )
   ).rows[0];
 
@@ -33,7 +40,7 @@ async function readRestaurant(filters = {}) {
     const query =
       "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.id=$1";
 
-    return (await pool.query(query, [filters.id])).rows;
+    return (await pool.query(query, [filters.id])).rows[0]?.data;
   }
   if (filters.ownerID) {
     const query =
