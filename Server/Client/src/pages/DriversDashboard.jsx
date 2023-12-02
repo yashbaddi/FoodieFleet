@@ -16,7 +16,7 @@ function DriversDashboard() {
   useEffect(() => {
     getDriversDetails().then((data) => {
       console.log("driver details", data[0]);
-      if (data[0].status !== "AVAILABLE") {
+      if (data[0].status === "BUSY") {
         setAvailablity(false);
       } else {
         setAvailablity(true);
