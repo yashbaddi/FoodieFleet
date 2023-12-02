@@ -36,6 +36,7 @@ async function sendNotification(userID, notification) {
     type: "notification",
     data: notification,
   };
+  console.log("restaurantSockets", restaurantSockets[userID]);
   restaurantSockets[userID]?.send(JSON.stringify(payload));
 }
 

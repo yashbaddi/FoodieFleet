@@ -69,10 +69,9 @@ async function readRestaurantOwner(restaurantID) {
     await pool.query("SELECT owner_id from restaurants where id=$1", [
       restaurantID,
     ])
-  ).rows[0]?.ownerID;
+  ).rows[0]?.owner_id;
 
   if (response) return response;
-  throw new Error("Invalid Restaurant ID");
 }
 
 async function readRestaurantLocation(restaurantID) {

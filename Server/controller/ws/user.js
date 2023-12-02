@@ -48,6 +48,7 @@ async function sendNotification(userID, notification) {
     type: "notification",
     data: notification,
   };
+  console.log("user Sockets", userSockets[userID]);
   userSockets[userID]?.send(JSON.stringify(payload));
 }
 
