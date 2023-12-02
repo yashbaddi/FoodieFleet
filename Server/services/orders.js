@@ -48,6 +48,7 @@ async function createNewOrder(userID, restaurantID, location) {
     restaurantID
   );
   console.log(restaurantLocation);
+  const totalCost = await cartService.calculateTotalCost(userID);
   const response = await orderModel.createOrder(
     userID,
     {
@@ -56,10 +57,11 @@ async function createNewOrder(userID, restaurantID, location) {
     {
       latitude: location[0],
       longitude: location[1],
-    }
+    },
+    totalCost
   );
   if (response[0]) {
-    cartService.clearCartForUser(userID);
+    await cartService.clearCartForUser(userID);
     const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
       restaurantID
     );
