@@ -4,11 +4,20 @@ import pool from "./db-connection.js";
 const itemModel = { createItem, readItem, updateItem, deleteItem };
 
 async function createItem(restaurantID, data) {
+  console.log("Restaurant ID Model Function", restaurantID);
   console.log(data);
+
   const itemData = (
     await pool.query(
-      "INSERT INTO ITEMS(name,is_vegetarian,description,price,restaurant_ID) VALUES($1,$2,$3,$4,$5) RETURNING *",
-      [data.name, data.isVegetarian, data.description, data.price, restaurantID]
+      "INSERT INTO items(name,is_vegetarian,description,price,submenu,restaurant_id) values($1,$2,$3,$4,$5,$6) RETURNING *",
+      [
+        data.name,
+        data.isVegetarian,
+        data.description,
+        data.price,
+        data.submenu,
+        restaurantID,
+      ]
     )
   ).rows[0];
   return itemData;
