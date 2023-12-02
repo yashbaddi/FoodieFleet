@@ -108,7 +108,7 @@ async function assignDriverToOrder(
     await pool.query("BEGIN");
     const query = `UPDATE orders SET driver_id=$2,status=$3 WHERE id=$1`;
     const response = await pool.query(query, [orderID, driverID, status]);
-    await pool.query("UPDATE TABLE drivers SET status=$2 where user_id=$1", [
+    await pool.query("UPDATE drivers SET status=$2 where user_id=$1", [
       driverID,
       "ON_DELIVERY",
     ]);
@@ -117,6 +117,7 @@ async function assignDriverToOrder(
     return response.rows;
   } catch (err) {
     pool.query("ROLLBACK");
+    console.log(err);
   }
 }
 
