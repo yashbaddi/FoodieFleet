@@ -17,7 +17,9 @@ async function sendOrderDetails(restaurantOwner, order) {
     type: "order",
     data: order,
   };
-  restaurantSockets[restaurantOwner].send(JSON.stringify(payload));
+  console.log("Restaurant Owner", restaurantOwner);
+  console.log(restaurantSockets[restaurantOwner]);
+  restaurantSockets[restaurantOwner]?.send(JSON.stringify(payload));
 }
 
 async function sendDriverDetails(ws, wsRequest) {
