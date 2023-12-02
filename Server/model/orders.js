@@ -11,11 +11,11 @@ const orderModel = {
   assignDriverToOrder,
 };
 
-async function createOrder(userID, data, location) {
+async function createOrder(userID, data, location, totalCost = 0) {
   const order = (
     await pool.query(
-      "INSERT INTO orders(customer_id,restaurant_id,delivery_location) values($1,$2,$3) RETURNING *",
-      [userID, data.restaurantID, location]
+      "INSERT INTO orders(customer_id,restaurant_id,delivery_location,total_amt) values($1,$2,$3,$4) RETURNING *",
+      [userID, data.restaurantID, location, totalCost]
     )
   ).rows[0];
 
