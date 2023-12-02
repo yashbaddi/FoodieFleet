@@ -60,12 +60,13 @@ async function createNewOrder(userID, restaurantID, location) {
     },
     totalCost
   );
-  if (response[0]) {
+  if (response.order) {
     await cartService.clearCartForUser(userID);
     const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
       restaurantID
     );
-    restaurantWsController.sendOrderDetails(restaurantOwnerID, response[0]);
+    const order = orderService.readOrders({ id: response.order.id });
+    restaurantWsController.sendOrderDetails(restaurantOwnerID, order);
   }
 
   return response;
