@@ -5,10 +5,11 @@ import {
 } from "../services/ws-connection";
 import { getDriversDetails } from "../services/requests";
 import useGeolocation from "../hooks/useGeoLocation";
+import DeliveringOrder from "../components/DeliveringOrder";
 
 function DriversDashboard() {
   const [isAvialable, setAvailablity] = useState(true);
-  const [DeliveringOrder, setDeliveringOrder] = useState(null);
+  const [assignedOrder, setAssignedOrder] = useState(null);
   const [driverSocket, setDriverSocket] = useState(null);
   const location = useGeolocation();
 
@@ -54,7 +55,7 @@ function DriversDashboard() {
   }
 
   function addDeliveringOrder(order) {
-    setDeliveringOrder(order);
+    setAssignedOrder(order);
   }
 
   return (
@@ -65,6 +66,9 @@ function DriversDashboard() {
         checked={isAvialable}
         onChange={changeDriverAvailablity}
       />
+      {assignedOrder && (
+        <DeliveringOrder ws={driverSocket} order={assignedOrder} />
+      )}
     </div>
   );
 }

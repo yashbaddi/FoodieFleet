@@ -6,6 +6,7 @@ import {
 import MapComponent from "../components/MapComponent";
 import { useParams } from "react-router-dom";
 import { getOrder } from "../services/requests";
+import TrackOrderDetail from "../components/TrackOrderDetail";
 
 export default function TrackOrder() {
   const [isLoaded, setLoaded] = useState(false);
@@ -47,13 +48,15 @@ export default function TrackOrder() {
     }
   }
 
+  console.log("Orders in Track Page:", order);
+
   // function onDriverInformation(driverInformation) {
   //   setPartnerDetails(driverInformation.partner);
   // }
 
   return (
     <div>
-      orderDetails
+      {order && <TrackOrderDetail order={order} />}
       {isLoaded && (
         <MapComponent
           userLocation={order.delivery_location}

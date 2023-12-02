@@ -10,9 +10,15 @@ function NewRestaurant() {
       name: document.getElementById("restaurantForm--name").value,
       description: document.getElementById("restaurantForm--description").value,
       timings: {
-        opensAt: Number(document.getElementById("restaurantForm--open").value),
-        closesAt: Number(
-          document.getElementById("restaurantForm--close").value
+        open: Number(document.getElementById("restaurantForm--open").value),
+        close: Number(document.getElementById("restaurantForm--close").value),
+      },
+      location: {
+        latitude: Number(
+          document.getElementById("restaurantForm--latitude").value
+        ),
+        longitude: Number(
+          document.getElementById("restaurantForm--longitude").value
         ),
       },
     });
@@ -28,6 +34,10 @@ function NewRestaurant() {
       <input type="text" id="restaurantForm--open"></input>
       <label>Closes At:</label>
       <input type="text" id="restaurantForm--close"></input>
+      <label>Location Latitude</label>
+      <input type="text" id="restaurantForm--latitude"></input>
+      <label>Location Longitude</label>
+      <input type="text" id="restaurantForm--longitude"></input>
       <button type="submit" onClick={submitRestaurantData}>
         Create Restaurant
       </button>

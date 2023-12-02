@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { updateCartAction } from "../store/actionCreators/cart.action.js";
 import { useDispatch, useSelector } from "react-redux";
+import vegIcon from "../assets/veg-icon.svg";
+import nonVegIcon from "../assets/non-veg-icon.svg";
 
 export default function ItemContainer({ itemData }) {
   const itemsInCart = useSelector((state) => state.cart);
@@ -41,15 +43,50 @@ export default function ItemContainer({ itemData }) {
   // }
 
   return (
-    <div className="border mx-3 my-1 p-2">
-      <h3>{item.name}</h3>
-      <p>{item.description}</p>
-      <p>vegitarian:{item.is_vegitarian}</p>
-      <p>price:{item.price}</p>
-      <div className="border">
-        <button onClick={addOrderItem}>+</button>
-        <text>{quantity}</text>
-        <button onClick={removeOrderedItem}>-</button>
+    <div className="border flex justify-between rounded-xl mx-3 my-3 shadow-lg p-4 w-96">
+      <div className="flex flex-col items-start">
+        {item.is_vegetarian ? (
+          <img
+            className="h-3 my-2 aspect-square"
+            src={vegIcon}
+            alt="Vegetarian"
+          />
+        ) : (
+          <img
+            className="h-3 my-2 aspect-square"
+            src={nonVegIcon}
+            alt="Non Vegetarian"
+          />
+        )}
+        <h3 className="text-lg my-2">{item.name}</h3>
+        <p className="text-xs text-gray-500 my-1">{item.description}</p>
+      </div>
+      <div className="flex flex-col justify-evenly">
+        <p className="text-green">₹{item.price}</p>
+        {quantity ? (
+          <div className="flex items-baseline">
+            <button
+              onClick={addOrderItem}
+              className="bg-green-600 hover:bg-green-800 text-gray-100 px-2 py-0.5 rounded shadow-md"
+            >
+              +
+            </button>
+            <text className="text-xl text-gray-700 p-0.5">{quantity}</text>
+            <button
+              onClick={removeOrderedItem}
+              className="bg-gray-400 hover:bg-gray-800 text-gray-100 px-2 py-0.5 rounded shadow-md"
+            >
+              -
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={addOrderItem}
+            className="bg-green-600 hover:bg-green-800 rounded text-base text-green-50 shadow-md"
+          >
+            ADD
+          </button>
+        )}
       </div>
 
       {/* <button onClick={toggleFormComponentVisiblity}>Update Item</button> */}

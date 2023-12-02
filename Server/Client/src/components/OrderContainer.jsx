@@ -5,11 +5,14 @@ function OrderContainer({ order }) {
     <div>
       {order.items.map((item) => {
         return (
-          <div key={item.item.id}>
-            <p>
-              {item.item.name}x{item.quantity}---
-              {item.item.price * item.quantity}
+          <div
+            key={item.item.id}
+            className="flex justify-between w-96 m-2 p-2 "
+          >
+            <p className="">
+              {item.item.name} x{item.quantity}
             </p>
+            <p>{item.item.price * item.quantity}</p>
           </div>
         );
       })}

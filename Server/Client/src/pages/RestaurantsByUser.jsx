@@ -15,7 +15,10 @@ export default function RestaurantsByUser() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-3xl font-semibold text-gray-800 p-2 m-2">
+        Restaurants Owened By You
+      </h1>
       {restaurants.map((restaurant) => {
         return (
           <RestaurantContainerEditable

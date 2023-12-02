@@ -8,11 +8,13 @@ import ProfileDropMenu from "./ProfileDropMenu.jsx";
 import { useState } from "react";
 export default function Navigation() {
   const [isProfileDropDownOpen, setProfileDropdownOpen] = useState(false);
+
   function toggleProfileDropdown() {
-    setProfileDropdownOpen(!isProfileDropDownOpen);
+    setProfileDropdownOpen((isProfileDropDownOpen) => !isProfileDropDownOpen);
   }
+
   return (
-    <>
+    <div className="flex flex-col">
       <nav className="bg-white flex items-center justify-between p-6">
         <div className="flex basis-1/2">
           <Link to="/">
@@ -25,29 +27,38 @@ export default function Navigation() {
         </div>
 
         <div className="flex justify-center items-center p-10 basis-1/4 gap-4">
-          <div className="flex items-baseline">
+          <div className="flex items-baseline text-gray-700 hover:text-orange-400">
             <BiSearchAlt2 />
-            <p className="inline">Search</p>
+            <p className="no-underline ">Search</p>
           </div>
 
-          <div className="flex items-baseline no-underline">
-            <RiShoppingCart2Fill />
-            <Link
-              to={"/cart/"}
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
-              <p className="no-underline text-black">Cart</p>
-            </Link>
-          </div>
-          <div className="flex items-baseline">
+          <Link
+            to={"/cart/"}
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <div className="flex items-baseline no-underline text-gray-700 hover:text-orange-400">
+              <RiShoppingCart2Fill />
+              <p className="no-underline ">Cart</p>
+            </div>
+          </Link>
+          <div
+            className="flex items-baseline no-underline text-gray-700 hover:text-orange-400"
+            onClick={toggleProfileDropdown}
+          >
             <FaRegUser />
-            <button onClick={toggleProfileDropdown} className="inline">
-              Profile
-            </button>
+            <p className="no-underline ">Profile</p>
+            {isProfileDropDownOpen && (
+              <ProfileDropMenu toggleHide={toggleProfileDropdown} />
+            )}
           </div>
         </div>
       </nav>
-      {isProfileDropDownOpen && <ProfileDropMenu />}
-    </>
+    </div>
   );
+}
+
+{
+  /* <div className="flex items-baseline">
+<FaRegUser />
+<button onClick={toggleProfileDropdown}>Profile</button> */
 }

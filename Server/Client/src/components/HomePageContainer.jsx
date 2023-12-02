@@ -22,11 +22,12 @@ export default function HomePageContainer() {
     );
   }
   return (
-    <>
-      List of Restaurant
-      {restaurants.map((restaurant, index) => {
-        return <RestaurantContainer key={index} restaurant={restaurant} />;
-      })}
-    </>
+    <div className="grid grid-cols-6">
+      <div className="grid grid-cols-4 gap-3 justify-items-stretch m-7 col-start-2 col-end-6">
+        {restaurants.map((restaurant, index) => {
+          return <RestaurantContainer key={index} restaurant={restaurant} />;
+        })}
+      </div>
+    </div>
   );
 }

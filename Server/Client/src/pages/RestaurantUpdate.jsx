@@ -15,7 +15,7 @@ export default function RestaurantUpdate() {
   return (
     <>
       <h1>{restaurant.name}</h1>
-      <Link to={`/restaurant/${id}/item/new`}>
+      <Link to={`/my-account/restaurant-admin/restaurants/${id}/items/new`}>
         <button>Create Item</button>
       </Link>
       <ItemsList id={id} />

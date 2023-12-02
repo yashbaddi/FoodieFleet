@@ -36,22 +36,35 @@ export default function Cart() {
   }
 
   return (
-    <>
-      <h1>Orders</h1>
-      {orderedItemsData.map((orderedItem, index) => {
-        return (
-          <ItemContainerCart
-            key={index}
-            item={orderedItem.item}
-            quantity={orderedItem.quantity}
-          />
-        );
-      })}
-      {location.isLoaded ? (
-        <button onClick={placeOrder}>Place Order</button>
-      ) : (
-        <p>Getting Location Data</p>
-      )}
-    </>
+    <div className="grid grid-cols-12">
+      <div className="flex flex-col items-center col-start-3 col-end-9">
+        <h1 className="font-bold text-3xl text-gray-700 m-5">Your Cart</h1>
+        <div className="flex flex-col">
+          <div className="border rounded p-4">
+            {orderedItemsData.map((orderedItem, index) => {
+              return (
+                <ItemContainerCart
+                  key={index}
+                  item={orderedItem.item}
+                  quantity={orderedItem.quantity}
+                />
+              );
+            })}
+          </div>
+          {location.isLoaded ? (
+            <button
+              className="bg-green-600 hover:bg-green-900 text-gray-100 rounded p-1 m-4 self-end"
+              onClick={placeOrder}
+            >
+              Place Order
+            </button>
+          ) : (
+            <p className="bg-green-600 hover:bg-green-900 text-gray-100 rounded p-1 m-4 self-end">
+              Getting Location Data
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

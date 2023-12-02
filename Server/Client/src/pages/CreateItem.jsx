@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createItem } from "../../services/requests";
+import { createItem } from "../services/requests";
 
 function CreateItem() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ function CreateItem() {
       description: document.getElementById("itemForm--description").value,
       isVegetarian: document.getElementById("itemForm--veg").value === "True",
       price: document.getElementById("itemForm--price").value,
+      submenu: document.getElementById("itemForm--submenu").value,
     };
     const itemCreated = await createItem(id, newItem);
     console.log("itemCreated", itemCreated);
@@ -28,6 +29,8 @@ function CreateItem() {
       <input type="text" id="itemForm--veg"></input>
       <label>price:</label>
       <input type="text" id="itemForm--price"></input>
+      <label>price:</label>
+      <input type="text" id="itemForm--submenu"></input>
       <button type="submit" onClick={submitItemData}>
         Create Item
       </button>

@@ -1,7 +1,7 @@
 import { updateRestaurant } from "../services/requests";
 import { useNavigate, useParams } from "react-router-dom";
 
-function UpdateRestaurant() {
+function EditRestaurant() {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -41,4 +41,4 @@ function UpdateRestaurant() {
   );
 }
 
-export default UpdateRestaurant;
+export default EditRestaurant;

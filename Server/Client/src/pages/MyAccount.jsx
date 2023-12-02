@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom";
 function MyAccount() {
   return (
     <div>
-      <AccountSideBar />
       <Outlet />
     </div>
   );

@@ -53,17 +53,22 @@ function RestaurantOrders() {
   }
 
   return (
-    <div>
-      <h1>Orders</h1>
-      {unapprovedOrders && (
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-3xl font-semibold text-gray-700">
+        {" "}
+        Restaurant Orders
+      </h1>
+      {unapprovedOrders.length !== 0 && (
         <OrdersNeededApproval
           orders={unapprovedOrders}
           ws={socket}
           updateOrderList={updateOrderList}
         />
       )}
-      {currentOrders && <CurrentOrders orders={currentOrders} />}
-      {previousOrders && <PreviousOrders orders={previousOrders} />}
+      {currentOrders.length !== 0 && <CurrentOrders orders={currentOrders} />}
+      {previousOrders.length !== 0 && (
+        <PreviousOrders orders={previousOrders} />
+      )}
     </div>
   );
 }

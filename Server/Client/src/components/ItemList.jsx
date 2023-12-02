@@ -9,17 +9,16 @@ export default function ItemsList({ id }) {
     getRestaurantMenu(id).then((data) => setItems(data));
   }, [id]);
 
-  function updateList(id) {
-    setItems((items) => items.filter((item) => item.id !== id));
-  }
+  // function updateList(id) {
+  //   setItems((items) => items.filter((item) => item.id !== id));
+  // }
 
   console.log("Items", items);
   return (
-    <>
-      List of Items
+    <div className="flex flex-col justify-center items-center mt-10">
       {items.map((item) => {
         return <ItemContainer key={item.id} itemData={item} />;
       })}
-    </>
+    </div>
   );
 }
