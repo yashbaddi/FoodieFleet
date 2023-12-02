@@ -16,7 +16,7 @@ export async function getAllOpenedRestaurants() {
 }
 
 export async function getAllOwnedRestaurants() {
-  const path = "restaurants/?owned=true";
+  const path = "restaurants/?owner=true";
   const response = await fetch(baseURL + path, {
     method: "GET",
     credentials: "include",
