@@ -69,7 +69,7 @@ export function createDriverSocketConnect(setNewOrder) {
     const msg = JSON.parse(message.data.toString());
     console.log("msg:", msg);
     if (msg.type === "order") {
-      setNewOrder();
+      setNewOrder(msg.data);
     }
   };
   wsClient.onclose = () => {
