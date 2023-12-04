@@ -48,10 +48,11 @@ import orderModel from "../../model/orders.js";
 // console.log("data:", data);
 
 // console.log(JSON.stringify(data, null, 4));
-
-console.dir(
-  await orderModel.readOrders({
-    id: "621ea03a-cee6-4ec8-a325-b0119d7a1787",
-  }),
-  { depth: null }
+console.log(
+  await orderModel.assignDriverToOrder(
+    "000eb950-1ef8-4484-a9d3-274af98aa201",
+    "gagan"
+  )
 );
+
+console.dir(await orderModel.readOrders());
