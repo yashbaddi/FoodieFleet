@@ -4,6 +4,7 @@ import { createRestaurantSocketConnect } from "../services/ws-connection";
 import { getAllOrdersByOwner } from "../services/requests";
 import CurrentOrders from "../components/CurrentOrders";
 import PreviousOrders from "../components/PreviousOrders";
+import { set } from "lodash";
 
 function RestaurantOrders() {
   const [socket, setSocket] = useState(null);
@@ -36,7 +37,10 @@ function RestaurantOrders() {
   }, []);
 
   function addUnApprovedOrders(order) {
-    setUnapprovedOrders((unapprovedOrders) => unapprovedOrders.unshift(order));
+    setUnapprovedOrders((unapprovedOrders) => {
+      unapprovedOrders.unshift(order);
+      return [...unapprovedOrders];
+    });
   }
 
   function getNotifications(notification) {}
@@ -48,7 +52,10 @@ function RestaurantOrders() {
       )
     );
     if (order.status === "PREPARING") {
-      setCurrentOrders((currentOrders) => currentOrders.push(order));
+      setCurrentOrders((currentOrders) => {
+        currentOrders.push(order);
+        return [...currentOrders];
+      });
     }
   }
 
