@@ -18,7 +18,7 @@ async function sendOrderDetails(restaurantOwner, order) {
     data: order,
   };
   console.log("Restaurant Owner", restaurantOwner);
-  console.log(restaurantSockets[restaurantOwner]);
+  console.log(restaurantSockets);
   restaurantSockets[restaurantOwner]?.send(JSON.stringify(payload));
 }
 
@@ -43,7 +43,7 @@ async function sendNotification(userID, notification) {
 }
 
 async function setRestaurantSocket(ws) {
-  restaurantSockets[ws.restaurantOwner] = ws.user;
+  restaurantSockets[ws.restaurantOwner] = ws;
 }
 
 async function closeRestaurantSocket(ws) {
