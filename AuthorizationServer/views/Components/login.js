@@ -21,6 +21,13 @@ export function login(root) {
   signupBtn.textContent = "SignUp";
   genClientBtn.textContent = "Generate Client Credentails";
 
+  loginDiv.className = "display login";
+  username.className = "field login__username";
+  password.className = "field login__password";
+  loginBtn.className = "btn login__login ";
+  signupBtn.className = "btn login__signup";
+  genClientBtn.className = "btn login__gen--client";
+
   loginDiv.append(username, password, loginBtn, signupBtn, genClientBtn);
   loginBtn.addEventListener("click", (e) => {
     loginRequest(username.value, password.value).then((response) => {

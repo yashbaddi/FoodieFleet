@@ -14,6 +14,15 @@ export function signUp(root) {
   const signupBtn = document.createElement("button");
   const loginBtn = document.createElement("button");
 
+  signUpDiv.className = "display signup";
+  username.className = "field signup__username";
+  name.className = "field signup__name";
+  email.className = "field signup__email";
+  data.className = "field signup__data";
+  password.className = "field signup__password";
+  loginBtn.className = "btn signup__login ";
+  signupBtn.className = "btn signup__signup";
+
   username.type = "text";
   username.placeholder = "Username";
 

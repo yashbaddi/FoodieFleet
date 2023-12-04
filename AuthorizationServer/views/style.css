@@ -4,3 +4,78 @@ button{
 input{
     display: block;
 }
+
+.display{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.field{
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: inherit;
+    padding: 0.5rem 0.5rem;
+    border-radius: 2px;
+    width: 90%;
+    display: block;
+    transition: all .3s;
+    margin: 1rem 0rem; 
+}
+
+.btn {
+    font-size: 1rem;
+    width: 100%;
+    padding:0.5rem;
+    margin: 1rem 0rem;
+    color: rgb(255 255 255);
+
+}
+
+.login__login{
+    background-color: rgb(22 163 74);
+}
+
+.login__signup{
+    background-color: rgb(217 119 6);
+}
+
+.login__gen--client{
+    background-color: rgb(39 39 42);
+}
+
+.client-form__create{
+    background-color: rgb(217 119 6);
+}
+
+.signup__login{
+    background-color: rgb(22 163 74);
+}
+
+.signup__signup{
+    background-color: rgb(217 119 6);
+}
+
+.show-data__consent{
+    background-color: rgb(22 163 74);
+}
+
+.show-data__reject{
+    background-color: rgb(185 28 28);
+}
+
+.show-data__logout{
+    background-color: rgb(39 39 42);
+}
+/* 
+.field:focus {
+    outline: none;
+    box-shadow: 0 1rem 2rem rgba(#000, .1);
+    border-bottom: 3px solid #000;
+    margin: 3rem;
+}
+
+.field:focus:invalid {
+    border-bottom: 3px solid #333;
+} */
