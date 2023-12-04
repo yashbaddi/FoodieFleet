@@ -65,7 +65,7 @@ async function createNewOrder(userID, restaurantID, location) {
     const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
       restaurantID
     );
-    const order = orderModel.readOrders({ id: response.order.id });
+    const order = await orderModel.readOrders({ id: response.order.id });
     restaurantWsController.sendOrderDetails(restaurantOwnerID, order);
   }
 
