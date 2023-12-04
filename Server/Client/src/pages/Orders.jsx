@@ -16,8 +16,6 @@ function Orders() {
       setPreviousOrders(prev);
     });
   }, []);
-  console.log("current Orders", currentOrders);
-  console.log("previous Orders", previousOrders);
   return (
     <div className="grid grid-cols-12 justify-items-center content-stretch">
       <div className="col-start-2 col-end-10 flex flex-col justify-stretch self-stretch">

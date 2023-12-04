@@ -1,5 +1,4 @@
 export function clientCredentials(root, credentials) {
-  console.log(credentials);
   root.innerHTML = "";
   const clientCredDiv = document.createElement("div");
   const clientID = document.createElement("p");

@@ -3,7 +3,6 @@ import OrderContainer from "./OrderContainer";
 import { Link } from "react-router-dom";
 
 function OrderContainerCurrentOrder({ order }) {
-  console.log("Current Order in container", order);
   return (
     <div className="border rounded-xl flex flex-col items-stretch">
       <OrderContainer order={order} />

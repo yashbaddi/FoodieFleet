@@ -11,7 +11,6 @@ export async function getAllOpenedRestaurants() {
     credentials: "include",
   });
   isAuthenticated(response);
-  console.log("Get all Restaurant", response);
   return response.json();
 }
 
@@ -22,7 +21,6 @@ export async function getAllOwnedRestaurants() {
     credentials: "include",
   });
   isAuthenticated(response);
-  console.log("Get Owned Restaurant", response);
   return response.json();
 }
 
@@ -37,7 +35,6 @@ export async function getRestaurant(id) {
 }
 
 export async function createRestaurant(data) {
-  console.log("in request", data);
   const path = "restaurants/";
   const response = await fetch(baseURL + path, {
     method: "POST",
@@ -158,7 +155,6 @@ export async function getCartItems() {
     method: "GET",
     credentials: "include",
   });
-  console.log(response.json);
   isAuthenticated(response);
 
   return response.json();
@@ -212,7 +208,6 @@ export async function getOrder(orderID) {
     credentials: "include",
     method: "GET",
   });
-  console.log(response.json);
   isAuthenticated(response);
 
   return response.json();
@@ -224,7 +219,6 @@ export async function getDriversDetails() {
     method: "GET",
     credentials: "include",
   });
-  console.log(response.json);
   isAuthenticated(response);
   return response.json();
 }

@@ -7,13 +7,10 @@ import { getAllOpenedRestaurants } from "../services/requests";
 export default function HomePageContainer() {
   const [restaurants, setRestaurants] = useState([]);
   const dispatch = useDispatch();
-  console.log("Restaurant Data:", restaurants);
   dispatch(getCartItemsAction());
 
   useEffect(() => {
     getAllOpenedRestaurants().then((data) => setRestaurants(data));
-    console.log("In use Effect");
-    // dispatch(getAllRestaurants());
   }, []);
 
   function updateList(id) {

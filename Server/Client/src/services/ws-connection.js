@@ -8,9 +8,7 @@ const serverUrl = config.api.wsURL;
 
 export function createUserSocketConnect(getNotifications) {
   const wsClient = new WebSocket(serverUrl + "user/ws");
-  wsClient.onopen = (ws) => {
-    console.log("user socket connection success");
-  };
+  wsClient.onopen = (ws) => {};
   const interval = setInterval(() => {
     wsClient.send(JSON.stringify({ type: "PingPong", data: "ping" }));
   }, 2000);
@@ -36,15 +34,12 @@ export function createUserSocketConnect(getNotifications) {
 
 export function createRestaurantSocketConnect(setNewOrder, getNotifications) {
   const wsClient = new WebSocket(serverUrl + "restaurants/ws");
-  wsClient.onopen = (ws) => {
-    console.log("restaurant socket connection success");
-  };
+  wsClient.onopen = (ws) => {};
   const interval = setInterval(() => {
     wsClient.send(JSON.stringify({ type: "PingPong", data: "ping" }));
   }, 2000);
   wsClient.onmessage = (message) => {
     const msg = JSON.parse(message.data.toString());
-    console.log("msg:", msg);
     if (msg.type === "order") {
       setNewOrder(msg.data);
     }
@@ -59,15 +54,12 @@ export function createRestaurantSocketConnect(setNewOrder, getNotifications) {
 }
 export function createDriverSocketConnect(setNewOrder) {
   const wsClient = new WebSocket(serverUrl + "driver/ws");
-  wsClient.onopen = (ws) => {
-    console.log("driver socket connection success");
-  };
+  wsClient.onopen = (ws) => {};
   const interval = setInterval(() => {
     wsClient.send(JSON.stringify({ type: "PingPong", data: "ping" }));
   }, 2000);
   wsClient.onmessage = (message) => {
     const msg = JSON.parse(message.data.toString());
-    console.log("msg:", msg);
     if (msg.type === "order") {
       setNewOrder(msg.data);
     }
@@ -137,19 +129,6 @@ export function setOrderToDeliveredWS(ws, orderID) {
   ws.send(JSON.stringify(payload));
 }
 
-// export function updateOrderStatusWS(ws, orderID, status) {
-//   console.log("Update order Status has been sent", { orderID, status });
-//   const payload = {
-//     type: "orderStatus",
-//     data: {
-//       orderID,
-//       status,
-//     },
-//   };
-//   console.log("socket", ws);
-//   ws.send(JSON.stringify(payload));
-// }
-
 export function getDriverLocationWS(ws, driverID) {
   const payload = {
     type: "get_driver_location",
@@ -157,6 +136,5 @@ export function getDriverLocationWS(ws, driverID) {
       driverID,
     },
   };
-  console.log("socket", ws);
   ws.send(JSON.stringify(payload));
 }

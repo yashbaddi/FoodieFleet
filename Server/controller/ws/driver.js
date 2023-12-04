@@ -18,7 +18,6 @@ async function addDriverSocket(ws) {
 }
 
 async function updateLocation(ws, wsRequest) {
-  console.log("update Driver Location", wsRequest);
   if (wsRequest.data) {
     await driversService.updateDriverLocation(
       ws.user,
@@ -33,7 +32,6 @@ async function updateStatus(ws, wsRequest) {
 }
 
 async function getAllActiveDrivers() {
-  console.log("driver Sockets", driverSockets);
   return Object.keys(driverSockets);
 }
 

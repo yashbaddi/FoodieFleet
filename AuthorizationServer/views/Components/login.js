@@ -41,7 +41,6 @@ export function login(root) {
     });
   });
   signupBtn.addEventListener("click", (e) => {
-    console.log("signup clicked");
     signUp(root);
   });
   genClientBtn.addEventListener("click", () => {

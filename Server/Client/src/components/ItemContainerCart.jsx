@@ -6,7 +6,6 @@ export default function ItemContainerCart(props) {
   const itemsInCart = useSelector((state) => state.cart);
   const [quantity, setQuantity] = useState(props.quantity);
 
-  console.log("OrderContainerProps", props);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,13 +13,11 @@ export default function ItemContainerCart(props) {
       (data) => data.item.id == props.item.id
     )[0];
     const itemQuantity = filteredItem !== undefined ? filteredItem.quantity : 0;
-    console.log(itemQuantity);
     setQuantity(Number(itemQuantity));
   }, []);
 
   async function addOrderItem() {
     setQuantity(Number(quantity) + 1);
-    console.log(quantity);
     dispatch(updateCartAction(props.item.id, Number(quantity) + 1));
   }
 

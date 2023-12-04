@@ -14,18 +14,12 @@ export default function Cart() {
   const navigate = useNavigate();
   const location = useGeolocation();
 
-  console.log("OrderItemData:", orderedItemsData);
-  // const dispatch = useDispatch();
-  // const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartItemsAction());
   }, []);
 
   async function placeOrder() {
-    // createUserSocketConnect();
-
-    console.log("loca:", location);
     if (location.isLoaded) {
       const res = await createOrder(
         orderedItemsData[0].item.restaurant_id,

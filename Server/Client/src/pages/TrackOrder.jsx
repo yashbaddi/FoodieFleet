@@ -23,7 +23,6 @@ export default function TrackOrder() {
     setSocket((socket) => userSocket);
     getOrder(orderID).then((orderDetails) => {
       setOrder(orderDetails);
-      console.log({ "isLoadded:": isLoaded, orderDet: orderDetails });
       if (orderDetails.driver) {
         setPartnerDetails(orderDetails.driver);
       }
@@ -37,9 +36,6 @@ export default function TrackOrder() {
       }
     });
     function onNotifications(notificationData) {
-      console.log("Notification Data", notificationData);
-      console.log("socket in notifications", userSocket);
-      console.log("order in notification", order);
       if (notificationData.status) {
         setOrderStatus(notificationData.status);
 
@@ -57,14 +53,6 @@ export default function TrackOrder() {
       userSocket.close();
     };
   }, []);
-
-  console.log("user Socket connect", socket);
-
-  console.log("Orders in Track Page:", order);
-
-  // function onDriverInformation(driverInformation) {
-  //   setPartnerDetails(driverInformation.partner);
-  // }
 
   return (
     <div>

@@ -25,18 +25,11 @@ const RestaurantMarker = new Icon({
 
 export default function MapComponent({ userLocation, restaurantLocation }) {
   const driverLocation = useSelector((state) => state.driverLocation);
-  console.log("driverLocation:", driverLocation);
-  console.log({
-    "user:": userLocation,
-    "restar:": restaurantLocation,
-    "driver:": driverLocation,
-  });
+
   function MapController() {
     const map = useMap();
-    console.log("map");
 
     useEffect(() => {
-      console.log("mapRef", map);
       map.flyTo([driverLocation.latitude, driverLocation.longitude], 18, {
         animate: true,
       });

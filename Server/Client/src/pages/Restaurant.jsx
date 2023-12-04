@@ -13,7 +13,6 @@ export default function Restaurant() {
     );
   }, []);
 
-  console.log("rest:", restaurant);
   return (
     <div className="flex flex-col justify-center">
       <div className="flex justify-center">

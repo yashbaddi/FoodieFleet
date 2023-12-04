@@ -21,7 +21,6 @@ restaurantsRouter.ws("/ws", (ws, req) => {
   } catch (e) {
     console.log(e);
   }
-  console.log("Socket Connection Open");
   restaurantWsController.setRestaurantSocket(ws);
   ws.send(JSON.stringify(payload));
 

@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 function NewRestaurant() {
   const navigate = useNavigate();
-  console.log(history);
-
   async function submitRestaurantData() {
     await createRestaurant({
       name: document.getElementById("restaurantForm--name").value,

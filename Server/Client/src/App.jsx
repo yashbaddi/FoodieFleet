@@ -25,7 +25,6 @@ import CreateItem from "./pages/CreateItem";
 // import UpdateItem from "./components/UpdateItem";
 
 function App() {
-  console.log("Start of the app");
   return (
     <>
       <Provider store={store}>

@@ -15,7 +15,6 @@ function DriversDashboard() {
 
   useEffect(() => {
     getDriversDetails().then((data) => {
-      console.log("driver details", data[0]);
       if (data[0].status === "BUSY") {
         setAvailablity(false);
       } else {
@@ -25,29 +24,18 @@ function DriversDashboard() {
   }, []);
 
   useEffect(() => {
-    console.log("Setup socket");
     const sock = createDriverSocketConnect(addDeliveringOrder);
     setDriverSocket(sock);
-    console.log("location Outside", location);
-    // updateDriverStatusWS(driverSocket, "AVAILABLE");
     return () => {
       sock.close();
     };
   }, []);
 
   useEffect(() => {
-    console.log(location);
-    // const driverInterval = setInterval(() => {
-    console.log("isAvailable:", isAvialable);
     if (location.isLoaded && isAvialable) {
-      console.log("location", location);
-      console.log("location coor", location.coordinates);
       sendLocationWS(driverSocket, location.coordinates);
     }
-    // }, 3000);
-    return () => {
-      // clearInterval(driverInterval);
-    };
+    return () => {};
   }, [location]);
 
   function changeDriverAvailablity() {

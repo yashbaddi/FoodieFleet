@@ -6,26 +6,24 @@ import nonVegIcon from "../assets/non-veg-icon.svg";
 
 export default function ItemContainer({ itemData }) {
   const itemsInCart = useSelector((state) => state.cart);
-  console.log("items in selector", itemsInCart);
+
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
   let [item, setItem] = useState(itemData);
   // const [isItemFormVisible, setItemFormVisible] = useState(false);
-
-  console.log("Item Console:", item);
 
   useEffect(() => {
     const filteredItem = itemsInCart.filter(
       (data) => data.item.id == itemData.id
     )[0];
     const itemQuantity = filteredItem !== undefined ? filteredItem.quantity : 0;
-    console.log(itemQuantity);
+
     setQuantity(Number(itemQuantity));
   }, []);
 
   async function addOrderItem() {
     setQuantity(Number(quantity) + 1);
-    console.log(quantity);
+
     dispatch(updateCartAction(item.id, Number(quantity) + 1));
   }
 
@@ -35,12 +33,6 @@ export default function ItemContainer({ itemData }) {
       dispatch(updateCartAction(item.id, Number(quantity) - 1));
     }
   }
-
-  // function updateItemComponent(updatedItem) {
-  //   setItem(updatedItem);
-  //   console.log(item);
-  //   toggleFormComponentVisiblity();
-  // }
 
   return (
     <div className="border flex justify-between rounded-xl mx-3 my-3 shadow-lg p-4 w-96">

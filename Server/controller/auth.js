@@ -21,8 +21,6 @@ async function authCallback(req, res) {
   });
   const tokenDataBody = await tokenData.json();
 
-  console.log("token getn", tokenDataBody);
-
   res.cookie("token", tokenDataBody.accessToken);
 
   res.redirect(302, config.app.clientURL);

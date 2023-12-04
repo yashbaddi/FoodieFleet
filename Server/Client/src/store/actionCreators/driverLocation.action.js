@@ -1,5 +1,4 @@
 export function updateDriverLocation(location) {
-  //   console.log(location);
   return (dispatch) => {
     dispatch({
       type: "UPDATE_DRIVER_LOCATION",

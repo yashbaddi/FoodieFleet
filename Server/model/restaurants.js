@@ -11,7 +11,6 @@ const restaurantModel = {
 };
 
 async function createRestaurant(userID, data) {
-  console.log(data);
   // const addressID = (
   //   await pool.query(
   //     "INSERT INTO address(address,latitude,longitude,owener_id) VALUES($1,$2,$3)",
@@ -50,13 +49,10 @@ async function readRestaurant(filters = {}) {
   }
   if (filters.opened) {
     const currtime = getTimeInHHMMFormat();
-    console.log(currtime);
     const time = Number(currtime);
-    console.log(time);
     const query =
       "SELECT row_to_json(restaurants) as data FROM restaurants where (open_timings<=$1 AND close_timings>=$1 AND override_timings is distinct from 'closed') OR override_timings='open'";
     const rows = await pool.query(query, [time]);
-    console.log("data in readRestaurants:", rows);
     return rows.rows;
   }
   const query = "SELECT row_to_json(restaurants) as data FROM restaurants";
@@ -83,7 +79,6 @@ async function readRestaurantLocation(restaurantID) {
 
 async function updateRestaurant(id, data) {
   const [expression, values] = getUpdateExpression(data);
-  console.log(values);
 
   const query =
     "UPDATE restaurants SET" +
@@ -91,10 +86,8 @@ async function updateRestaurant(id, data) {
     " WHERE id=$" +
     (values.length + 1) +
     " RETURNING *";
-  console.log(query);
 
   const updatedData = await pool.query(query, [...values, id]);
-  console.log();
   return updatedData.rows[0];
 }
 

@@ -3,7 +3,6 @@ import OrderContainer from "./OrderContainer";
 import { approveOrderWS, rejectOrderWS } from "../services/ws-connection";
 
 function OrderContainerApproval({ order, ws, updateOrderList }) {
-  console.log("order in approval container", order);
   function approveOrder() {
     approveOrderWS(ws, order.id);
     updateOrderList(order);

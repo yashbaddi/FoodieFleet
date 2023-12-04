@@ -17,12 +17,10 @@ async function getOrdersByUserID(req, res) {
     const response = await orderService.getOrdersByRestaurantOwener(
       res.locals.userID
     );
-    console.log("response", response);
 
     res.json(response);
   } else {
     const response = await orderService.getOrdersByUserID(res.locals.userID);
-    console.log("response", response);
 
     res.json(response);
   }
@@ -34,7 +32,6 @@ async function createNewOrder(req, res) {
     req.body.restaurantID,
     req.body.location
   );
-  console.log(response);
   res.json(response);
 }
 

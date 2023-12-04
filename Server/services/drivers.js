@@ -57,28 +57,20 @@ async function getDriverDetails(userID) {
 // }
 
 async function getNearestDriver(location) {
-  console.log("In get Nearest Driver");
   let drivers = [];
   let distance = 100;
-  console.log(drivers.length);
   while (drivers.length === 0) {
-    console.log("in drivers mode");
     drivers = await driversModel.getNearbyMembers(location, distance);
     distance += 500;
-    console.log("updated distance:", distance);
     if (distance >= 10000) {
-      console.log("Distance beyond 2000");
       break;
     }
-    console.log("is while still:", drivers.length === 0);
   }
-  console.log(drivers);
   return drivers[0];
 }
 
 async function searchNearbyDriver(orderID) {
   const order = await orderModel.readOrders({ id: orderID });
-  console.log("Searching Nearby Drivers...");
   const driver = await assignDriverToOrder(order);
   if (!driver) {
     const driverSearchInterval = setInterval(async () => {
@@ -96,7 +88,6 @@ async function assignDriverToOrder(order) {
     order.restaurant.location
   );
   if (driver) {
-    console.log("partner to be assigned:", driver);
     await orderService.setOrderToPartnerAssigned(order.id, driver);
     return driver;
   }

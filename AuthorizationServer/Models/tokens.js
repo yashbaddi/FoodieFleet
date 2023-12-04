@@ -7,15 +7,12 @@ export async function readTokenDB(id) {
 
 export async function createTokenDB(id, data) {
   const res = await client.set("tokens:" + id, JSON.stringify(data));
-  console.log("createDB data", res);
 }
 
 export async function updateTokenDB(id, data) {
   const res = await client.set("tokens:" + id, JSON.stringify(data));
-  console.log("createDB data", res);
 }
 
 export async function deleteTokenDB(id) {
   const res = await client.del("tokens:" + id);
-  console.log(res);
 }
