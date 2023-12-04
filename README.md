@@ -83,16 +83,14 @@ To Meet These Objectives we have following criteria
 - [x] Understanding and modifying the Map based on Needs
 - [x] Tracking Delivery Executive
 - [x] Calculating Delivery time and route
-- [ ] Working on UI
-- [ ] Refining the application
+- [x] Working on UI
+- [x] Refining the application
 
-#### Fifth Phase (Extra Features)
+#### Upcoming Features(Could be added in future)
 
-- [ ] Adding Dummy Data
 - [ ] Adding Search
-- [ ] Refining The App.
-- [ ] Exprimenting and adding different features
 - [ ] Calculating Total time
+- [ ] Using socket.io instead of ws
 
 ## 4. API Contracts:
 
