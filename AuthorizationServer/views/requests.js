@@ -1,10 +1,9 @@
 import { getSearchParamString } from "./store/queryParams.js";
 
-const serverURL = "http://localhost:4000";
+const serverURL = ``;
 
 export async function loginRequest(username, password) {
   const path = "/session/";
-  console.log("session Data:", { username, password });
   const res = await fetch(serverURL + path, {
     method: "POST",
     credentials: "include",
@@ -61,7 +60,6 @@ export async function isLoggedIn() {
     credentials: "include",
   });
   const message = await res.json();
-  console.log(res.ok, message);
   return [res.ok, message.data];
 }
 
@@ -85,18 +83,12 @@ export async function generateClientCredentialsRequest(
     }),
   });
   const credentials = await res.json();
-  console.log(res.ok, credentials);
   return [res.ok, credentials];
 }
 
 export async function approveRequest() {
   const path = "/oauth/approve" + getSearchParamString();
-  // const res = await fetch(serverURL + path, {
-  //   method: "POST",
-  //   redirect: "follow",
-  // });
-  // console.log(res);
-  // window.location.replace(res.url);
+
   window.location.href = serverURL + path;
 }
 
@@ -106,6 +98,5 @@ export async function rejectRequest() {
     method: "POST",
   });
   const credentials = await res.json();
-  console.log(res.ok, credentials);
   return [res.ok, credentials];
 }

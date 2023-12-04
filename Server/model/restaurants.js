@@ -1,16 +1,16 @@
 import { getTimeInHHMMFormat, getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
-import orderModel from "./orders.js";
 
 const restaurantModel = {
   createRestaurant: createRestaurant,
   readRestaurant: readRestaurant,
   updateRestaurant: updateRestaurant,
   deleteRestaurant: deleteRestaurant,
+  readRestaurantLocation,
+  readRestaurantOwner,
 };
 
 async function createRestaurant(userID, data) {
-  console.log(data);
   // const addressID = (
   //   await pool.query(
   //     "INSERT INTO address(address,latitude,longitude,owener_id) VALUES($1,$2,$3)",
@@ -19,8 +19,15 @@ async function createRestaurant(userID, data) {
   // ).rows.id;
   const restaurantData = (
     await pool.query(
-      "INSERT INTO restaurants(name,description,timings,owner_id) values($1,$2,$3,$4) RETURNING *",
-      [data.name, data.description, data.timings, userID]
+      "INSERT INTO restaurants(name,description,open_timings,close_timings,location,owner_id) values($1,$2,$3,$4,$5,$6) RETURNING *",
+      [
+        data.name,
+        data.description,
+        data.timings.open,
+        data.timings.close,
+        data.location,
+        userID,
+      ]
     )
   ).rows[0];
 
@@ -32,7 +39,7 @@ async function readRestaurant(filters = {}) {
     const query =
       "SELECT row_to_json(restaurants) as data FROM restaurants where restaurants.id=$1";
 
-    return (await pool.query(query, [filters.id])).rows;
+    return (await pool.query(query, [filters.id])).rows[0]?.data;
   }
   if (filters.ownerID) {
     const query =
@@ -41,19 +48,37 @@ async function readRestaurant(filters = {}) {
     return (await pool.query(query, [filters.ownerID])).rows;
   }
   if (filters.opened) {
-    const time = Number(getTimeInHHMMFormat());
+    const currtime = getTimeInHHMMFormat();
+    const time = Number(currtime);
     const query =
-      "SELECT row_to_json(restaurants) as data FROM restaurants where ('Open_timings'<=$1 AND 'Close_timings'>=$1 AND 'Override_timings' != 'closed') OR 'Override_timings'='open'";
-    return (await pool.query(query, [time])).rows;
+      "SELECT row_to_json(restaurants) as data FROM restaurants where (open_timings<=$1 AND close_timings>=$1 AND override_timings is distinct from 'closed') OR override_timings='open'";
+    const rows = await pool.query(query, [time]);
+    return rows.rows;
   }
   const query = "SELECT row_to_json(restaurants) as data FROM restaurants";
 
   return (await pool.query(query)).rows;
 }
 
+async function readRestaurantOwner(restaurantID) {
+  const response = (
+    await pool.query("SELECT owner_id from restaurants where id=$1", [
+      restaurantID,
+    ])
+  ).rows[0]?.owner_id;
+
+  if (response) return response;
+}
+
+async function readRestaurantLocation(restaurantID) {
+  const query =
+    "SELECT row_to_json(restaurants) as data FROM restaurants where id=$1";
+  const response = (await pool.query(query, [restaurantID])).rows;
+  return response[0].data.location;
+}
+
 async function updateRestaurant(id, data) {
   const [expression, values] = getUpdateExpression(data);
-  console.log(values);
 
   const query =
     "UPDATE restaurants SET" +
@@ -61,10 +86,8 @@ async function updateRestaurant(id, data) {
     " WHERE id=$" +
     (values.length + 1) +
     " RETURNING *";
-  console.log(query);
 
   const updatedData = await pool.query(query, [...values, id]);
-  console.log();
   return updatedData.rows[0];
 }
 

@@ -8,6 +8,7 @@ const ordersRouter = express.Router();
 
 ordersRouter
   .route("/")
+  .get(authMiddleware, orderController.getOrdersByUserID)
   .post(authMiddleware, bodyParser.json(), orderController.createNewOrder);
 
 ordersRouter

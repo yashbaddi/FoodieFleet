@@ -79,20 +79,18 @@ To Meet These Objectives we have following criteria
 
 #### Fourth Phase:
 
-- [ ] Delivery Partner Multiple CRUD and UI
-- [ ] Understanding and modifying the Map based on Needs
-- [ ] Tracking Delivery Executive
-- [ ] Calculating Delivery time and route
-- [ ] Calculating Total time
-- [ ] Add Notification Service
+- [x] Delivery Partner Multiple CRUD and UI
+- [x] Understanding and modifying the Map based on Needs
+- [x] Tracking Delivery Executive
+- [x] Calculating Delivery time and route
+- [x] Working on UI
+- [x] Refining the application
 
-#### Fifth Phase
+#### Upcoming Features(Could be added in future)
 
-- [ ] Adding Reviews and Ratings
-- [ ] Adding Support for Images
 - [ ] Adding Search
-- [ ] Refining The App.
-- [ ] Exprimenting and adding different features
+- [ ] Calculating Total time
+- [ ] Using socket.io instead of ws
 
 ## 4. API Contracts:
 

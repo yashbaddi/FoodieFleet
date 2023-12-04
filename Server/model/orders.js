@@ -2,64 +2,93 @@ import { getUpdateExpression } from "../utils.js";
 import pool from "./db-connection.js";
 
 const orderModel = {
-  createOrder: createOrder,
-  readOrder: readOrder,
-  updateQuantity: updateQuantity,
-  deleteItemFromOrder: deleteItemFromOrder,
-  patchOrder: patchOrder,
+  createOrder,
+  readOrders: readOrders,
+  updateQuantity,
+  deleteItemFromOrder,
+  patchOrder,
+  updateOrderStatus,
+  assignDriverToOrder,
 };
 
-async function createOrder(userID, data) {
-  const orderID = (
+async function createOrder(userID, data, location, totalCost = 0) {
+  const order = (
     await pool.query(
-      "INSERT INTO Orders(customer_id,restaurant_id) values($1,$2) RETURNING ID",
-      [userID, data.restaurantID]
+      "INSERT INTO orders(customer_id,restaurant_id,delivery_location,total_amt) values($1,$2,$3,$4) RETURNING *",
+      [userID, data.restaurantID, location, totalCost]
     )
-  ).rows[0].id;
-  console.log("orderID", orderID);
+  ).rows[0];
 
   const itemOrders = (
     await pool.query(
-      "INSERT INTO Ordered_Items(order_id,item_id,quantity) SELECT $2,item_id,quantity FROM cart_items WHERE user_id=$1 RETURNING (item_id,quantity)",
-      [userID, orderID]
+      "INSERT INTO ordered_items(order_id,item_id,quantity) SELECT $2,item_id,quantity FROM cart_items WHERE user_id=$1 RETURNING (item_id,quantity)",
+      [userID, order.id]
     )
   ).rows;
   return {
-    orderID: orderID,
+    order: order,
     items: itemOrders,
   };
 }
 
-async function readOrder(filters = {}) {
+async function readOrders(filters = {}) {
   if (filters.id) {
-    console.log(filters.id);
-    const orderDetails = (
-      await pool.query(
-        "SELECT row_to_json(orders) as order from orders where id=$1",
-        [filters.id]
-      )
-    ).rows[0].order;
-
-    const itemsDetails = (
-      await pool.query(
-        `SELECT row_to_json(items) as item ,quantity FROM ordered_items 
-      JOIN Items ON ordered_items.Item_ID= items.id where order_id=$1`,
-        [filters.id]
-      )
-    ).rows;
-
-    return {
-      order: orderDetails,
-      items: itemsDetails,
-    };
+    const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
+  left join restaurants on orders.restaurant_id=restaurants.id 
+  left join users on orders.driver_id=users.id 
+  join ordered_items on ordered_items.order_id=orders.id 
+  join items on ordered_items.item_id=items.id 
+  where orders.id=$1
+  group by orders.id,restaurants.id,users.id`;
+    const order = (await pool.query(query, [filters.id])).rows;
+    if (order) return order[0];
   }
+
+  if (filters.userID) {
+    const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
+    left join restaurants on orders.restaurant_id=restaurants.id 
+    left join users on orders.driver_id=users.id 
+    join ordered_items on ordered_items.order_id=orders.id 
+    join items on ordered_items.item_id=items.id 
+    where orders.customer_id=$1
+    group by orders.id,restaurants.id,users.id`;
+    return (await pool.query(query, [filters.userID])).rows;
+  }
+
+  if (filters.ownerID) {
+    const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
+    join restaurants on orders.restaurant_id=restaurants.id and restaurants.owner_id=$1
+    left join users on orders.driver_id=users.id 
+    join ordered_items on ordered_items.order_id=orders.id 
+    join items on ordered_items.item_id=items.id 
+    group by orders.id,restaurants.id,users.id`;
+    return (await pool.query(query, [filters.ownerID])).rows;
+  }
+
+  if (filters.driverID) {
+    const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
+    join restaurants on orders.restaurant_id=restaurants.id 
+    left join users on orders.driver_id=users.id 
+    join ordered_items on ordered_items.order_id=orders.id 
+    join items on ordered_items.item_id=items.id 
+    where orders.driver_id=$1
+    group by orders.id,restaurants.id,users.id`;
+    return (await pool.query(query, [filters.driverID])).rows;
+  }
+
+  const query = `select orders.*,row_to_json(restaurants) as restaurant,row_to_json(users) as driver,json_agg(json_build_object('item',items.*,'quantity',ordered_items.quantity)) as items from orders 
+  join restaurants on orders.restaurant_id=restaurants.id 
+  left join users on orders.driver_id=users.id 
+  join ordered_items on ordered_items.order_id=orders.id 
+  join items on ordered_items.item_id=items.id 
+  group by orders.id,restaurants.id,users.id`;
+  return (await pool.query(query)).rows;
 }
 
 async function updateQuantity(orderID, itemID, quantity) {
   const query = `INSERT INTO ordered_items (order_id,item_id) VALUES($1,$2) 
       ON CONFLICT(order_id,item_id) 
       DO UPDATE SET quantity=$3 RETURNING quantity`;
-  console.log(query);
   const updatedItem = await pool.query(query, [orderID, itemID, quantity]);
   quantity = updatedItem.rows[0].quantity;
 
@@ -70,11 +99,58 @@ async function updateQuantity(orderID, itemID, quantity) {
   };
 }
 
+async function assignDriverToOrder(
+  orderID,
+  driverID,
+  status = "PARTNER_ASSIGNED"
+) {
+  try {
+    await pool.query("BEGIN");
+    const query = `UPDATE orders SET driver_id=$2,status=$3 WHERE id=$1`;
+    const response = await pool.query(query, [orderID, driverID, status]);
+    await pool.query("UPDATE drivers SET status=$2 where user_id=$1", [
+      driverID,
+      "ON_DELIVERY",
+    ]);
+    await pool.query("COMMIT");
+
+    return response.rows;
+  } catch (err) {
+    pool.query("ROLLBACK");
+    console.log(err);
+  }
+}
+
+async function updateOrderStatus(orderID, status) {
+  if (status === "PREPARING" || status === "REJECTED") {
+    const query = "UPDATE orders SET status=$2 WHERE id=$1";
+    return (await pool.query(query, [orderID, status])).rows;
+  }
+
+  if (status === "DELIVERING") {
+    const query =
+      "UPDATE orders SET status=$2,pickup_time=CURRENT_TIMESTAMP WHERE id=$1";
+    return (await pool.query(query, [orderID, status])).rows;
+  }
+  if (status == "DELIVERED") {
+    try {
+      await pool.query("BEGIN");
+      const query =
+        "UPDATE orders SET status=$2,delivered_time=CURRENT_TIMESTAMP WHERE id=$1";
+      const response = await pool.query(query, [orderID, status]);
+      await pool.query("UPDATE TABLE drivers SET status=$2 where user_id=$1", [
+        driverID,
+        "AVAILABLE",
+      ]);
+      await pool.query("COMMIT");
+      return response.rows;
+    } catch (err) {
+      await pool.query("ROLLBACK");
+    }
+  }
+}
+
 async function deleteItemFromOrder(orderID, itemID) {
-  console.log({
-    itemID,
-    orderID,
-  });
   const deleteRes = await pool.query(
     "DELETE FROM ordered_items WHERE order_id=$1 AND item_id=$2",
     [orderID, itemID]
@@ -84,15 +160,12 @@ async function deleteItemFromOrder(orderID, itemID) {
 
 async function patchOrder(id, data) {
   const [expression, values] = getUpdateExpression(data);
-  console.log(values);
-
   const query =
     "UPDATE orders SET" +
     expression +
     " WHERE id=$" +
     (values.length + 1) +
     " RETURNING *";
-  console.log(query);
 
   const updatedData = await pool.query(query, [...values, id]);
 

@@ -1,6 +1,9 @@
 import querystring from "querystring";
 import config from "./config.js";
 
+import jwt from "jsonwebtoken";
+import userService from "./services/users.js";
+
 export function getUpdateExpression(updatedData) {
   const values = [];
   let updatePartialQuery = "";
@@ -23,8 +26,8 @@ export function generateAuthUrl() {
     scope: "profile",
     state: "randomstring",
   });
-  console.log("queryString", params);
-  const authURL = "http://localhost:4000/oauth/authorize?" + params.toString();
+  const authURL =
+    config.oauth.providerURL + "/oauth/authorize?" + params.toString();
   return authURL;
 }
 
@@ -40,5 +43,14 @@ export function generateAuthTokenForm(code, redirectUri) {
 }
 
 export function getTimeInHHMMFormat() {
-  return `${new Date().getHours()}${new Date().getMinutes()}`;
+  return `${new Date().getHours()}${
+    new Date().getMinutes() < 10 ? "0" : ""
+  }${new Date().getMinutes()}`;
+}
+
+export function validateJWTCookie(cookie) {
+  const payload = jwt.verify(cookie, config.oauth.clientSecret);
+  const userID = payload.sub.id;
+  userService.createUserIfNotExists(userID);
+  return userID;
 }

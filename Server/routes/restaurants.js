@@ -2,7 +2,46 @@ import express from "express";
 import bodyParser from "body-parser";
 import restaurantController from "../controller/restaurants.js";
 import { authMiddleware } from "../middlewares/auth.js";
+import { restaurantWsController } from "../controller/ws/restaurant.js";
+import { validateJWTCookie } from "../utils.js";
+import expressWs from "express-ws";
+
 const restaurantsRouter = express.Router();
+
+expressWs(restaurantsRouter);
+
+restaurantsRouter.ws("/ws", (ws, req) => {
+  const payload = {
+    type: "open",
+  };
+
+  try {
+    const user = validateJWTCookie(req.cookies.token);
+    ws.restaurantOwner = user;
+  } catch (e) {
+    console.log(e);
+  }
+  restaurantWsController.setRestaurantSocket(ws);
+  ws.send(JSON.stringify(payload));
+
+  const interval = setInterval(() => {
+    ws.send(JSON.stringify({ type: "PingPong", data: "ping" }));
+  }, 2000);
+
+  ws.on("message", (data) => {
+    const message = JSON.parse(data);
+    if (message.type === "status") {
+      restaurantWsController.updateOrderStatus(ws, message);
+    }
+    if (message.type === "getDriverLocation")
+      restaurantWsController.sendDriverDetails(ws, message);
+  });
+
+  ws.on("close", () => {
+    clearInterval(interval);
+    restaurantWsController.closeRestaurantSocket(ws);
+  });
+});
 
 restaurantsRouter
   .route("/")
