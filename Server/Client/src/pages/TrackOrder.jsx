@@ -56,8 +56,13 @@ export default function TrackOrder() {
 
   return (
     <div>
-      {order && <OrderDetails order={order} />}
-      {orderStatus && <OrderStatus status={orderStatus} />}
+      <div className="flex justify-between">
+        <div className="shadow-xl m-8 p-4 text-gray-700 w-fit rounded-2xl border-2 ">
+          {order && <OrderDetails order={order} />}
+          {orderStatus && <OrderStatus status={orderStatus} />}
+        </div>
+        {partnerDetails && <OrderPartnerDetails partner={partnerDetails} />}
+      </div>
 
       {isLoaded && (
         <MapComponent
@@ -65,7 +70,6 @@ export default function TrackOrder() {
           restaurantLocation={order.restaurant.location}
         />
       )}
-      {partnerDetails && <OrderPartnerDetails partner={partnerDetails} />}
     </div>
   );
 }
