@@ -28,12 +28,12 @@ export default function ItemContainerCart(props) {
     }
   }
   return (
-    <div className="border-2 flex justify-between py-4 px-2 w-56">
-      <div>
+    <div className="border rounded-xl shadow flex justify-between p-4 w-fit hover:bg-gray-100">
+      <div className="m-4 p-2">
         <h1 className="text-xl">{props.item.name}</h1>
       </div>
       <div className="flex flex-col items-center">
-        <p className="text-gray-600">₹{props.item.price}</p>
+        <p className="text-gray-600">₹{props.item.price * quantity}</p>
         <div className="flex items-baseline">
           <button
             onClick={addOrderItem}
