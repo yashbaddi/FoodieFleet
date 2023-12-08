@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import OrdersNeededApproval from "../components/OrdersNeededApproval";
 import { createRestaurantSocketConnect } from "../services/ws-connection";
 import { getAllOrdersByOwner } from "../services/requests";
 import CurrentOrders from "../components/CurrentOrders";
 import PreviousOrders from "../components/PreviousOrders";
-import { set } from "lodash";
 
 function RestaurantOrders() {
   const [socket, setSocket] = useState(null);
