@@ -59,7 +59,7 @@ export default function MapComponent({ userLocation, restaurantLocation }) {
   }
   return (
     <div className="grid grid-cols-6 ">
-      <div className="col-start-2 col-end-6">
+      <div className="col-start-2 col-end-6 shadow-2xl rounded-xl border-2 m-8 p-0.5">
         <MapContainer
           center={[12.9716, 77.5946]}
           zoom={13}

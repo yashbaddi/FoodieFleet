@@ -2,9 +2,9 @@ import React from "react";
 
 function OrderPartnerDetails({ partner }) {
   return (
-    <div className=" absolute inline-block z-[401] right-10 bg-white border border-gray-600">
-      <h1>Driver Details</h1>
-      <h1>{partner.name}</h1>
+    <div className="shadow-xl m-8 p-4 text-gray-700 w-56  rounded-2xl border-2">
+      <h1 className="font-bold">Driver Details</h1>
+      <h1 className="font-semibold">{partner.name}</h1>
       <p>{partner.phone}</p>
     </div>
   );
