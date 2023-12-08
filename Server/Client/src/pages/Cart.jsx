@@ -33,31 +33,37 @@ export default function Cart() {
     <div className="grid grid-cols-12">
       <div className="flex flex-col items-center col-start-3 col-end-9">
         <h1 className="font-bold text-3xl text-gray-700 m-5">Your Cart</h1>
-        <div className="flex flex-col">
-          <div className="border rounded p-4">
-            {orderedItemsData.map((orderedItem, index) => {
-              return (
-                <ItemContainerCart
-                  key={index}
-                  item={orderedItem.item}
-                  quantity={orderedItem.quantity}
-                />
-              );
-            })}
+        {orderedItemsData.length !== 0 ? (
+          <div className="flex flex-col  rounded shadow-lg p-4">
+            <div className="">
+              {orderedItemsData.map((orderedItem, index) => {
+                return (
+                  <ItemContainerCart
+                    key={index}
+                    item={orderedItem.item}
+                    quantity={orderedItem.quantity}
+                  />
+                );
+              })}
+            </div>
+            {location.isLoaded ? (
+              <button
+                className="bg-green-600 hover:bg-green-900 text-gray-100 shadow rounded p-2 m-4 self-end"
+                onClick={placeOrder}
+              >
+                Place Order
+              </button>
+            ) : (
+              <p className=" text-gray-800 font-semibold rounded p-1 m-4 self-end">
+                Getting Location Data...
+              </p>
+            )}
           </div>
-          {location.isLoaded ? (
-            <button
-              className="bg-green-600 hover:bg-green-900 text-gray-100 rounded p-1 m-4 self-end"
-              onClick={placeOrder}
-            >
-              Place Order
-            </button>
-          ) : (
-            <p className="bg-green-600 hover:bg-green-900 text-gray-100 rounded p-1 m-4 self-end">
-              Getting Location Data
-            </p>
-          )}
-        </div>
+        ) : (
+          <p className="text-gray-700 font-semibold col-start-5 col-end-10">
+            You do not have any items in cart!
+          </p>
+        )}
       </div>
     </div>
   );
