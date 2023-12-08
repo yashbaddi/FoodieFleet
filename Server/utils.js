@@ -26,10 +26,8 @@ export function generateAuthUrl() {
     scope: "profile",
     state: "randomstring",
   });
-  console.log("queryString", params);
   const authURL =
     config.oauth.providerURL + "/oauth/authorize?" + params.toString();
-  console.log("The auth URL:", authURL);
   return authURL;
 }
 
@@ -53,7 +51,6 @@ export function getTimeInHHMMFormat() {
 export function validateJWTCookie(cookie) {
   const payload = jwt.verify(cookie, config.oauth.clientSecret);
   const userID = payload.sub.id;
-  console.log(userID);
   userService.createUserIfNotExists(userID);
   return userID;
 }

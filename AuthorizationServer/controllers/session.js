@@ -8,7 +8,6 @@ export async function createSession(req, res, next) {
     if (user.password == req.body.password) {
       const sessionID = uuid();
       await createSessionDB(sessionID, req.body.username);
-      console.log("sessionID", sessionID);
       res.cookie("username", req.body.username);
       res.cookie("sessionID", sessionID);
       res.status(201).json({ message: "Login Sucess" });

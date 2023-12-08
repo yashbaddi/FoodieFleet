@@ -25,7 +25,6 @@ import CreateItem from "./pages/CreateItem";
 // import UpdateItem from "./components/UpdateItem";
 
 function App() {
-  console.log("Start of the app");
   return (
     <>
       <Provider store={store}>
@@ -65,10 +64,6 @@ function App() {
               path="/my-account/restaurant-admin/restaurants/:id/items/new"
               element={<CreateItem />}
             />
-            {/* <Route
-              path="/my-account/restaurant-admin/restaurants/:id/items/:itemID/update"
-              element={<EditItem />}
-            /> */}
             <Route
               path="/my-account/delivery-partner"
               element={<DriversDashboard />}
@@ -81,25 +76,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Route path="restaurant/:id/item/new" element={<CreateItem />} /> */
-}
-{
-  /* <Route
-            path="restaurant/:id/item/:itemID/update"
-            element={<UpdateItem />}
-          /> */
-}
-{
-  /* <Route path="/users/" */
-}
-{
-  /* <Route
-            path="/restaurant/:id/update"
-            element={<UpdateRestaurant />}
-          />{" "} */
-}
-{
-  /* */
-}

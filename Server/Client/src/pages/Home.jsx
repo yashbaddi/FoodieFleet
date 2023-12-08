@@ -2,7 +2,6 @@ import HomePageContainer from "../components/HomePageContainer";
 import WelcomeToFoodieFleet from "../components/WelcomeToFoodieFleet";
 
 export default function Home() {
-  console.log("in the main page");
   return (
     <div className="flex flex-col justify-center items-center">
       <WelcomeToFoodieFleet />

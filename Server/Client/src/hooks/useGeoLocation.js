@@ -29,7 +29,6 @@ function useGeolocation() {
           error: "Geolocation is not supported in this browser.",
         });
       }
-      // console.log("coords:", location);
     }, 2000);
   }, []);
   return location;

@@ -8,14 +8,11 @@ const cartModel = {
 };
 
 async function updateQuantityInCart(userID, itemID, quantity = 1) {
-  console.log("userID", userID, "itemID", itemID, "quantity", quantity);
-
   await removeDifferentRestaurantCartItems(userID, itemID);
 
   const query = `INSERT INTO cart_items (user_id,item_id,quantity) VALUES($1,$2,$3) 
         ON CONFLICT(user_id,item_id) 
         DO UPDATE SET quantity=$3 RETURNING quantity`;
-  console.log(query);
   const updatedItem = await pool.query(query, [userID, itemID, quantity]);
   quantity = updatedItem.rows[0].quantity;
 
@@ -29,7 +26,6 @@ async function removeDifferentRestaurantCartItems(userID, itemID) {
   const restaurantID = (
     await pool.query(`SELECT restaurant_id from items where id=$1`, [itemID])
   ).rows[0]?.restaurant_id;
-  console.log(restaurantID);
 
   if (restaurantID) {
     await pool.query(
@@ -40,10 +36,6 @@ async function removeDifferentRestaurantCartItems(userID, itemID) {
 }
 
 async function removeItemFromCart(userID, itemID) {
-  console.log({
-    itemID,
-    UserID: userID,
-  });
   const deleteRes = await pool.query(
     "DELETE FROM cart_items WHERE user_id=$1 AND item_id=$2",
     [userID, itemID]
@@ -61,13 +53,7 @@ async function readItemsInCart(userID) {
       [userID]
     )
   ).rows;
-  // if (itemResponse.length !== 0) {
-  //   restaurantRes = await pool.query(
-  //     "SELECT row_to_json(restaurants) from restaurants where id=$1",
-  //     [itemResponse[0].item.restaurant_id]
-  //   );
-  //   console.log(restaurantRes);
-  // }
+
   return itemResponse;
 }
 

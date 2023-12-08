@@ -15,6 +15,12 @@ export function consentPage(root) {
   rejectBtn.textContent = "Reject";
   logOutBtn.textContent = "LogOut Button";
 
+  showData.className = "display show-data";
+  dataHeader.className = "header show-data__header";
+  consentBtn.className = "btn show-data__consent";
+  rejectBtn.className = "btn show-data__reject ";
+  logOutBtn.className = "btn show-data__logout";
+
   showData.append(dataHeader, consentBtn, rejectBtn, logOutBtn);
   root.append(showData);
   consentBtn.addEventListener("click", (e) => {

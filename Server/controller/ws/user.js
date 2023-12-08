@@ -13,7 +13,6 @@ const userWsController = {
 };
 
 async function setUserSocket(ws) {
-  console.log(ws.user);
   userSockets[ws.user] = ws;
 }
 
@@ -22,8 +21,6 @@ async function getUserSocket(userID) {
 }
 
 async function getDriverDetails(ws, wsRequest) {
-  console.log("Request to send driver Location Details in Restaurant");
-
   driversService.sendDriversLocationInInterval(
     ws.user,
     wsRequest.data.driverID
@@ -35,7 +32,6 @@ async function closeUserSocket(ws) {
 }
 
 async function sendDriverLocation(userID, location) {
-  console.log({ userID, location, userSockets });
   const payload = {
     type: "partner_location",
     data: location,
@@ -48,7 +44,6 @@ async function sendNotification(userID, notification) {
     type: "notification",
     data: notification,
   };
-  console.log("user Sockets", userSockets[userID]);
   userSockets[userID]?.send(JSON.stringify(payload));
 }
 

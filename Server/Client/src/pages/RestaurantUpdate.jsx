@@ -11,7 +11,6 @@ export default function RestaurantUpdate() {
     getRestaurant(id).then((data) => setRestaurant(data));
   }, [id]);
 
-  console.log("rest:", restaurant);
   return (
     <>
       <h1>{restaurant.name}</h1>

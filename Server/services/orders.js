@@ -31,7 +31,6 @@ async function getOrdersByUserID(userID) {
   const readResponse = await orderModel.readOrders({
     userID,
   });
-  console.log(readResponse);
   return readResponse;
 }
 
@@ -39,7 +38,6 @@ async function getOrdersByRestaurantOwener(ownerID) {
   const readResponse = await orderModel.readOrders({
     ownerID,
   });
-  console.log(readResponse);
   return readResponse;
 }
 
@@ -47,7 +45,6 @@ async function createNewOrder(userID, restaurantID, location) {
   const restaurantLocation = await restaurantService.getRestaurantLocation(
     restaurantID
   );
-  console.log(restaurantLocation);
   const totalCost = await cartService.calculateTotalCost(userID);
   const response = await orderModel.createOrder(
     userID,
@@ -65,7 +62,7 @@ async function createNewOrder(userID, restaurantID, location) {
     const restaurantOwnerID = await restaurantModel.readRestaurantOwner(
       restaurantID
     );
-    const order = orderModel.readOrders({ id: response.order.id });
+    const order = await orderModel.readOrders({ id: response.order.id });
     restaurantWsController.sendOrderDetails(restaurantOwnerID, order);
   }
 
@@ -83,8 +80,6 @@ async function setOrderToPreparing(orderID) {
   const status = await orderModel.updateOrderStatus(orderID, "PREPARING");
 
   const order = await orderModel.readOrders({ id: orderID });
-  console.log(orderID, "set to preparing");
-  console.log("order in setOrderToPreparing:", order);
   userWsController.sendStatusNotification(
     order.customer_id,
     order.id,
@@ -109,8 +104,6 @@ async function setOrderToPartnerAssigned(orderID, driverID) {
     partner: order.driver,
   });
   driverWsController.sendOrderDetailsToPartner(order.driver.id, order);
-
-  console.log("driver ", order.driver, "assigned to ", order.id);
 }
 
 async function setOrderToDelivering(orderID) {

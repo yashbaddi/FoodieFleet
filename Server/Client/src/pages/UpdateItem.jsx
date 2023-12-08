@@ -14,7 +14,6 @@ function UpdateItem() {
       price: document.getElementById("itemForm--price").value,
     };
     const itemCreated = await updateItem(id, itemID, updatedItemData);
-    console.log("itemCreated", itemCreated);
     navigate("/restaurant/" + id);
   }
   return (

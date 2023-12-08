@@ -5,7 +5,6 @@ import { createItem } from "../services/requests";
 function CreateItem() {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(history);
 
   async function submitItemData() {
     const newItem = {
@@ -16,7 +15,6 @@ function CreateItem() {
       submenu: document.getElementById("itemForm--submenu").value,
     };
     const itemCreated = await createItem(id, newItem);
-    console.log("itemCreated", itemCreated);
     navigate("/restaurant/" + id);
   }
   return (

@@ -3,7 +3,6 @@ import { getCartItems, updateCart } from "../../services/requests";
 export function updateCartAction(itemID, quantity) {
   return async (dispatch) => {
     const responseJSONData = await updateCart(itemID, quantity);
-    console.log("in update Quantity", responseJSONData);
     if (responseJSONData.quantity >= 0) {
       dispatch({ type: "UPDATE_CART_ITEM", payload: responseJSONData });
     } else {
@@ -15,7 +14,6 @@ export function updateCartAction(itemID, quantity) {
 export function getCartItemsAction() {
   return async (dispatch) => {
     const responseJSONData = await getCartItems();
-    console.log(responseJSONData);
     dispatch({ type: "READ_CART", payload: responseJSONData });
   };
 }

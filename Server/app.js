@@ -21,7 +21,6 @@ app.use(
 app.use("/api", apiRouter);
 
 const __dirname = path.resolve();
-console.log(__dirname);
 app.use(express.static(path.join(__dirname, "/Client/dist")));
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/Client/dist/index.html"))

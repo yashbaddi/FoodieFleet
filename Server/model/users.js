@@ -52,14 +52,3 @@ async function deleteUser(filters) {
 }
 
 export default userModel;
-
-// async function createUser(newUser) {
-//   console.log(newUser);
-//   const userData = (
-//     await pool.query(
-//       "INSERT INTO users(id,name,phone,email) VALUES($1,$2,$3) RETURNING *",
-//       [newUser.username, newUser.name, newUser.phone, newUser.email]
-//     )
-//   ).rows;
-//   return userData;
-// }

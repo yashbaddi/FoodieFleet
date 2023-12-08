@@ -6,7 +6,9 @@ import {
 import MapComponent from "../components/MapComponent";
 import { useParams } from "react-router-dom";
 import { getOrder } from "../services/requests";
-import TrackOrderDetail from "../components/TrackOrderDetail";
+import OrderDetails from "../components/OrderDetails";
+import OrderStatus from "../components/OrderStatus";
+import OrderPartnerDetails from "../components/OrderPartnerDetails";
 
 export default function TrackOrder() {
   const [isLoaded, setLoaded] = useState(false);
@@ -18,10 +20,12 @@ export default function TrackOrder() {
 
   useEffect(() => {
     const userSocket = createUserSocketConnect(onNotifications);
-    setSocket(userSocket);
+    setSocket((socket) => userSocket);
     getOrder(orderID).then((orderDetails) => {
       setOrder(orderDetails);
-      console.log({ "isLoadded:": isLoaded, orderDet: orderDetails });
+      if (orderDetails.driver) {
+        setPartnerDetails(orderDetails.driver);
+      }
       setOrderStatus((status) => orderDetails.status);
       setLoaded(true);
       if (
@@ -31,32 +35,35 @@ export default function TrackOrder() {
         getDriverLocationWS(userSocket, orderDetails.driver_id);
       }
     });
+    function onNotifications(notificationData) {
+      if (notificationData.status) {
+        setOrderStatus(notificationData.status);
+
+        if (
+          notificationData.status === "PARTNER_ASSIGNED" ||
+          notificationData.status === "DELIVERING"
+        ) {
+          setPartnerDetails(notificationData.partner);
+          getDriverLocationWS(userSocket, notificationData.partner.id);
+        }
+      }
+    }
 
     return () => {
       userSocket.close();
     };
   }, []);
 
-  function onNotifications(notificationData) {
-    if (notificationData.status) {
-      setOrderStatus(notificationData.status);
-
-      if (notificationData.status === "PARTNER_ASSIGNED") {
-        setPartnerDetails(notificationData.partner);
-        getDriverLocationWS(socket, order.driver_id);
-      }
-    }
-  }
-
-  console.log("Orders in Track Page:", order);
-
-  // function onDriverInformation(driverInformation) {
-  //   setPartnerDetails(driverInformation.partner);
-  // }
-
   return (
     <div>
-      {order && <TrackOrderDetail order={order} />}
+      <div className="flex justify-between">
+        <div className="shadow-xl m-8 p-4 text-gray-700 w-fit rounded-2xl border-2 ">
+          {order && <OrderDetails order={order} />}
+          {orderStatus && <OrderStatus status={orderStatus} />}
+        </div>
+        {partnerDetails && <OrderPartnerDetails partner={partnerDetails} />}
+      </div>
+
       {isLoaded && (
         <MapComponent
           userLocation={order.delivery_location}

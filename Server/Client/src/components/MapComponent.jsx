@@ -25,18 +25,11 @@ const RestaurantMarker = new Icon({
 
 export default function MapComponent({ userLocation, restaurantLocation }) {
   const driverLocation = useSelector((state) => state.driverLocation);
-  console.log("driverLocation:", driverLocation);
-  console.log({
-    "user:": userLocation,
-    "restar:": restaurantLocation,
-    "driver:": driverLocation,
-  });
+
   function MapController() {
     const map = useMap();
-    console.log("map");
 
     useEffect(() => {
-      console.log("mapRef", map);
       map.flyTo([driverLocation.latitude, driverLocation.longitude], 18, {
         animate: true,
       });
@@ -66,7 +59,7 @@ export default function MapComponent({ userLocation, restaurantLocation }) {
   }
   return (
     <div className="grid grid-cols-6 ">
-      <div className="col-start-2 col-end-6">
+      <div className="col-start-2 col-end-6 shadow-2xl rounded-xl border-2 m-8 p-0.5">
         <MapContainer
           center={[12.9716, 77.5946]}
           zoom={13}

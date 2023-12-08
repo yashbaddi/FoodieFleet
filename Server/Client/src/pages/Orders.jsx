@@ -16,10 +16,8 @@ function Orders() {
       setPreviousOrders(prev);
     });
   }, []);
-  console.log("current Orders", currentOrders);
-  console.log("previous Orders", previousOrders);
   return (
-    <div className="grid grid-cols-12 justify-items-center content-stretch">
+    <div className="grid grid-cols-12 justify-items-center content-stretch ">
       <div className="col-start-2 col-end-10 flex flex-col justify-stretch self-stretch">
         <h1 className="text-3xl font-bold text-gray-800">Your Orders</h1>
         {currentOrders && <CurrentOrders orders={currentOrders} />}

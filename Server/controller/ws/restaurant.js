@@ -17,13 +17,10 @@ async function sendOrderDetails(restaurantOwner, order) {
     type: "order",
     data: order,
   };
-  console.log("Restaurant Owner", restaurantOwner);
-  console.log(restaurantSockets[restaurantOwner]);
   restaurantSockets[restaurantOwner]?.send(JSON.stringify(payload));
 }
 
 async function sendDriverDetails(ws, wsRequest) {
-  console.log("Request to send driver Location Details in Restaurant");
   driversService.sendDriversLocationInInterval(ws, wsRequest.data.driverID);
 }
 
@@ -38,12 +35,11 @@ async function sendNotification(userID, notification) {
     type: "notification",
     data: notification,
   };
-  console.log("restaurantSockets", restaurantSockets[userID]);
   restaurantSockets[userID]?.send(JSON.stringify(payload));
 }
 
 async function setRestaurantSocket(ws) {
-  restaurantSockets[ws.restaurantOwner] = ws.user;
+  restaurantSockets[ws.restaurantOwner] = ws;
 }
 
 async function closeRestaurantSocket(ws) {

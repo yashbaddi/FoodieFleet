@@ -9,7 +9,6 @@ const userRouter = express.Router();
 expressWs(userRouter);
 
 userRouter.ws("/ws", (ws, req) => {
-  console.log("inside ws");
   const payload = {
     type: "open",
   };
@@ -19,9 +18,7 @@ userRouter.ws("/ws", (ws, req) => {
   try {
     const user = validateJWTCookie(req.cookies.token);
     ws.user = user;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
   userWsController.setUserSocket(ws);
 
   ws.send(JSON.stringify(payload));

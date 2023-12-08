@@ -2,13 +2,12 @@ import React from "react";
 
 function OrderContainer({ order }) {
   return (
-    <div>
+    <div className="flex flex-col">
+      <p className="font-bold">{order.restaurant.name}</p>
+
       {order.items.map((item) => {
         return (
-          <div
-            key={item.item.id}
-            className="flex justify-between w-96 m-2 p-2 "
-          >
+          <div key={item.item.id} className="flex justify-between w-96 m-1">
             <p className="">
               {item.item.name} x{item.quantity}
             </p>
@@ -16,7 +15,7 @@ function OrderContainer({ order }) {
           </div>
         );
       })}
-      <b>Total:{order.total_amt}</b>
+      <p className="font-bold self-end m-2">Total:{order.total_amt}</p>
     </div>
   );
 }

@@ -7,15 +7,12 @@ export async function readCodeDB(id) {
 
 export async function createCodeDB(id, data) {
   const res = await client.set("code:" + id, JSON.stringify(data));
-  console.log("createDB data", res);
 }
 
 export async function updateCodeDB(id, data) {
   const res = await client.set("code:" + id, JSON.stringify(data));
-  console.log("createDB data", res);
 }
 
 export async function deleteCodeDB(id) {
   const res = await client.del("code:" + id);
-  console.log(res);
 }
