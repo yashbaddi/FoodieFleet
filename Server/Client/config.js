@@ -1,7 +1,7 @@
 const config = {
   api: {
-    url: "https://foodiefleet.onrender.com/api/",
-    wsURL: "wss://foodiefleet.onrender.com/api/",
+    url: "http://localhost:8001/api/",
+    wsURL: "ws://localhost:8001/api/",
   },
 };
 

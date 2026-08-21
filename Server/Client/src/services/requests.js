@@ -223,13 +223,51 @@ export async function getDriversDetails() {
   return response.json();
 }
 
-export async function loginWithAuthProvider() {}
+export async function loginUser(email, password) {
+  const path = "auth/login";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email, password }),
+  });
+  return response.json();
+}
+
+export async function registerUser(userData) {
+  const path = "auth/register";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(userData),
+  });
+  return response.json();
+}
+
+export async function logoutUser() {
+  const path = "auth/logout";
+  const response = await fetch(baseURL + path, {
+    method: "POST",
+    credentials: "include",
+  });
+  return response.json();
+}
+
+export async function getCurrentUser() {
+  const path = "auth/me";
+  const response = await fetch(baseURL + path, {
+    method: "GET",
+    credentials: "include",
+  });
+  isAuthenticated(response);
+  return response.json();
+}
 
 function isAuthenticated(response) {
-  const baseURL = config.api.url;
-
-  if (response.status == 401) {
-    const path = "auth/";
-    window.location.href = baseURL + path;
+  if (response.status === 401) {
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
   }
 }

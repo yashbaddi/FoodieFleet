@@ -27,7 +27,7 @@ async function createRestaurant(userID, data) {
         data.timings.close,
         data.location,
         userID,
-      ]
+      ],
     )
   ).rows[0];
 

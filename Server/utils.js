@@ -1,8 +1,6 @@
-import querystring from "querystring";
-import config from "./config.js";
-
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import userService from "./services/users.js";
+import config from "./config.js";
 
 export function getUpdateExpression(updatedData) {
   const values = [];
@@ -14,32 +12,6 @@ export function getUpdateExpression(updatedData) {
     index++;
   });
   return [updatePartialQuery.slice(0, -1), values];
-
-  //   return { expression: expression.slice(0, -1), values: values };
-}
-
-export function generateAuthUrl() {
-  const params = querystring.stringify({
-    client_id: config.oauth.clientID,
-    redirect_uri: config.oauth.redirectUri,
-    response_type: "code",
-    scope: "profile",
-    state: "randomstring",
-  });
-  const authURL =
-    config.oauth.providerURL + "/oauth/authorize?" + params.toString();
-  return authURL;
-}
-
-export function generateAuthTokenForm(code, redirectUri) {
-  const data = new URLSearchParams({
-    client_id: config.oauth.clientID,
-    client_secret: config.oauth.clientSecret,
-    grant_type: "authorization_code",
-    redirect_uri: redirectUri,
-    code: code,
-  });
-  return data.toString();
 }
 
 export function getTimeInHHMMFormat() {
@@ -48,9 +20,43 @@ export function getTimeInHHMMFormat() {
   }${new Date().getMinutes()}`;
 }
 
+export async function hashPassword(password) {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+}
+
+export async function comparePassword(password, hash) {
+  return await bcrypt.compare(password, hash);
+}
+
+export function generateJWTToken(user) {
+  const payload = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+  };
+  return jwt.sign(payload, config.jwtSecret, { expiresIn: "7d" });
+}
+
 export function validateJWTCookie(cookie) {
-  const payload = jwt.verify(cookie, config.oauth.clientSecret);
-  const userID = payload.sub.id;
-  userService.createUserIfNotExists(userID);
+  if (!cookie) {
+    throw new Error("No token provided");
+  }
+  let payload;
+  try {
+    payload = jwt.verify(cookie, config.jwtSecret);
+  } catch (err) {
+    // Fallback attempt with oauth clientSecret if legacy token exists
+    if (config.oauth?.clientSecret) {
+      payload = jwt.verify(cookie, config.oauth.clientSecret);
+    } else {
+      throw err;
+    }
+  }
+
+  const userID = payload.id || (payload.sub && (payload.sub.id || payload.sub)) || payload.userID;
+  if (!userID) {
+    throw new Error("Invalid token payload");
+  }
   return userID;
 }

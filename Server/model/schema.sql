@@ -18,7 +18,8 @@ CREATE TABLE users (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash TEXT,
     auth_provider_username VARCHAR(255) UNIQUE,
     access_token TEXT
 );
@@ -124,12 +125,12 @@ CREATE TABLE ratings (
 -- SAMPLE DATA
 -- =============================================================================
 
--- Sample Users
-INSERT INTO users (id, name, phone, email, auth_provider_username) VALUES
-('11111111-1111-1111-1111-111111111111', 'Mario Rossi', '+1-555-0101', 'mario@pizzeria.com', 'mario_owner'),
-('22222222-2222-2222-2222-222222222222', 'Alice Smith', '+1-555-0102', 'alice@example.com', 'alice_s'),
-('33333333-3333-3333-3333-333333333333', 'Bob Johnson', '+1-555-0103', 'bob@example.com', 'bob_j'),
-('44444444-4444-4444-4444-444444444444', 'Charlie Driver', '+1-555-0104', 'charlie@fleet.com', 'charlie_d');
+-- Sample Users (default password: 'password123')
+INSERT INTO users (id, name, phone, email, password_hash, auth_provider_username) VALUES
+('11111111-1111-1111-1111-111111111111', 'Mario Rossi', '+1-555-0101', 'mario@pizzeria.com', '$2b$10$EjNyOtXK49lX5ng84.w7NOia7K.PVF66KLSY6OZ5cVtGOgBrRUvEO', 'mario_owner'),
+('22222222-2222-2222-2222-222222222222', 'Alice Smith', '+1-555-0102', 'alice@example.com', '$2b$10$EjNyOtXK49lX5ng84.w7NOia7K.PVF66KLSY6OZ5cVtGOgBrRUvEO', 'alice_s'),
+('33333333-3333-3333-3333-333333333333', 'Bob Johnson', '+1-555-0103', 'bob@example.com', '$2b$10$EjNyOtXK49lX5ng84.w7NOia7K.PVF66KLSY6OZ5cVtGOgBrRUvEO', 'bob_j'),
+('44444444-4444-4444-4444-444444444444', 'Charlie Driver', '+1-555-0104', 'charlie@fleet.com', '$2b$10$EjNyOtXK49lX5ng84.w7NOia7K.PVF66KLSY6OZ5cVtGOgBrRUvEO', 'charlie_d');
 
 -- Sample Sessions
 INSERT INTO sessions (id, user_id) VALUES
