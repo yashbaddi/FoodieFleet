@@ -6,7 +6,7 @@ const config = {
     port: Number(process.env.SERVER_PORT),
     corsOrigin: process.env.CORS_URLS
       ? process.env.CORS_URLS.split(" ")
-      : ["http://localhost:8080", ""],
+      : ["http://localhost:8080", "http://localhost:5173"],
     clientURL: process.env.CLIENT_URL,
   },
   db: {
