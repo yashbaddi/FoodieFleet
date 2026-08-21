@@ -19,8 +19,21 @@ import Orders from "./pages/Orders";
 import RestaurantUpdate from "./pages/RestaurantUpdate";
 import CreateItem from "./pages/CreateItem";
 
+import { useEffect } from "react";
+import { getCurrentUser } from "./services/requests";
+
 function MainApp() {
   const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/login") {
+      getCurrentUser().catch(() => {
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      });
+    }
+  }, [location.pathname]);
 
   return (
     <>

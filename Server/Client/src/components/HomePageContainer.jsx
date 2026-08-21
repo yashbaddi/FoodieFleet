@@ -7,11 +7,17 @@ import { getAllOpenedRestaurants } from "../services/requests";
 export default function HomePageContainer() {
   const [restaurants, setRestaurants] = useState([]);
   const dispatch = useDispatch();
-  dispatch(getCartItemsAction());
 
   useEffect(() => {
-    getAllOpenedRestaurants().then((data) => setRestaurants(data));
-  }, []);
+    dispatch(getCartItemsAction());
+    getAllOpenedRestaurants()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setRestaurants(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [dispatch]);
 
   function updateList(id) {
     setRestaurants((restaurants) =>

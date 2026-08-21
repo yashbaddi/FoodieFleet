@@ -269,5 +269,6 @@ function isAuthenticated(response) {
     if (window.location.pathname !== "/login") {
       window.location.href = "/login";
     }
+    throw new Error("Unauthorized");
   }
 }
