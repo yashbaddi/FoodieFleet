@@ -90,8 +90,8 @@ To Meet These Objectives we have following criteria
 - [x] Add Login page
 - [x] Migrate to a monorepo
 - [x] migrate to pnpm and turborepo
-- [ ] Add docker
-- [ ] Add Docker compose
+- [x] Add docker
+- [x] Add Docker compose
 - [x] Add NGINX Support
 
 #### Upcoming Features(Could be added in future)
