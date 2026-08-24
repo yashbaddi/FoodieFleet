@@ -92,7 +92,7 @@ To Meet These Objectives we have following criteria
 - [x] migrate to pnpm and turborepo
 - [ ] Add docker
 - [ ] Add Docker compose
-- [ ] Add NGINX Support
+- [x] Add NGINX Support
 
 #### Upcoming Features(Could be added in future)
 
