@@ -14,6 +14,7 @@ const pool = new Pool({
   user: config.db.user,
   host: config.db.host,
   database: config.db.name,
+  password: config.db.password || undefined,
   port: config.db.port,
   ssl: false,
 });
