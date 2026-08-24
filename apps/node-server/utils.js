@@ -14,12 +14,6 @@ export function getUpdateExpression(updatedData) {
   return [updatePartialQuery.slice(0, -1), values];
 }
 
-export function getTimeInHHMMFormat() {
-  return `${new Date().getHours()}${
-    new Date().getMinutes() < 10 ? "0" : ""
-  }${new Date().getMinutes()}`;
-}
-
 export async function hashPassword(password) {
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);

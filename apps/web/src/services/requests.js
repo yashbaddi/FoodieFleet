@@ -46,7 +46,7 @@ export async function createRestaurant(data) {
   });
   isAuthenticated(response);
 
-  return response.json;
+  return response.json();
 }
 
 export async function updateRestaurant(id, data) {

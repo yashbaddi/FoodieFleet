@@ -49,10 +49,6 @@ CREATE TABLE restaurants (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     pictures VARCHAR(512),
-    timings JSONB,
-    open_timings INT,
-    close_timings INT,
-    override_timings VARCHAR(50),
     location JSONB,
     is_open BOOLEAN DEFAULT FALSE,
     owner_id UUID REFERENCES users(id) ON DELETE CASCADE

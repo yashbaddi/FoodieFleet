@@ -3,10 +3,7 @@ import restaurantModel from "../../model/restaurants.js";
 // const restaurantData = {
 //   name: "MTR",
 //   description: "Traditional Bengaluru Breakfast",
-//   timings: {
-//     opensAt: 800,
-//     closesAt: 2200,
-//   },
+//   is_open: true,
 //   address: {
 //     address:
 //       "14, Lal Bagh Main Rd, Doddamavalli, Sudhama Nagar, Bengaluru, Karnataka 560027",
