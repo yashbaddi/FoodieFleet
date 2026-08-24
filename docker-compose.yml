@@ -9,12 +9,16 @@ services:
       POSTGRES_USER: ${DB_USER:-yashbaddi}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres_password}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./apps/node-server/model/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-yashbaddi} -d ${DB_NAME:-foodiefleet}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-yashbaddi} -d ${DB_NAME:-foodiefleet}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -27,7 +31,7 @@ services:
     container_name: foodiefleet-redis
     restart: always
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis_data:/data
     healthcheck:
