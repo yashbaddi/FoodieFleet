@@ -1,6 +1,6 @@
 -- FoodieFleet PostgreSQL Database Schema
 
--- Drop existing tables for clean initialization
+-- Drop existing tables and types for clean initialization
 DROP TABLE IF EXISTS ratings CASCADE;
 DROP TABLE IF EXISTS ordered_items CASCADE;
 DROP TABLE IF EXISTS cart_items CASCADE;
@@ -11,6 +11,26 @@ DROP TABLE IF EXISTS drivers CASCADE;
 DROP TABLE IF EXISTS address CASCADE;
 DROP TABLE IF EXISTS sessions CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+
+DROP TYPE IF EXISTS order_status CASCADE;
+DROP TYPE IF EXISTS driver_status CASCADE;
+
+-- Custom ENUM Types for strict status validation
+CREATE TYPE order_status AS ENUM (
+    'PLACED',
+    'PREPARING',
+    'PARTNER_ASSIGNED',
+    'DELIVERING',
+    'DELIVERED',
+    'REJECTED'
+);
+
+CREATE TYPE driver_status AS ENUM (
+    'AVAILABLE',
+    'BUSY',
+    'ON_DELIVERY',
+    'UNAVAILABLE'
+);
 
 -- 1. Users Table
 -- Uses built-in gen_random_uuid() and native UUID type 
@@ -76,10 +96,10 @@ CREATE TABLE cart_items (
 );
 
 -- 7. Orders Table
--- Public customer orders requiring UUID for non-enumerable tracking
+-- Public customer orders using order_status ENUM for strict type safety
 CREATE TABLE orders (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    status VARCHAR(50) DEFAULT 'PLACED',
+    status order_status DEFAULT 'PLACED',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     pickup_time TIMESTAMP,
     delivered_time TIMESTAMP,
@@ -100,10 +120,10 @@ CREATE TABLE ordered_items (
 );
 
 -- 9. Drivers Table
--- 1-to-1 extension table: Reuses user_id as PRIMARY KEY - no UUID surrogate needed
+-- 1-to-1 extension table: Reuses user_id as PRIMARY KEY, using driver_status ENUM
 CREATE TABLE drivers (
     user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-    status VARCHAR(255) DEFAULT 'AVAILABLE'
+    status driver_status DEFAULT 'AVAILABLE'
 );
 
 -- 10. Ratings Table
@@ -142,8 +162,8 @@ INSERT INTO drivers (user_id, status) VALUES
 ('44444444-4444-4444-4444-444444444444', 'AVAILABLE');
 
 -- Sample Restaurants
-INSERT INTO restaurants (id, name, description, pictures, timings, open_timings, close_timings, is_open, owner_id, location) VALUES
-('66666666-6666-6666-6666-666666666666', 'Mario''s Authentic Pizzeria', 'Delicious wood-fired pizzas and homemade pasta.', 'https://images.example.com/pizzeria.jpg', '{"open": "1000", "close": "2200"}'::jsonb, 1000, 2200, TRUE, '11111111-1111-1111-1111-111111111111', '{"lat": 37.7749, "lng": -122.4194}'::jsonb);
+INSERT INTO restaurants (id, name, description, pictures, is_open, owner_id, location) VALUES
+('66666666-6666-6666-6666-666666666666', 'Mario''s Authentic Pizzeria', 'Delicious wood-fired pizzas and homemade pasta.', 'https://images.example.com/pizzeria.jpg', TRUE, '11111111-1111-1111-1111-111111111111', '{"lat": 37.7749, "lng": -122.4194}'::jsonb);
 
 -- Sample Menu Items
 INSERT INTO items (id, name, is_vegetarian, description, price, submenu, restaurant_id) VALUES
