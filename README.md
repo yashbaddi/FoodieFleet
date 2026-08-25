@@ -93,8 +93,14 @@ To Meet These Objectives we have following criteria
 - [x] Add docker
 - [x] Add Docker compose
 - [x] Add NGINX Support
-- [ ] Rewrite the tables
 - [ ] Add status enums in schema
+
+#### Sixth Phase
+
+- [ ] Go Migration
+
+#### Seventh Phase
+
 - [ ] Refine Frontend
 
 #### Upcoming Features(Could be added in future)
