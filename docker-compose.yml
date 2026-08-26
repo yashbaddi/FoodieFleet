@@ -74,6 +74,9 @@ services:
     build:
       context: ./apps/web
       dockerfile: Dockerfile
+      args:
+        APP_API_URL: ${APP_API_URL:-http://localhost:8001/api/}
+        APP_WS_URL: ${APP_WS_URL:-ws://localhost:8001/api/}
     container_name: foodiefleet-web
     restart: always
     ports:

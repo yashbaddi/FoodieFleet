@@ -3,6 +3,12 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+ARG APP_API_URL
+ARG APP_WS_URL
+
+ENV APP_API_URL=$APP_API_URL
+ENV APP_WS_URL=$APP_WS_URL
+
 COPY package*.json ./
 RUN npm install
 
