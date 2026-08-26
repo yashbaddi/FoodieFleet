@@ -94,7 +94,8 @@ To Meet These Objectives we have following criteria
 - [x] Add Docker compose
 - [x] Add NGINX Support
 - [x] Add status enums in schema
-- [ ] Add CI/CD.
+- [ ] Add CI/CD
+- [ ] Add Kubernetes
 
 #### Sixth Phase
 
