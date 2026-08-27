@@ -44,23 +44,24 @@ services:
 
   # 3. Node.js Backend Server
   node-server:
-    build:
-      context: ./apps/node-server
-      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME:-yashbaddi}/foodiefleet-server:latest
     container_name: foodiefleet-server
     restart: always
     ports:
       - "8001:8001"
     environment:
       SERVER_PORT: 8001
+
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-foodiefleet}
       DB_USER: ${DB_USER:-yashbaddi}
       DB_PASSWORD: ${DB_PASSWORD:-postgres_password}
+
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET:-supersecretkey_foodiefleet_monolith}
       CORS_URLS: "http://localhost http://localhost:80 http://localhost:5173 http://localhost:8001"
+
     depends_on:
       postgres:
         condition: service_healthy
@@ -71,12 +72,7 @@ services:
 
   # 4. React Web Frontend (Nginx)
   web:
-    build:
-      context: ./apps/web
-      dockerfile: Dockerfile
-      args:
-        APP_API_URL: ${APP_API_URL:-http://localhost:8001/api/}
-        APP_WS_URL: ${APP_WS_URL:-ws://localhost:8001/api/}
+    image: YOUR_DOCKERHUB_USERNAME/foodiefleet-web:latest
     container_name: foodiefleet-web
     restart: always
     ports:
