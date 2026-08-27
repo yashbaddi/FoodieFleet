@@ -94,12 +94,12 @@ To Meet These Objectives we have following criteria
 - [x] Add Docker compose
 - [x] Add NGINX Support
 - [x] Add status enums in schema
-- [ ] Add CI/CD
-- [ ] Add Kubernetes
+- [x] Add CI/CD
 
 #### Sixth Phase
 
 - [ ] Go Migration
+- [ ] Add Kubernetes
 
 #### Seventh Phase
 
@@ -121,9 +121,11 @@ GET /health (or GET /api/health)
 Checks health status of node-server, PostgreSQL database, and Redis connection.
 
 Response Body:
+
 - JSON object with `status` ("UP" or "DEGRADED"), `timestamp`, `uptime`, and status of downstream `services` (`database` and `redis`).
 
 Response Status:
+
 - 200: OK (All services UP)
 - 503: Service Unavailable (Database or Redis degraded)
 
