@@ -6,6 +6,7 @@ import config from "./config.js";
 import path from "path";
 import expressWs from "express-ws";
 import apiRouter from "./routes/api.js";
+import healthRouter from "./routes/health.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
   }),
 );
 
+app.use("/health", healthRouter);
 app.use("/api", apiRouter);
 
 // Catch unhandled API requests so they return JSON 404 instead of index.html

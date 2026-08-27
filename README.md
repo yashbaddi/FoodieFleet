@@ -113,6 +113,22 @@ To Meet These Objectives we have following criteria
 
 ## 4. API Contracts:
 
+### Health Check
+
+`getHealth:`
+GET /health (or GET /api/health)
+\
+Checks health status of node-server, PostgreSQL database, and Redis connection.
+
+Response Body:
+- JSON object with `status` ("UP" or "DEGRADED"), `timestamp`, `uptime`, and status of downstream `services` (`database` and `redis`).
+
+Response Status:
+- 200: OK (All services UP)
+- 503: Service Unavailable (Database or Redis degraded)
+
+---
+
 ### Users
 
 `createUser:`
