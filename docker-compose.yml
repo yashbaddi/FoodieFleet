@@ -1,0 +1,105 @@
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: foodiefleet-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-foodiefleet}
+      POSTGRES_USER: ${DB_USER:-yashbaddi}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres_password}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/node-server/model/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-yashbaddi} -d ${DB_NAME:-foodiefleet}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodiefleet-network
+
+  # 2. Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: foodiefleet-redis
+    restart: always
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodiefleet-network
+
+  # 3. Node.js Backend Server
+  node-server:
+    image: ${DOCKERHUB_USERNAME:-yashbaddi}/foodiefleet-server:latest
+    container_name: foodiefleet-server
+    restart: always
+    ports:
+      - "8001:8001"
+    environment:
+      SERVER_PORT: 8001
+
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-foodiefleet}
+      DB_USER: ${DB_USER:-yashbaddi}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres_password}
+
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey_foodiefleet_monolith}
+      CORS_URLS: "http://localhost http://localhost:80 http://localhost:5173 http://localhost:8001"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://node-server:8001/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - foodiefleet-network
+
+  # 4. React Web Frontend (Nginx)
+  web:
+    image: YOUR_DOCKERHUB_USERNAME/foodiefleet-web:latest
+    container_name: foodiefleet-web
+    restart: always
+    ports:
+      - "80:80"
+      - "5173:80"
+    depends_on:
+      node-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://web:80/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - foodiefleet-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  foodiefleet-network:
+    driver: bridge
