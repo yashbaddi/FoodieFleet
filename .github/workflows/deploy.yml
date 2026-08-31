@@ -62,7 +62,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-            cd /path/to/foodiefleet
+            cd ~/FoodieFleet
 
             echo "Pulling latest images..."
             docker compose pull
