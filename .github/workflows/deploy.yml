@@ -47,9 +47,6 @@ jobs:
           context: ./apps/web
           file: ./apps/web/Dockerfile
           push: true
-          build-args: |
-            APP_API_URL=${{ secrets.APP_API_URL }}
-            APP_WS_URL=${{ secrets.APP_WS_URL }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:${{ github.sha }}
