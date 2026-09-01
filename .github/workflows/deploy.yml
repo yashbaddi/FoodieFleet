@@ -34,7 +34,7 @@ jobs:
           context: ./apps/node-server
           file: ./apps/node-server/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-server:${IMAGE_TAG:-latest}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-server:${{ github.sha }}
 
       # -------------------------
       # 4. Build & push frontend
@@ -45,7 +45,7 @@ jobs:
           context: ./apps/web
           file: ./apps/web/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:${IMAGE_TAG:-latest}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:${{ github.sha }}
 
       # -------------------------
       # 5. Copy deployment files
@@ -74,8 +74,8 @@ jobs:
             echo "Deploying commit: ${{ github.sha }}"
 
             export IMAGE_TAG=${{ github.sha }}
-
             docker compose pull
+       
             docker compose up -d
 
             docker image prune -f
