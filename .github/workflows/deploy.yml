@@ -34,9 +34,7 @@ jobs:
           context: ./apps/node-server
           file: ./apps/node-server/Dockerfile
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-server:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-server:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-server:${IMAGE_TAG:-latest}
 
       # -------------------------
       # 4. Build & push frontend
@@ -47,12 +45,22 @@ jobs:
           context: ./apps/web
           file: ./apps/web/Dockerfile
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/foodiefleet-web:${IMAGE_TAG:-latest}
 
       # -------------------------
-      # 5. Deploy to EC2
+      # 5. Copy deployment files
+      # -------------------------
+      - name: Copy deployment files to EC2
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "docker-compose.yml,migrations/schema.sql"
+          target: "~/FoodieFleet"
+
+      # -------------------------
+      # 6. Deploy to EC2
       # -------------------------
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
@@ -60,18 +68,18 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-
           script: |
             cd ~/FoodieFleet
 
-            echo "Pulling latest images..."
-            docker compose pull
+            echo "Deploying commit: ${{ github.sha }}"
 
-            echo "Starting containers..."
+            export IMAGE_TAG=${{ github.sha }}
+
+            docker compose pull
             docker compose up -d
 
-            echo "Removing unused images..."
             docker image prune -f
 
             echo "Deployment complete!"
+
             docker compose ps
