@@ -96,7 +96,7 @@ To Meet These Objectives we have following criteria
 - [x] Add status enums in schema
 - [x] Add CI/CD
 - [x] Graceful Shutdown
-- [ ] Add swagger docs
+- [x] Add swagger docs
 
 #### Sixth Phase
 

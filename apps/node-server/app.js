@@ -8,6 +8,7 @@ import expressWs from "express-ws";
 import apiRouter from "./routes/api.js";
 import healthRouter from "./routes/health.js";
 import pool, { redisClient } from "./model/db-connection.js";
+import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 const app = express();
 
@@ -23,6 +24,13 @@ app.use(
     credentials: true,
   }),
 );
+
+// Serve Swagger UI documentation
+app.get(["/api/docs/swagger.json", "/api-docs/swagger.json"], (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+app.use(["/api/docs", "/api-docs"], swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/health", healthRouter);
 app.use("/api", apiRouter);

@@ -3,6 +3,43 @@ import pool, { redisClient } from "../model/db-connection.js";
 
 const healthRouter = express.Router();
 
+/**
+ * @openapi
+ * /health:
+ *   get:
+ *     summary: System health check
+ *     tags:
+ *       - Health
+ *     description: Returns server operational status and health of dependent services (PostgreSQL and Redis).
+ *     responses:
+ *       200:
+ *         description: Server and dependencies are healthy (UP).
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "UP"
+ *                 timestamp:
+ *                   type: string
+ *                   example: "2026-08-31T20:00:00.000Z"
+ *                 uptime:
+ *                   type: number
+ *                   example: 1245.5
+ *                 services:
+ *                   type: object
+ *                   properties:
+ *                     database:
+ *                       type: string
+ *                       example: "connected"
+ *                     redis:
+ *                       type: string
+ *                       example: "connected"
+ *       503:
+ *         description: Server is degraded or dependencies are disconnected.
+ */
 healthRouter.get("/", async (req, res) => {
   let dbStatus = "unknown";
   let redisStatus = "unknown";
