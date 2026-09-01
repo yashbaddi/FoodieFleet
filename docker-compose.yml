@@ -12,7 +12,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./apps/node-server/model/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./migrations/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
     healthcheck:
       test:
         [
