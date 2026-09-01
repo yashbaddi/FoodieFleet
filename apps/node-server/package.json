@@ -28,6 +28,8 @@
     "pg": "^8.11.2",
     "querystring": "^0.2.1",
     "redis": "^4.6.10",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^9.0.0",
     "ws": "^8.14.2"
   },
