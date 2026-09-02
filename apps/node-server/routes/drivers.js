@@ -9,20 +9,6 @@ import bodyParser from "body-parser";
 const driversRouter = express.Router();
 expressWs(driversRouter);
 
-/**
- * @openapi
- * /driver/ws:
- *   get:
- *     summary: Delivery Driver WebSocket stream
- *     tags:
- *       - Drivers
- *     description: Real-time WebSocket connection for delivery partners to stream GPS location updates and accept/update order delivery status.
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       101:
- *         description: Switching protocols to WebSocket stream.
- */
 driversRouter.ws("/ws", (ws, req) => {
   const payload = {
     type: "open",
@@ -61,23 +47,6 @@ driversRouter.ws("/ws", (ws, req) => {
   });
 });
 
-/**
- * @openapi
- * /driver:
- *   get:
- *     summary: Get driver account & assignment details
- *     tags:
- *       - Drivers
- *     description: Retrieve active driver profile, current status, vehicle information, and assigned delivery order.
- *     security:
- *       - cookieAuth: []
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Driver details retrieved successfully.
- *       401:
- *         description: Unauthorized.
- */
 driversRouter.route("/").get(authMiddleware, driverController.getDriverDetails);
 
 export default driversRouter;

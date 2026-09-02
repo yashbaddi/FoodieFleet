@@ -8,20 +8,6 @@ const userRouter = express.Router();
 
 expressWs(userRouter);
 
-/**
- * @openapi
- * /user/ws:
- *   get:
- *     summary: Customer Tracking WebSocket stream
- *     tags:
- *       - Users
- *     description: Real-time WebSocket connection for customers to track assigned delivery driver location and live order status.
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       101:
- *         description: Switching protocols to WebSocket stream.
- */
 userRouter.ws("/ws", (ws, req) => {
   const payload = {
     type: "open",
