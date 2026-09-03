@@ -100,8 +100,16 @@ To Meet These Objectives we have following criteria
 
 #### Sixth Phase
 
-- [ ] Go Migration
-- [ ] Add Kubernetes
+- [ ] Go Migration - Setup Go init and health check
+- [ ] Setup Go platforms (Envi Configs,Postgresql,redis,response error handling)
+- [ ] Migrate first API - Get all restaurants
+- [ ] Setup Auth and Session Management - `api/auth/\*
+- [ ] Setup Restaurants and Items APIs
+- [ ] Build Cart Management APIs
+- [ ] Orders and Transactions
+- [ ] Drivers and Geospatial
+- [ ] Websocket Real-Time Stream
+- [ ] Prod readiness & Cutover (Docker, Graceful Shutdown, Load Testing)
 
 #### Seventh Phase
 
