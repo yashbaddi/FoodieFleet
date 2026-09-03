@@ -3,6 +3,7 @@ module github.com/yashbaddi/foodiefleet
 go 1.27.1
 
 require (
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-chi/chi/v5 v5.3.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -15,6 +16,9 @@ require (
 	github.com/knadh/koanf/v2 v2.3.6 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/redis/go-redis/v9 v9.22.0 // indirect
+	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 )
