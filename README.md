@@ -100,7 +100,7 @@ To Meet These Objectives we have following criteria
 
 #### Sixth Phase
 
-- [ ] Go Migration - Setup Go init and health check
+- [x] Go Migration - Setup Go init and health check
 - [ ] Setup Go platforms (Envi Configs,Postgresql,redis,response error handling)
 - [ ] Migrate first API - Get all restaurants
 - [ ] Setup Auth and Session Management - `api/auth/\*
