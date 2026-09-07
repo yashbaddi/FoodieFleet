@@ -1,18 +1,18 @@
 package main
 
 import (
-	"net/http"
+	"log"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"github.com/yashbaddi/foodiefleet/internal/health"
+	"github.com/yashbaddi/foodiefleet/internal/app"
 )
 
 func main() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	application, err := app.New()
+	if err != nil {
+		log.Fatalf("failed to initialize application: %v", err)
+	}
 
-	r.Get("/health", health.Handler)
-
-	http.ListenAndServe(":8002", r)
+	if err := application.Run(); err != nil {
+		log.Fatalf("application error: %v", err)
+	}
 }
