@@ -16,6 +16,7 @@ import (
 	"github.com/yashbaddi/foodiefleet/internal/health"
 	"github.com/yashbaddi/foodiefleet/internal/platform/config"
 	"github.com/yashbaddi/foodiefleet/internal/platform/db"
+	"github.com/yashbaddi/foodiefleet/internal/restaurants"
 )
 
 type App struct {
@@ -66,6 +67,8 @@ func (a *App) setupRouter() {
 	r.Route("/api", func(api chi.Router) {
 		api.Get("/health", health.Handler)
 
+		// Self-contained feature registration
+		restaurants.RegisterRoutes(api, a.db.Pool)
 	})
 
 	a.router = r
