@@ -13,6 +13,11 @@ type Config struct {
 	Database DatabaseConfig `koanf:"db"`
 	App      AppConfig      `koanf:"app"`
 	Redis    RedisConfig    `koanf:"redis"`
+	Jwt      JwtConfig      `koanf:"jwt"`
+}
+
+type JwtConfig struct {
+	Secret string `koanf:"secret"`
 }
 
 type AppConfig struct {
