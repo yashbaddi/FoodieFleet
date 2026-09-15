@@ -71,7 +71,7 @@ FoodieFleet/
     │   └── test/models/          # Model test / execution scratch scripts
     ├── web/                      # React SPA Frontend
     │   ├── Dockerfile            # Multi-stage build (node:20-alpine -> nginx:alpine)
-    │   ├── nginx.conf            # Nginx config (reverse proxies /api/ -> node-server:8001)
+    │   ├── nginx.conf            # Nginx config (reverse proxies /api/auth & /api/restaurants -> go-server:8002, rest -> node-server:8001)
     │   ├── vite.config.js        # Vite config
     │   ├── tailwind.config.js    # Tailwind CSS config
     │   ├── postcss.config.js     # PostCSS config

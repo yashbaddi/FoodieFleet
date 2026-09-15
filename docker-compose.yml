@@ -127,6 +127,8 @@ services:
     depends_on:
       node-server:
         condition: service_healthy
+      go-server:
+        condition: service_healthy
     healthcheck:
       test:
         [

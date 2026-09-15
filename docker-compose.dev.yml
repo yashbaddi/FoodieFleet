@@ -116,6 +116,7 @@ services:
       CHOKIDAR_USEPOLLING: "true"
     depends_on:
       - node-server
+      - go-server
     networks:
       - foodiefleet-dev-network
 
