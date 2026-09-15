@@ -17,6 +17,7 @@ import (
 	"github.com/yashbaddi/foodiefleet/internal/platform/config"
 	"github.com/yashbaddi/foodiefleet/internal/platform/db"
 	"github.com/yashbaddi/foodiefleet/internal/restaurants"
+	"github.com/yashbaddi/foodiefleet/internal/users"
 )
 
 type App struct {
@@ -69,6 +70,7 @@ func (a *App) setupRouter() {
 
 		// Self-contained feature registration
 		restaurants.RegisterRoutes(api, a.db.Pool)
+		users.RegisterRoutes(api, a.db.Pool, a.cfg.Jwt.Secret)
 	})
 
 	a.router = r
