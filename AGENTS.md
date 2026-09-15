@@ -114,12 +114,14 @@ FoodieFleet/
 
 ### Docker Compose (Full Environment)
 
-- **Start all services**: `docker compose up -d`
+- **Start all services (Production build)**: `docker compose up -d`
   - Postgres: `localhost:5433` (maps to internal `5432`)
   - Redis: `localhost:6380` (maps to internal `6379`)
   - Node API Server: `localhost:8001`
+  - Go API Server: `localhost:8002`
   - Web UI (Nginx): `localhost:80` and `localhost:5173`
-- **Stop all services**: `docker compose down`
+- **Start all services (Local Development mode with live reload)**: `docker compose -f docker-compose.dev.yml up -d`
+- **Stop all services**: `docker compose down` (or `docker compose -f docker-compose.dev.yml down`)
 - **Rebuild containers**: `docker compose up -d --build`
 
 ---

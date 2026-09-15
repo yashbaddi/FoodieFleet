@@ -1,0 +1,130 @@
+services:
+  # 1. PostgreSQL Database (Dev)
+  postgres:
+    image: postgres:16-alpine
+    container_name: foodiefleet-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-foodiefleet}
+      POSTGRES_USER: ${DB_USER:-yashbaddi}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres_password}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./migrations/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-yashbaddi} -d ${DB_NAME:-foodiefleet}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodiefleet-dev-network
+
+  # 2. Redis Cache (Dev)
+  redis:
+    image: redis:7-alpine
+    container_name: foodiefleet-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodiefleet-dev-network
+
+  # 3. Node.js Backend Server (Dev with Node & Volume Mounts)
+  node-server:
+    image: node:20-alpine
+    container_name: foodiefleet-node-server-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    volumes:
+      - ./apps/node-server:/app
+      - node_modules_dev:/app/node_modules
+    ports:
+      - "8001:8001"
+    environment:
+      NODE_ENV: development
+      SERVER_PORT: 8001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-foodiefleet}
+      DB_USER: ${DB_USER:-yashbaddi}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres_password}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey_foodiefleet_monolith}
+      CORS_URLS: "http://localhost http://localhost:80 http://localhost:5173 http://localhost:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - foodiefleet-dev-network
+
+  # 4. Go Backend Server (Dev with Live Reload & Volume Mounts)
+  go-server:
+    image: golang:1.27.1-alpine
+    container_name: foodiefleet-go-server-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./apps/go-server:/app
+    ports:
+      - "8002:8002"
+    environment:
+      APP_PORT: 8002
+      DB_URL: postgres://${DB_USER:-yashbaddi}:${DB_PASSWORD:-postgres_password}@postgres:5432/${DB_NAME:-foodiefleet}?sslmode=disable
+      DB_MAX_CONNS: 10
+      DB_MIN_CONNS: 2
+      REDIS_ADDR: redis:6379
+      REDIS_PASSWORD: ""
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey_foodiefleet_monolith}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - foodiefleet-dev-network
+
+  # 5. React Web Frontend (Dev with Vite HMR & Volume Mounts)
+  web:
+    image: node:20-alpine
+    container_name: foodiefleet-web-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - ./apps/web:/app
+      - web_node_modules_dev:/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    depends_on:
+      - node-server
+    networks:
+      - foodiefleet-dev-network
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+  node_modules_dev:
+  web_node_modules_dev:
+
+networks:
+  foodiefleet-dev-network:
+    driver: bridge
