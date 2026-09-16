@@ -1,9 +1,9 @@
 services:
-  # 1. PostgreSQL Database
+  # 1. PostgreSQL Database (Dev)
   postgres:
     image: postgres:16-alpine
-    container_name: foodiefleet-postgres
-    restart: always
+    container_name: foodiefleet-postgres-dev
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME:-foodiefleet}
       POSTGRES_USER: ${DB_USER:-yashbaddi}
@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_dev_data:/var/lib/postgresql/data
       - ./migrations/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
     healthcheck:
       test:
@@ -23,71 +23,65 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - foodiefleet-network
+      - foodiefleet-dev-network
 
-  # 2. Redis Cache
+  # 2. Redis Cache (Dev)
   redis:
     image: redis:7-alpine
-    container_name: foodiefleet-redis
-    restart: always
+    container_name: foodiefleet-redis-dev
+    restart: unless-stopped
     ports:
       - "6380:6379"
     volumes:
-      - redis_data:/data
+      - redis_dev_data:/data
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       interval: 5s
       timeout: 5s
       retries: 5
     networks:
-      - foodiefleet-network
+      - foodiefleet-dev-network
 
-  # 3. Node.js Backend Server
+  # 3. Node.js Backend Server (Dev with Node & Volume Mounts)
   node-server:
-    image: ${DOCKERHUB_USERNAME:-yashbaddi}/foodiefleet-server:latest
-    container_name: foodiefleet-server
-    restart: always
+    image: node:20-alpine
+    container_name: foodiefleet-node-server-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    volumes:
+      - ./apps/node-server:/app
+      - node_modules_dev:/app/node_modules
     ports:
       - "8001:8001"
     environment:
+      NODE_ENV: development
       SERVER_PORT: 8001
-
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-foodiefleet}
       DB_USER: ${DB_USER:-yashbaddi}
       DB_PASSWORD: ${DB_PASSWORD:-postgres_password}
-
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET:-supersecretkey_foodiefleet_monolith}
       CORS_URLS: "http://localhost http://localhost:80 http://localhost:5173 http://localhost:8001"
-
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "wget --no-verbose --tries=1 --spider http://node-server:8001/health || exit 1",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
     networks:
-      - foodiefleet-network
+      - foodiefleet-dev-network
 
-  # 3b. Go Backend Server
+  # 4. Go Backend Server (Dev with Live Reload & Volume Mounts)
   go-server:
-    build:
-      context: ./apps/go-server
-      dockerfile: Dockerfile
-    image: ${DOCKERHUB_USERNAME:-yashbaddi}/foodiefleet-go-server:latest
-    container_name: foodiefleet-go-server
-    restart: always
+    image: golang:1.27.1-alpine
+    container_name: foodiefleet-go-server-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./apps/go-server:/app
     ports:
       - "8002:8002"
     environment:
@@ -103,49 +97,35 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "wget --no-verbose --tries=1 --spider http://localhost:8002/health || exit 1",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
     networks:
-      - foodiefleet-network
+      - foodiefleet-dev-network
 
-  # 4. React Web Frontend (Nginx)
+  # 5. React Web Frontend (Dev with Vite HMR & Volume Mounts)
   web:
-    image: ${DOCKERHUB_USERNAME:-yashbaddi}/foodiefleet-web:latest
-    container_name: foodiefleet-web
-    restart: always
+    image: node:20-alpine
+    container_name: foodiefleet-web-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - ./apps/web:/app
+      - web_node_modules_dev:/app/node_modules
     ports:
-      - "80:80"
-      - "5173:80"
+      - "5173:5173"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
     depends_on:
-      node-server:
-        condition: service_healthy
-      go-server:
-        condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "wget --no-verbose --tries=1 --spider http://web:80/health || exit 1",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
+      - node-server
+      - go-server
     networks:
-      - foodiefleet-network
+      - foodiefleet-dev-network
 
 volumes:
-  postgres_data:
-  redis_data:
+  postgres_dev_data:
+  redis_dev_data:
+  node_modules_dev:
+  web_node_modules_dev:
 
 networks:
-  foodiefleet-network:
+  foodiefleet-dev-network:
     driver: bridge
