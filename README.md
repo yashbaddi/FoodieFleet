@@ -102,8 +102,8 @@ To Meet These Objectives we have following criteria
 
 - [x] Go Migration - Setup Go init and health check
 - [x] Setup Go platforms (Envi Configs,Postgresql,redis,response error handling)
-- [ ] Migrate first API - Get all restaurants
-- [ ] Setup Auth and Session Management - `api/auth/\*
+- [x] Migrate first API - Get all restaurants
+- [x] Setup Auth and Session Management - `api/auth/\*
 - [ ] Setup Restaurants and Items APIs
 - [ ] Build Cart Management APIs
 - [ ] Orders and Transactions
